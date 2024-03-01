@@ -30,10 +30,10 @@ If you were a previous validator and still exist on the [Validators Auction](htt
 
 All auction information is returned with the `casper-client get-auction-info` command. It would help if you filtered this down to your public key. 
 
-You can replace the <public_key> with your public key manually and run this command:
+You can replace the `PUBLIC_KEY` with your public key manually and run this command:
 
 ```bash
-casper-client get-auction-info | jq '.result.auction_state.bids[] | select( .public_key == "<public_key>")'
+casper-client get-auction-info | jq '.result.auction_state.bids[] | select( .public_key == "PUBLIC_KEY")'
 ```
 
 Or, if you set up the node as described in this documentation, you can run another command that will automatically put in your public key:
