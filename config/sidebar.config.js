@@ -22,7 +22,14 @@ module.exports = {
                 type: "doc",
                 id: "concepts/design/index",
             },
-            items: ["concepts/design/casper-design", "concepts/design/p2p", "concepts/design/highway", "concepts/design/reading-and-writing-to-the-blockchain"],
+            items: [
+                "concepts/design/casper-design",
+                "concepts/design/p2p",
+                "concepts/design/consensus",
+                "concepts/design/zug",
+                "concepts/design/highway",
+                "concepts/design/reading-and-writing-to-the-blockchain",
+            ],
         },
         {
             type: "category",
