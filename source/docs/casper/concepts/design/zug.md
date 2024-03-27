@@ -36,7 +36,7 @@ Notice that proposals, votes, and echoes are gossiped, so if one correct node re
 
 ## Comparison with Highway
 
-Highway sends larger messages and is a bit slower, but allows for more fine-grained [block rewards (see below)](#Block-Rewards).
+Highway sends larger messages and is a bit slower, but allows for more fine-grained [block rewards](#block-rewards).
 
 Highway also allows different clients to follow the protocol using different fault tolerance thresholds, with different tradeoffs between security and latency. However, _if_ enough validators are online, Zug has lower latency than Highway with any threshold.
 
