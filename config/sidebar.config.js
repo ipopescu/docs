@@ -25,9 +25,17 @@ module.exports = {
             items: [
                 "concepts/design/casper-design",
                 "concepts/design/p2p",
-                "concepts/design/consensus",
-                "concepts/design/zug",
-                "concepts/design/highway",
+                {
+                    type: "category",
+                    label: "Consensus",
+                    collapsible: true,
+                    collapsed: true,
+                    link: {
+                        type: "doc",
+                        id: "concepts/design/consensus",
+                    },
+                    items: ["concepts/design/zug", "concepts/design/highway"],
+                },
                 "concepts/design/reading-and-writing-to-the-blockchain",
             ],
         },
