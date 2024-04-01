@@ -6,25 +6,56 @@ title: Zug Consensus
 
 The Casper node was designed with a pluggable consensus protocol in mind. So far the only choice was Highway. Casper 2.0.0 will add Zug, [a much simpler consensus protocol](https://arxiv.org/abs/2205.06314).
 
+The Zug protocol requires that at most one-third of the validator weight could be attributed to faulty validators. It also assumes an upper bound for the network delay, which is the duration for a correct validator to deliver a message. Under these conditions, all correct nodes will reach agreement on a chain of finalized blocks.
+
 Of course, all nodes in a network have to run the same protocol to work together, but when starting a new network or upgrading an existing one, either `Highway` or `Zug` can now be selected as the `consensus_protocol` in the chainspec file. The Casper Mainnet will switch to Zug.
 
+<!-- TODO review other docs explaining how blocks are gossiped -->
 
 ## How Zug Works
 
-Unlike Highway, Zug does not use a communication history DAG. The basic idea is as follows:
+In every round, the designated leader can sign a **proposal message** to suggest a block. The proposal also points to an earlier round in which the parent block was proposed.
+
+Each validator then signs an **echo message** with the proposal's hash. Correct validators only sign one echo per round, so at most one proposal can get echo messages signed by a quorum. A **quorum** is a set of validators whose total weight is greater than `(n + f) / 2`, where `n` is the total weight of all validators and `f` is the total weight of faulty validators. Thus, any two quorums always have a correct validator in common. The correct validators constitute a quorum since `(n + f) / 2 < n - f`.
+
+The proposal is accepted if there is a quorum and some other conditions are met (see below). Now, the next round's leader can make a new proposal that uses this proposal as a parent.
+
+Each validator observing the proposal in time signs a `Vote(true)` message. If validators time out while waiting, they sign `Vote(false)` message instead. If a quorum signs *true*, the round is committed and the proposal and all its ancestors are finalized. If a quorum signs *false*, the round is **skippable**, meaning that the next round's leader can propose a block with a parent from an earlier round. Correct validators only sign either *true* or *false*, so a round can be either committed or skippable, but not both.
+
+If there is no accepted proposal, all correct validators will eventually vote *false*, so the round becomes skippable. This is what makes the protocol **live**. The next leader will eventually be allowed to make a proposal because either there is an accepted proposal that can be the parent, or the round will eventually be skippable, and an earlier round's proposal can be used as a parent. If the timeout is long enough, the correct proposers' blocks will usually get finalized.
+
+For a proposal to be accepted, the parent proposal must also be accepted, and all rounds between the parent and the current round must be skippable. This is what makes the protocol **safe**. If two rounds are committed, their proposals must be ancestors of each other because they are not skippable. Thus, the protocol cannot finalize two conflicting blocks.
+
+Of course, there is also a first block. Whenever all earlier rounds are skippable (particularly the first round), the leader may propose a block with no parent.
+
+Every new signed message is optimistically sent directly to all peers. We want to guarantee that it is eventually seen by all validators, even if they are not fully connected. This is achieved via a pull-based randomized gossip mechanism, where a `SyncRequest` message containing information about a random part of the local protocol state is periodically sent to a random peer. The peer compares that to its local state and responds with all the signed messages that it has recorded.
+
+:::important
+
+The Zug protocol can be summarized as follows:
 
 * In every round, the round leader proposes a new block, `B`.
 * Every validator creates and gossips an _echo_ message, with a signature of `B`.
 * When a suitable block `B` has received echoes from 67% of the validators:
-    * The next round begins! The next leader can propose a child of `B`.
-    * Every validator signs and gossips a _vote_ message, voting :white_check_mark:.
-* If this does not happen before a timeout, the validators vote :x: instead.
-    * If there are :x: votes from 67%, the next round begins, too.
+    * The next round begins. The next leader can propose a child of `B`.
+    * Every validator signs and gossips a _vote_ message, voting `yes`.
+* If this does not happen before a timeout, the validators vote `no` instead.
+    * If there are `no` votes from 67%, the next round begins, too.
       The next leader can propose a child from an earlier block and skip this round.
-* If there are :white_check_mark: votes from 67%, `B` is finalized and gets executed, together with all its ancestors. (Usually, the next round has already started at this point.)
+* If there are `yes` votes from 67%, `B` is finalized and gets executed, together with all its ancestors. (Usually, the next round has already started at this point.)
 
-Notice that proposals, votes, and echoes are gossiped, so if one correct node receives a message, all nodes will eventually receive it. An honest validator sends only one echo or vote per round. So, unless 34% of validators double-sign, at most one block per round gets 67% echoes, and no finalized block can ever be skipped, ensuring safety. As long as there are 67% of echoes for a proposal, the next round begins and Zug doesn't get stuck. If there are not, everyone votes :x:, and the next round also begins.
+:::
 
+Notice that proposals, votes, and echoes are gossiped, so if one correct node receives a message, all nodes will eventually receive it. An honest validator sends only one echo or vote per round. So, unless 34% of validators double-sign, at most one block per round gets 67% echoes, and no finalized block can ever be skipped, ensuring safety. As long as there are 67% of echoes for a proposal, the next round begins and Zug doesn't get stuck. If there are not, everyone votes `no`, and the next round also begins.
+
+<!-- TODO use :white_check_mark: and :x: vs yes/no? -->
+<!-- TODO add the example from AF's presentation?
+
+        ### Example
+        - explain the example in detail and which leaders are honest/faulty
+        - explain the output based on AF's explanation:
+            - as soon as round 5 gets a quorum of ✅ votes, round 5's proposal and all its ancestors become finalized. I.e. in that moment, ♥, ♣ and ♠ all become finalized, and get executed in that order. Note that even proposals from rounds with a quorum of ❌ can become indirectly finalized that way.
+-->
 
 ## Some Advantages of Zug
 
@@ -33,10 +64,11 @@ Notice that proposals, votes, and echoes are gossiped, so if one correct node re
 * But _unlike_ HotStuff, Zug can finalize a block without waiting for its child or grandchild. And, unlike Highway, it does so without waiting for any timeout. Even if a network is configured to produce only one block per minute, every block gets finalized within seconds, as fast as the network connections allow.
 * Zug's technical description is more flexible than Highway's, giving us a family of related, correct implementations from which to choose.
 
+<!-- TODO mention faster block times of 4 seconds or less and an increased number of validators up to 250 after testing is completed. -->
 
 ## Comparison with Highway
 
-Highway sends larger messages and is a bit slower, but allows for more fine-grained [block rewards](#block-rewards).
+Unlike Highway, Zug does not use a communication history DAG. Highway sends larger messages and is a bit slower, but allows for more fine-grained [block rewards](#block-rewards).
 
 Highway also allows different clients to follow the protocol using different fault tolerance thresholds, with different tradeoffs between security and latency. However, _if_ enough validators are online, Zug has lower latency than Highway with any threshold.
 
