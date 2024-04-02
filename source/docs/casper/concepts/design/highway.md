@@ -5,9 +5,11 @@ title: Highway Consensus
 # The Highway Consensus Protocol
 
 <!-- The content was moved to consensus.md since most of it was general enough to also apply to Zug. TBD what this page will contain. -->
-<!-- TODO confirm that we can use Casper-specific terms in the descriptions, even though Highway is a more general algorithm. For example, a value is a block.>
+<!-- TODO confirm that we can use Casper-specific terms in the descriptions, even though Highway is a more general algorithm. For example, a value is a block. -->
 
-- nodes communicate by broadcasting units
+Draft notes: 
+
+- Nodes communicate by broadcasting units
 - A unit contains:
     - citations of other units; at most one citation received per validator node; a unit can be empty at genesis
 - nodes are expected to cite the latest unit from every node they have received, including their own latest unit
