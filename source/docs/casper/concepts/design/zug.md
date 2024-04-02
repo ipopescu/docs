@@ -49,12 +49,18 @@ The Zug protocol can be summarized as follows:
 Notice that proposals, votes, and echoes are gossiped, so if one correct node receives a message, all nodes will eventually receive it. An honest validator sends only one echo or vote per round. So, unless 34% of validators double-sign, at most one block per round gets 67% echoes, and no finalized block can ever be skipped, ensuring safety. As long as there are 67% of echoes for a proposal, the next round begins and Zug doesn't get stuck. If there are not, everyone votes `no`, and the next round also begins.
 
 <!-- TODO use :white_check_mark: and :x: vs yes/no? -->
-<!-- TODO add the example from AF's presentation?
 
-        ### Example
+<!-- TODO add the example from AF's presentation? And/or from BK's presentation?
+
+        ### Example 1 (AF)
         - explain the example in detail and which leaders are honest/faulty
         - explain the output based on AF's explanation:
             - as soon as round 5 gets a quorum of ✅ votes, round 5's proposal and all its ancestors become finalized. I.e. in that moment, ♥, ♣ and ♠ all become finalized, and get executed in that order. Note that even proposals from rounds with a quorum of ❌ can become indirectly finalized that way.
+        
+        ### Example 2 (BK)
+        - if half the nodes vote (either true or false?), the round is not skippable
+        - if 1/3 of the nodes vote true, then we have at least one honest node that voted true, meaning there is a proposal that has a quorum of echoes. Therefore,, eventually all other honest nodes will see a quorum of echoes and accepted proposal, which will be used as a parent in future rounds.
+        - if a round is not finalized nor skippable, the block will become finalized at some point most likely, but not yet.
 -->
 
 ## Some Advantages of Zug
@@ -64,18 +70,19 @@ Notice that proposals, votes, and echoes are gossiped, so if one correct node re
 * But _unlike_ HotStuff, Zug can finalize a block without waiting for its child or grandchild. And, unlike Highway, it does so without waiting for any timeout. Even if a network is configured to produce only one block per minute, every block gets finalized within seconds, as fast as the network connections allow.
 * Zug's technical description is more flexible than Highway's, giving us a family of related, correct implementations from which to choose.
 
-<!-- TODO mention faster block times of 4 seconds or less and an increased number of validators up to 250 after testing is completed. -->
-
 ## Comparison with Highway
 
-Unlike Highway, Zug does not use a communication history DAG. Highway sends larger messages and is a bit slower, but allows for more fine-grained [block rewards](#block-rewards).
+Unlike Highway, Zug does not use a communication history DAG. Highway sends larger messages due to citing and is slower. Zug does not have any notion of citing units, as does Highway, and relies on exchanging signed messages. On the other hand, Highway allows for more fine-grained [block rewards](#block-rewards).
 
-Highway also allows different clients to follow the protocol using different fault tolerance thresholds, with different tradeoffs between security and latency. However, _if_ enough validators are online, Zug has lower latency than Highway with any threshold.
+One notable difference in the implementation of Highway and Zug is their message exchange mechanisms. Zug uses broadcasting for signed messages, a one-to-all communication method that ensures widespread propagation. In contrast, Highway employs a more localized gossiping mechanism, where every node holds a message that must be transmitted to all other nodes.
 
-Finally, Highway is much more complicated than Zug: it takes more than twice as many lines of code to implement it. So Zug will make it easier for third parties to create compatible node software that works together with the Casper node.
+Highway and Zug offer flexibility in terms of fault tolerance thresholds. Highway allows different clients to follow the protocol with varying thresholds, each with its own balance between security and latency. However, if a sufficient number of validators are online, Zug demonstrates lower latency than Highway at any threshold. This is because Zug does not have a maximum round length and its design allows the network to adapt to actual delays, where rounds are not constant in length. If delays occur, block times may vary. Otherwise, blocks should appear as soon as they are finalized.
 
-Highway's proof of correctness has proved to be more difficult for people to verify than Zug's.
+Highway is a much more complicated protocol than Zug. Implementing it takes more than twice as many lines of code. Also, Highway's proof of correctness has proved more difficult to verify than Zug's. Zug will make it easier for third parties to create compatible node software that works with the Casper node.
 
+Using Zug consensus and smaller messages, the network could scale to a larger number of validators.
+
+<!-- TODO mention faster block times of 4 seconds or less and an increased number of validators up to 250 after testing is completed? -->
 
 ### Block Rewards
 
