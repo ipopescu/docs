@@ -21,3 +21,5 @@ title: Highway Consensus
     - if q is close to 100% of nodes, as k grows, the maximum level of the summit will grow
     - if q is close to n, meaning the whole network participates, a block can be finalized with a high fault tolerance threshold (FTT)
     - the FTT is the weight of the nodes that would have to collude to finalize a conflicting block and revert the transactions in that block; if more than 1/3 of validator weight is faulty and colludes, those nodes will prevent block finalization and stall the network
+
+- Moved from consensus.md, as it pertains mostly to Highway: A block's fault tolerance increases beyond one-third as the protocol continues. If all validators are honest, it approaches 100%.
