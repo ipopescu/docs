@@ -4,24 +4,47 @@ title: Highway Consensus
 
 # The Highway Consensus Protocol
 
-<!-- The content was moved to consensus.md since most of it was general enough to also apply to Zug. TBD what this page will contain. -->
-<!-- TODO confirm that we can use Casper-specific terms in the descriptions, even though Highway is a more general algorithm. For example, a value is a block. -->
+The [Highway](https://arxiv.org/pdf/2101.02159.pdf) consensus protocol was used on the Casper Mainnet until the [Zug](./zug.md) consensus protocol was introduced in version 2.0 of the Casper node software. Consensus in Casper is described in more detail [here](./consensus.md). This page describes the Highway consensus protocol at a high level. Private networks can choose between Zug and Highway, depending on their needs.
 
-Draft notes: 
+<!-- TODO confirm that we can use Casper-specific terms in these descriptions, even though Highway is a more general algorithm. For example, a value is a block. I understand that the value is a list of deploys, and a block has other calculated values, but this simplification makes the explanations easier. -->
 
-- Nodes communicate by broadcasting units
-- A unit contains:
-    - citations of other units; at most one citation received per validator node; a unit can be empty at genesis
-- nodes are expected to cite the latest unit from every node they have received, including their own latest unit
-- if a validator does not follow the process and thus equivocates, their bid gets deactivated; this is a consequence instead of slashing
-- when a node equivocates, it can still send units, but it may not be a validator
-- the round leader proposes a block with a list of deploys
-- Highway works as a "fork choice" where every unit votes on some branch of the chain. As a result, over time, units form a Directed Acyclic Graph (DAG), where units are teh vertices and citations are the edges. (Include a diagram here or a screenshot of B's visualization tool.)
-- Highway proceeds in rounds
-- A block is finalized if there is a summit among units. A summit is a structure within the graph characterized by a quorum q, which is a percentage of the participating validator weight; at level k in the graph
-- For a given fault tolerance threshold t, finality is: (2q-n)(1-2^-k) > t
-    - if q is close to 100% of nodes, as k grows, the maximum level of the summit will grow
-    - if q is close to n, meaning the whole network participates, a block can be finalized with a high fault tolerance threshold (FTT)
-    - the FTT is the weight of the nodes that would have to collude to finalize a conflicting block and revert the transactions in that block; if more than 1/3 of validator weight is faulty and colludes, those nodes will prevent block finalization and stall the network
+## Unit Broadcasting
 
-- Moved from consensus.md, as it pertains mostly to Highway: A block's fault tolerance increases beyond one-third as the protocol continues. If all validators are honest, it approaches 100%.
+In Highway, nodes communicate by broadcasting units. A unit is a structure containing the following:
+- Citations of other units (at most one per node), subject to validity conditions
+- An optional proposed list of deploys to be included in a block. Note that a unit can be empty at genesis
+- The unit's creator and its digital signature
+- Additional metadata, including a timestamp, sequence number, round length, etc.
+
+An empty unit still carries an implicit vote. The citations determine which block a unit votes for based on a rule called "the fork choice rule". If there are multiple blocks to vote on and there isn't clarity about which block is the latest, the algorithm calculates the latest block based on the citations. The algorithm counts the weight of units from other validators and what they vote on and chooses the latest block on the branch with the most weight. The proposal unit always votes on itself. More details are found in the implementation under the fork choice rule. In summary, if there is a fork, every unit votes on some branch of the chain.
+
+Over time, the units form a Directed Acyclic Graph (DAG), where units are the vertices and citations are the edges.
+
+<!-- TODO Include a higher res diagram here. -->
+<p align="center">
+<img src={"/image/design/highway-dag.png"} alt="Image showing the DAG" width="600"/>
+</p>
+
+
+Nodes must cite the latest unit received from every node, including their latest unit. If a validator does not follow the process and thus equivocates, their bid gets deactivated. However, the validator is not slashed. When a node equivocates, it can still send units but may not be a validator.
+
+The Highway protocol proceeds in rounds, also called eras, with a minimum round length. Different nodes can use different round lengths, and ratios of round lengths are always powers of 2. Highway is a partially synchronous protocol because it is not bound to a specific time set in advance, and the network can adjust to delays. Thus, the protocol guarantees partially synchronous liveness.
+
+## Block Finalization
+
+In each round, the assigned leader proposes a list of deploys to be included in a block. A block is finalized if there is a summit among the cited units. A summit is a structure within the graph characterized by a quorum *q*, a percentage of the participating validator weight, and a level *k*. Level *k* represents the depth in the graph. For a given fault tolerance threshold *t* (FTT), finality is defined as:
+
+<p align="center">
+<img src={"/image/design/highway-finality.png"} alt="Image showing the finality equation" width="200"/>
+</p>
+
+If *q* is close to *n*, meaning the whole network participates, a block can be finalized with a high fault tolerance threshold (FTT).
+
+The existence of such a summit means that a weight of more than *t* would have to equivocate to finalize a conflicting block. In other words, the FTT is the weight of the nodes that would have to collude to finalize a conflicting block and revert the transactions in that block. 
+
+In Mainnet, the FTT was one-third of the validator weight. If over one-third of the validator weight was faulty, those nodes could have prevented block finalization and stalled the network.
+
+## Important Links
+
+- [Highway Whitepaper](https://arxiv.org/pdf/2101.02159.pdf) - Describes the protocol, and the liveness and safety proofs in detail
+- [Zug Consensus](./zug.md) - The protocol currently used in Mainnet and Testnet
