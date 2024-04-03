@@ -23,7 +23,7 @@ To summarize, the consensus mechanism will determine how a blockchain meets the 
 
 ## Casper Consensus Protocols
 
-Each Casper network can choose and configure its consensus protocol using the network's chainspec. The protocols available are [Zug](./zug.md) and [Highway](./highway.md). Since the launch of the Casper Mainnet, the [Highway](https://arxiv.org/pdf/2101.02159.pdf) protocol was in use until Casper Node 2.0 (Condor) was released. The Zug consensus protocol was introduced in version 2.0 to simplify and speed up the consensus process without compromising safety. Zug enables faster block times, less overhead, and a larger validator set in Mainnet. Zug is an implementation of the ideas from the paper [From Weakly-terminating Binary Agreement and Reliable Broadcast to Atomic Broadcast](https://arxiv.org/abs/2205.06314), which describes how Zug meets the safety, liveness, and resiliency requirements.
+Each Casper network can choose and configure its consensus protocol using the network's chainspec. The protocols available are [Zug](./zug.md) and [Highway](./highway.md). Since the launch of the Casper Mainnet, the [Highway](https://arxiv.org/pdf/2101.02159.pdf) protocol was used until Casper Node 2.0 (Condor) was released. The Zug consensus protocol was introduced in version 2.0 to simplify and speed up the consensus process without compromising safety. Zug enables faster block times, less overhead, and a larger validator set in Mainnet. Zug is an implementation of the ideas from the paper [From Weakly-terminating Binary Agreement and Reliable Broadcast to Atomic Broadcast](https://arxiv.org/abs/2205.06314), which describes how Zug meets the safety, liveness, and resiliency requirements.
 
 ## Consensus in the Casper Mainnet
 
@@ -63,7 +63,7 @@ The final block of an era is a *switch block* and forms the initial state of the
 
 ### Finality
 
-Finality occurs when the network can be sure that a block will not be altered, reversed, or canceled after addition to the chain. This occurs via consensus, and as all transactions happen within a block, it allows for confirmation that a transaction cannot be changed. After finality, it would require greater than 1/3 of all validators to double-sign to cause a disparity between nodes. In this event, the network would shut down and require a manual restart.
+Finality occurs when the network can be sure that a block will not be altered, reversed, or canceled after addition to the chain. This occurs via consensus, and as all transactions happen within a block, it allows for confirmation that a transaction cannot be changed. After finality, it would require greater than one third of all validators to double-sign to cause a disparity between nodes. In this event, the network would shut down and require a manual restart.
 
 On a Casper network, a transaction finalizes alongside the finalizing of the block in which it is included. Validators that equivocate risk eviction, in which the network removes them from the validator set. Therefore, honest nodes receive rewards for their participation, while equivocating nodes risk loss of revenue for acting maliciously.
 

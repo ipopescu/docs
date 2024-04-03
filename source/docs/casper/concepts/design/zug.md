@@ -59,7 +59,7 @@ Notice that proposals, votes, and echoes are gossiped, so if one correct node re
         
         ### Example 2 (BK)
         - if half the nodes vote (either true or false?), the round is not skippable
-        - if 1/3 of the nodes vote true, then we have at least one honest node that voted true, meaning there is a proposal that has a quorum of echoes. Therefore,, eventually all other honest nodes will see a quorum of echoes and accepted proposal, which will be used as a parent in future rounds.
+        - if one third of the nodes vote true, then we have at least one honest node that voted true, meaning there is a proposal that has a quorum of echoes. Therefore,, eventually all other honest nodes will see a quorum of echoes and accepted proposal, which will be used as a parent in future rounds.
         - if a round is not finalized nor skippable, the block will become finalized at some point most likely, but not yet.
 -->
 
