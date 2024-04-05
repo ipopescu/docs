@@ -4,19 +4,20 @@ title: Zug Consensus
 
 # Simple and Fast Consensus with Zug
 
-The Casper node was designed with a pluggable consensus protocol in mind. So far the only choice was Highway. Casper 2.0.0 will add Zug, [a much simpler consensus protocol](https://arxiv.org/abs/2205.06314).
+<!-- TODO update this page to use gossiping instead of broadcasting when the protocol switches to gossiping. -->
+<!-- TODO review other docs explaining how blocks are gossiped. -->
 
-The Zug protocol requires that at most one-third of the validator weight could be attributed to faulty validators. It also assumes an upper bound for the network delay, which is the duration for a correct validator to deliver a message. Under these conditions, all correct nodes will reach agreement on a chain of finalized blocks.
+The Casper node was designed with a pluggable consensus protocol in mind. So far the only choice was Highway. Casper 2.0.0 has added Zug, [a much simpler consensus protocol](https://arxiv.org/abs/2205.06314).
+
+The Zug protocol requires that at most one-third of the validator weight could be attributed to faulty validators. It also assumes that there exists an upper bound for the network delay, which is the duration for a correct validator to deliver a message. The value of the upper bound may be unknown, but it exists. Under these conditions, all correct nodes will reach agreement on a chain of finalized blocks.
 
 Of course, all nodes in a network have to run the same protocol to work together, but when starting a new network or upgrading an existing one, either `Highway` or `Zug` can now be selected as the `consensus_protocol` in the chainspec file. The Casper Mainnet will switch to Zug.
-
-<!-- TODO review other docs explaining how blocks are gossiped -->
 
 ## How Zug Works
 
 In every round, the designated leader can sign a **proposal message** to suggest a block. The proposal also points to an earlier round in which the parent block was proposed.
 
-Each validator then signs an **echo message** with the proposal's hash. Correct validators only sign one echo per round, so at most one proposal can get echo messages signed by a quorum. A **quorum** is a set of validators whose total weight is greater than `(n + f) / 2`, where `n` is the total weight of all validators and `f` is the total weight of faulty validators. Thus, any two quorums always have a correct validator in common. The correct validators constitute a quorum since `(n + f) / 2 < n - f`.
+Each validator then signs an **echo message** with the proposal's hash. Correct validators only sign one echo per round, so at most one proposal can get echo messages signed by a quorum. A **quorum** is a set of validators whose total weight is greater than `(n + f) / 2`, where `n` is the total weight of all validators and `f` is the maximum allowed total weight of faulty validators. Thus, any two quorums always have a correct validator in common. As long as `n > 3f`, the correct validators will constitute a quorum since `(n + f) / 2 < n - f`.
 
 The proposal is accepted if there is a quorum and some other conditions are met (see below). Now, the next round's leader can make a new proposal that uses this proposal as a parent.
 
@@ -35,10 +36,10 @@ Every new signed message is optimistically sent directly to all peers. We want t
 The Zug protocol can be summarized as follows:
 
 * In every round, the round leader proposes a new block, `B`.
-* Every validator creates and gossips an _echo_ message, with a signature of `B`.
+* Every validator creates and broadcasts an _echo_ message, with a signature of `B`.
 * When a suitable block `B` has received echoes from 67% of the validators:
     * The next round begins. The next leader can propose a child of `B`.
-    * Every validator signs and gossips a _vote_ message, voting `yes`.
+    * Every validator signs and broadcasts a _vote_ message, voting `yes`.
 * If this does not happen before a timeout, the validators vote `no` instead.
     * If there are `no` votes from 67%, the next round begins, too.
       The next leader can propose a child from an earlier block and skip this round.
@@ -46,7 +47,7 @@ The Zug protocol can be summarized as follows:
 
 :::
 
-Notice that proposals, votes, and echoes are gossiped, so if one correct node receives a message, all nodes will eventually receive it. An honest validator sends only one echo or vote per round. So, unless 34% of validators double-sign, at most one block per round gets 67% echoes, and no finalized block can ever be skipped, ensuring safety. As long as there are 67% of echoes for a proposal, the next round begins and Zug doesn't get stuck. If there are not, everyone votes `no`, and the next round also begins.
+Notice that proposals, votes, and echoes are broadcast, so if one correct node receives a message, all nodes will eventually receive it. An honest validator sends only one echo or vote per round. So, unless 34% of validators double-sign, at most one block per round gets 67% echoes, and no finalized block can ever be skipped, ensuring safety. As long as there are 67% of echoes for a proposal, the next round begins and Zug doesn't get stuck. If there are not, everyone votes `no`, and the next round also begins.
 
 <!-- TODO use :white_check_mark: and :x: vs yes/no? -->
 
@@ -74,19 +75,19 @@ Notice that proposals, votes, and echoes are gossiped, so if one correct node re
 
 Unlike Highway, Zug does not use a communication history DAG. Highway sends larger messages due to citing and is slower. Zug does not have any notion of citing units, as does Highway, and relies on exchanging signed messages. On the other hand, Highway allows for more fine-grained [block rewards](#block-rewards).
 
-One notable difference in the implementation of Highway and Zug is their message exchange mechanisms. Zug uses broadcasting for signed messages, a one-to-all communication method that ensures widespread propagation. In contrast, Highway employs a more localized gossiping mechanism, where every node holds a message that must be transmitted to all other nodes.
+With Zug, finality happens after nodes constituting two-thirds of the network's total weight vote `true` for a round in which the block was proposed or a later round that has this one as an ancestor. Highways' criterion for detecting finality is the presence of a pattern of messages called a `Summit.` Summits preserve the advantage of tunable fault tolerance while being detected in polynomial time. Both ways of detecting finality are improvements over previous CBC Casper finality criteria, which were more difficult to attain and computationally more expensive to detect.
 
-Highway and Zug offer flexibility in terms of fault tolerance thresholds. Highway allows different clients to follow the protocol with varying thresholds, each with its own balance between security and latency. However, if a sufficient number of validators are online, Zug demonstrates lower latency than Highway at any threshold. This is because Zug does not have a maximum round length and its design allows the network to adapt to actual delays, where rounds are not constant in length. If delays occur, block times may vary. Otherwise, blocks should appear as soon as they are finalized.
+Highway and Zug offer flexibility in terms of fault tolerance thresholds. Highway allows different clients to follow the protocol with varying thresholds, each with its own balance between security and latency. However, if a sufficient number of validators are online, Zug demonstrates lower latency than Highway at any threshold. This is because Zug does not have predefined, rigid values for the round length, and its design allows the network to adapt to actual delays. If delays occur, block times may vary. Otherwise, blocks should appear as soon as they are finalized. Highway has a defined minimum round length, and the round lengths have to be powers of two times that minimum. Zug has a defined minimum round length, but a round can finish anytime as soon as enough messages are successfully exchanged. So, with Zug, there is no need to wait for a power of two times the minimum if the actual time falls somewhere between.
 
 Highway is a much more complicated protocol than Zug. Implementing it takes more than twice as many lines of code. Also, Highway's proof of correctness has proved more difficult to verify than Zug's. Zug will make it easier for third parties to create compatible node software that works with the Casper node.
 
 Using Zug consensus and smaller messages, the network could scale to a larger number of validators.
 
-<!-- TODO mention faster block times of 4 seconds or less and an increased number of validators up to 250 after testing is completed? -->
+<!-- TODO mention faster block times of 4 seconds or less and an increased number of validators up to 250 after testing is completed. -->
 
 ### Block Rewards
 
-Using a DAG makes fine-grained information about the validators' behavior available on-chain in Highway, so block rewards can be tuned to incentivize full participation in the consensus protocol. However, this does not apply at the end of each era. Any message sent after the era's last block was proposed cannot be taken into account, even though these messages are still needed to finalize that block. And this granularity comes at a cost: Highway messages are relatively big.
+Using a DAG in Highway makes fine-grained information about the validators' behavior available temporarily in the protocol state, so block rewards can be tuned to incentivize full participation in the consensus protocol. However, this does not apply at the end of each era. Any message sent after the era's last block was proposed cannot be taken into account, even though these messages are still needed to finalize that block. And this granularity comes at a cost: Highway messages are relatively big.
 
 The current system does not reward finality signatures, which are arguably the most important outcome. The signatures are the user-visible proof, signed by the validators, that an executed block is correct.
 

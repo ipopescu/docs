@@ -12,11 +12,11 @@ The [Highway](https://arxiv.org/pdf/2101.02159.pdf) consensus protocol was used 
 
 In Highway, nodes communicate by broadcasting units. A unit is a structure containing the following:
 - Citations of other units (at most one per node), subject to validity conditions
-- An optional proposed list of deploys to be included in a block. Note that a unit can be empty at genesis
+- An optional proposed list of deploys to be included in a block. Note that the list can be empty at genesis
 - The unit's creator and its digital signature
 - Additional metadata, including a timestamp, sequence number, round length, etc.
 
-An empty unit still carries an implicit vote. The citations determine which block a unit votes for based on a rule called "the fork choice rule". If there are multiple blocks to vote on and there isn't clarity about which block is the latest, the algorithm calculates the latest block based on the citations. The algorithm counts the weight of units from other validators and what they vote on and chooses the latest block on the branch with the most weight. The proposal unit always votes on itself. More details are found in the implementation under the fork choice rule. In summary, if there is a fork, every unit votes on some branch of the chain.
+An empty unit still carries an implicit vote. The citations determine which block a unit votes for based on a rule called "the fork choice rule". If there are multiple blocks to vote on and there isn't clarity about which block is the latest, the algorithm calculates the latest block based on the citations. The algorithm counts the weight of units from other validators and what they vote on and chooses the latest block on the branch with the most weight. The proposal unit always votes on itself. The protocol implicitly prefers the proposed block due to the GHOST (Greedy Heaviest Observed Sub-Tree) rule. More details are found in the implementation under the fork choice rule. In summary, if there is a fork, every unit votes on some branch of the chain.
 
 Over time, the units form a Directed Acyclic Graph (DAG), where units are the vertices and citations are the edges.
 
@@ -28,7 +28,7 @@ Over time, the units form a Directed Acyclic Graph (DAG), where units are the ve
 
 Nodes must cite the latest unit received from every node, including their latest unit. If a validator does not follow the process and thus equivocates, their bid gets deactivated. However, the validator is not slashed. When a node equivocates, it can still send units but may not be a validator.
 
-The Highway protocol proceeds in rounds, also called eras, with a minimum round length. Different nodes can use different round lengths, and ratios of round lengths are always powers of 2. Highway is a partially synchronous protocol because it is not bound to a specific time set in advance, and the network can adjust to delays. Thus, the protocol guarantees partially synchronous liveness.
+The Highway protocol proceeds in rounds with a minimum round length. Different nodes can use different round lengths, and ratios of round lengths are always powers of 2. Highway is a partially synchronous protocol because it is not bound to a specific time set in advance, and the network can adjust to delays. Thus, the protocol guarantees partially synchronous liveness. Multiple rounds form an era.
 
 ## Block Finalization
 
