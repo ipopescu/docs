@@ -9,6 +9,5 @@ slug: /design
 | [Network Communication](./p2p.md)                           | Peer-to-peer communication for Casper nodes                                                         |
 | [Consensus in Casper](./consensus.md)                       | Introduction to Consensus in a Casper network                                                       |
 | [Zug Consensus](./zug.md)                                   | An overview of the Zug consensus used in Mainnet and Testnet                                                       |
-| [Zug Rewards](./zug-rewards.md)                             | Validator rewards with the Zug consensus                                                     |
 | [Highway Consensus](./highway.md)                           | Brief overview of the Highway consensus available as an alternative to Zug                                            |
 | [Reading and Writing Data to Global State](./reading-and-writing-to-the-blockchain.md) | Storing and reading data from the blockchain                                                |
