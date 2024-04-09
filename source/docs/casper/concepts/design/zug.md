@@ -61,7 +61,7 @@ In round 1, we had a leader who proposed `♥`, but was slow, so the other nodes
 
 In round 2, the second proposer saw `♥` and proposed `♣` as a child of `♥`. Some nodes voted `yes`, and some timed out and voted `no`. So, round 2 will never output anything because there wasn't a decision.
 
-In round 3, the proposer presented `♠` as a child of `♣`. Assuming the leader was still too slow, everyone voted `no`, and round 3 became skippable even though it had a proposal. 
+In round 3, the leader proposed `♦` as a child of `♣`. Assuming the leader was still too slow, everyone voted `no`, and round 3 became skippable even though it had a proposal.
 
 In round 4, the proposer might have crashed or been malicious, so everyone timed out and voted `no`.
 
