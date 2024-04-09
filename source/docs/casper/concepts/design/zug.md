@@ -4,8 +4,7 @@ title: Zug Consensus
 
 # Simple and Fast Consensus with Zug
 
-<!-- TODO update this page to use gossiping instead of broadcasting when the protocol switches to gossiping. -->
-<!-- TODO review other docs explaining how blocks are gossiped. -->
+<!-- TODO update this page to use message gossiping instead of broadcasting when the protocol switches to message gossiping. -->
 
 The Casper node was designed with a pluggable consensus protocol in mind. So far the only choice was Highway. Casper 2.0.0 has added Zug, [a much simpler consensus protocol](https://arxiv.org/abs/2205.06314).
 
@@ -49,20 +48,36 @@ The Zug protocol can be summarized as follows:
 
 Notice that proposals, votes, and echoes are broadcast, so if one correct node receives a message, all nodes will eventually receive it. An honest validator sends only one echo or vote per round. So, unless 34% of validators double-sign, at most one block per round gets 67% echoes, and no finalized block can ever be skipped, ensuring safety. As long as there are 67% of echoes for a proposal, the next round begins and Zug doesn't get stuck. If there are not, everyone votes `no`, and the next round also begins.
 
-<!-- TODO use :white_check_mark: and :x: vs yes/no? -->
+<details>
+<summary><b>Expand to see a simple example</b></summary>
 
-<!-- TODO add the example from AF's presentation? And/or from BK's presentation?
+Let's review a simple scenario demonstrating the Zug consensus. The example shows five rounds with a different leader and nodes voting on a card suit. The bottom row indicates whether or not the round was finalized. Notice that round 5 was the first finalized round.
 
-        ### Example 1 (AF)
-        - explain the example in detail and which leaders are honest/faulty
-        - explain the output based on AF's explanation:
-            - as soon as round 5 gets a quorum of ✅ votes, round 5's proposal and all its ancestors become finalized. I.e. in that moment, ♥, ♣ and ♠ all become finalized, and get executed in that order. Note that even proposals from rounds with a quorum of ❌ can become indirectly finalized that way.
-        
-        ### Example 2 (BK)
-        - if half the nodes vote (either true or false?), the round is not skippable
-        - if one third of the nodes vote true, then we have at least one honest node that voted true, meaning there is a proposal that has a quorum of echoes. Therefore,, eventually all other honest nodes will see a quorum of echoes and accepted proposal, which will be used as a parent in future rounds.
-        - if a round is not finalized nor skippable, the block will become finalized at some point most likely, but not yet.
--->
+<p align="center">
+<img src={"/image/design/zug-example.png"} alt="Zug Example" />
+</p>
+
+In round 1, we had a leader who proposed `♥`, but was slow, so the other nodes timed out and voted `no.` The first round had a proposal and was skippable, but nothing was finalized. 
+
+In round 2, the second proposer saw `♥` and proposed `♣` as a child of `♥`. Some nodes voted `yes`, and some timed out and voted `no`. So, round 2 will never output anything because there wasn't a decision.
+
+In round 3, the proposer presented `♠` as a child of `♣`. Assuming the leader was still too slow, everyone voted `no`, and round 3 became skippable even though it had a proposal. 
+
+In round 4, the proposer might have crashed or been malicious, so everyone timed out and voted `no`.
+
+In round 5, the leader didn't see the `♦` proposal from round 3 but saw the `no` decision. So, from their perspective, rounds 3 and 4 were skippable and had no proposals. Thus, the leader in round 5 proposed `♠` as a child of `♣`. **Notice that the algorithm encountered a fork**. Regardless, everyone voted `yes`, and round 5 was finalized. I.e., at that moment, `♥`, `♣`, and `♠` all become finalized and executed in that order. As a result, every future proposer needs to propose children of this round.
+
+**Important Notes:**
+
+Even proposals from rounds with a quorum of `no` votes can become finalized indirectly.
+
+If a round is neither finalized nor skippable, the round will likely be finalized at some point in the future. When one-third of the network's weight votes `yes`, a proposal with a quorum of echoes is formed. Consequently, all other honest nodes will eventually see this quorum of echoes and the accepted proposal, which will serve as a parent in future rounds.
+
+Nodes vote `yes` when they have a quorum of echoes, and all the ancestors of that proposal have a quorum of echoes. Also, those ancestors have a quorum of echoes, and the rounds with no ancestors all have a quorum of `no` votes (being skippable).
+
+The algorithm will always produce a result in at least one of the `Accepted proposal` or `Finalized round` rows. If a proposal doesn't get accepted in a round, everyone times out and votes `no`. Otherwise, a proposal is visible to someone with a quorum of votes and will eventually be visible to everyone.
+
+</details>
 
 ## Some Advantages of Zug
 
