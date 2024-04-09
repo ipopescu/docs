@@ -1,8 +1,6 @@
 
 # Consensus in a Casper Network
 
-<!-- TODO This page applies to both Zug and Highway, and describes consensus in general terms. Check that all statements are technically correct. -->
-
 The decentralized nature of a Casper network requires a method for validators to agree on the chain of finalized blocks. Validator nodes must determine the validity of transactions, resolve conflicts, and finalize the blocks in the chain. The network's consensus protocol is a mechanism for the validators to agree on each finalized block.
 
 ## Safety, Liveness, and Byzantine Fault Tolerance
@@ -27,12 +25,11 @@ Each Casper network can choose and configure its consensus protocol using the ne
 
 ## Consensus in the Casper Mainnet
 
-The Casper Mainnet is a [Proof-of-Stake](../glossary/P.md#proof-of-stake) network in which the on-chain auction contract determines validators participating in consensus. The protocol uses a decentralized network of [nodes](../glossary/N.md#node), which participate in the consensus process by staking CSPR tokens. These active nodes are known as [validators](../glossary/V.md#validator). The top 100 bidders are selected through the auction contract every round, also called an era, to act as validators in the round after the next (current era + 2). Nodes with a greater stake in the network's success have a greater weight in reaching consensus.
+The Casper Mainnet is a [Proof-of-Stake](../glossary/P.md#proof-of-stake) network in which the on-chain auction contract determines validators participating in consensus. The protocol uses a decentralized network of [nodes](../glossary/N.md#node), which participate in the consensus process by staking CSPR tokens. These active nodes are known as [validators](../glossary/V.md#validator). The top 100 bidders are selected through the auction contract every era, to act as validators in the era after the next (current era + 2). Nodes with a greater stake in the network's success have a greater weight in reaching consensus.
 
-<!-- TODO top 100 bidders might increase to 250 with Zug -->
-<!-- TODO check if execution after consensus has changed with Zug -->
+<!-- TODO top 100 bidders might increase to 250 with Zug. Add this in once this happens in production. -->
 
-The Mainnet will continue to function so long as the amount of faulty or dishonest nodes does not exceed one-third of the total number of nodes in the network. Nodes that are not faulty are *honest* nodes. In most cases, the network can assume that more than two-thirds of all nodes will actively collaborate to achieve consensus. Therefore, stronger-than-average finality guarantees occur during periods when all nodes are acting honestly.
+The Mainnet will continue to function as long as the total weight of faulty nodes does not exceed one-third of the total weight of all nodes. Nodes that are not faulty are *honest* nodes. In most cases, the network can assume that more than two-thirds of all nodes will actively collaborate to achieve consensus. Therefore, stronger-than-average finality guarantees occur during periods when all nodes are acting honestly.
 
 :::note
 
@@ -42,22 +39,20 @@ The Zug or Highway consensus protocols do not necessitate a Proof-of-Stake metho
 
 ### Dynamic Round Length
 
-Within the Zug or Highway protocols, the length of a round (or era) is determined dynamically to ensure a suitable time for nodes to send all messages. This ensures that the system maintains liveness by properly communicating all messages and adding blocks to the chain in a timely manner.
+Within the Zug or Highway protocols, the length of a round is determined dynamically to ensure a suitable time for nodes to send all messages. This ensures that the system maintains liveness by properly communicating all messages and adding blocks to the chain in a timely manner.
 
 ### Eras
 
-The concept of rounds or eras allows consensus to reduce the overall operational storage requirements of participating nodes while also rotating validators. On Mainnet, a new instance of consensus runs every two hours or approximately 220 blocks, depending on current network metrics. This allows for two benefits:
+The concept of eras (one era consists of multiple rounds) allows consensus to reduce the overall operational storage requirements of participating nodes while also rotating validators. On Mainnet, a new instance of consensus runs every two hours or approximately 440 blocks, depending on current network metrics. This allows for two benefits:
 
 * **Data Reduction** - Older "metadata" used in finalizing certain blocks is no longer useful and can be removed without compromising the immutability of the data stored on the blockchain.
 
 * **Banning Equivocators** - Dishonest nodes caught equivocating in a previous era cannot participate in new eras.
-<!-- TODO has slashing for invalid signatures been implemented in Zug? -->
+<!-- TODO Once implemented, mention slashing for invalid signatures. It's consensus-independent and it will work for both Zug and Highway. -->
 
 * **Rotating Validators** - Bonded nodes bid on validator spots each era, with the top highest bidders becoming validators for the era after next (`current era`+ 2).
 
 In any given era, node operators will bid to become validators participating in the consensus mechanism for the era after the next (`current era` + 2). Each time slot within the era will also determine a lead validator. The lead validator proposes a new block to be added to the chain, which is communicated to the other nodes (via broadcasting or gossiping, depending on the consensus protocol). Once this process reaches critical mass, with a sufficient interconnected pattern of messages, the selected block is considered finalized and added to the chain.
-
-<!-- TODO does the GHOST rule still apply to Zug? We used to have this statement: These messages implicitly prefer the lead validator's block due to the GHOST (Greedy Heaviest Observed Sub-Tree) rule. -->
 
 The final block of an era is a *switch block* and forms the initial state of the next era. A new consensus instance begins with the new era, using information contained within the *switch block* and a new potential set of validators. More details on the auction process to determine an era's validators can be found within the [Consensus Economics](../economics/consensus.md) page.
 
@@ -66,8 +61,6 @@ The final block of an era is a *switch block* and forms the initial state of the
 Finality occurs when the network can be sure that a block will not be altered, reversed, or canceled after addition to the chain. This occurs via consensus, and as all transactions happen within a block, it allows for confirmation that a transaction cannot be changed. After finality, it would require greater than one third of all validators to double-sign to cause a disparity between nodes. In this event, the network would shut down and require a manual restart.
 
 On a Casper network, a transaction finalizes alongside the finalizing of the block in which it is included. Validators that equivocate risk eviction, in which the network removes them from the validator set. Therefore, honest nodes receive rewards for their participation, while equivocating nodes risk loss of revenue for acting maliciously.
-
-Zug and Highways's criterion for detecting finality is the presence of a pattern of messages called a `Summit`. It is an improvement over previous CBC Casper finality criteria, which were more difficult to attain and computationally more expensive to detect. Summits preserve the advantage of tunable fault tolerance while being detected in polynomial time.
 
 ## Important Links
 
