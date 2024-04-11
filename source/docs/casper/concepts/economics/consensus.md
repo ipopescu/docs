@@ -5,6 +5,7 @@ title: Consensus
 # Consensus Economics
 
 <!--TODO review this entire page with AL/BK/AS-->
+<!--TODO Is Zug a Correct-by-construction (CBC) protocol (async liveness, provable safety)?-->
 
 [Casper consensus](../design/consensus.md) is a continuous, trustless process where a fixed set of validators engage in scheduled communication to advance the linear chain of finalized blocks, representing the history of changes in the global state of the blockchain. The fixed set of validators may change at each era boundary. The economics of this layer revolve around validator selection and incentivization of participation according to the schedule.
 

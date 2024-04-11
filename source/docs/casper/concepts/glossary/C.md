@@ -27,7 +27,7 @@ A collection of configuration settings describing the state of the system at gen
 
 ## Consensus {#consensus}
 
-An algorithm used to mandate agreement on the [blockchain](./B.md#blockchain) among all nodes. The blockchain, although being built in a decentralized way, eventually converges so that all nodes eventually agree on whether a given block is part of the chain or not. The algorithm for securing an agreement is what is known as _consensus_. The consensus layer contains the algorithm, but the algorithm should not be confused with the consensus layer.
+[Consensus](../design/consensus.md) is an algorithm used to mandate agreement on the blockchain among all nodes. The blockchain, although being built in a decentralized way, eventually converges so that all nodes eventually agree on whether a given block is part of the chain or not. The algorithm for securing an agreement is what is known as _consensus_. The consensus layer contains the algorithm, but the algorithm should not be confused with the consensus layer.
 
 ## Contract runtime {#contract-runtime}
 
