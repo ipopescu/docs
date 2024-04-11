@@ -51,7 +51,7 @@ The proposer is a selected validator by a Casper network to propose the next blo
 
 ## Proto block {#proto-block}
 
-The block proposed by the leader, which the consensus processes (in [highway](./H.md#highway)). Only after consensus is complete, the proto block is executed, and the global state is updated.
+The block proposed by the round leader, which the consensus processes. Only after consensus is complete, the proto block is executed, and the global state is updated.
 
 A leader is selected from the validator set of that era for each round. The chance of getting selected as a leader is in proportion to the stake one has in that era.
 
