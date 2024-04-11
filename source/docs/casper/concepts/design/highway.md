@@ -12,7 +12,7 @@ The [Highway](https://arxiv.org/pdf/2101.02159.pdf) consensus protocol was used 
 
 In Highway, nodes communicate by broadcasting units. A unit is a structure containing the following:
 - Citations of other units (at most one per node), subject to validity conditions
-- An optional proposed list of deploys to be included in a block. Note that the list can be empty at genesis
+- An optional proposed list of deploys to be included in a block. Note that the list can be empty
 - The unit's creator and its digital signature
 - Additional metadata, including a timestamp, sequence number, round length, etc.
 
