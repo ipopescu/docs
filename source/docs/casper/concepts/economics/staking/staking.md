@@ -31,7 +31,7 @@ It is important to know that the cost of the delegation process is approximately
 
 ## Rewards {#rewards}
 
-Validators receive rewards proportional to their stake for securing the network and participating in consensus (by voting and finalizing blocks). Delegators receive a portion of the validator's rewards, proportional to what they delegated, minus the validator's delegation rate. The rewards earned are reduced if a validator is offline or cannot vote on many blocks. 
+Validators receive [rewards](../../design/rewards.md) proportional to their stake for securing the network and participating in consensus (by voting and finalizing blocks). Delegators receive a portion of the validator's rewards, proportional to what they delegated, minus the validator's delegation rate. The rewards earned are reduced if a validator is offline or cannot vote on many blocks. 
 
 There is no precise reward per block. Rewards are split proportionally among stakes within an era and are distributed at the end of each era.
 
