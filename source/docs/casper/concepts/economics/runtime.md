@@ -5,7 +5,7 @@ slug: /runtime
 
 # Runtime Economics
 
-The economics of the runtime layer should incentivize efficient allocation of computational resources, primarily CPU time, to users. Pending state pruning implementation, disk space use is treated as CPU time usage and charged, irreversibly, per byte written. Currently, [gas](./gas-concepts.md) is allocated according to a first-in, first-out model for deploys, with a fixed price of 1 mote (1/10<sup>9</sup> part of a CSPR token) per 1 unit of gas.
+The economics of the runtime layer should incentivize efficient allocation of computational resources, primarily CPU time, to users. Pending state pruning implementation, disk space use is treated as CPU time usage and charged irreversibly per byte written. Currently, [gas](./gas-concepts.md) is allocated according to a first-in, first-out model for deploys, with a fixed price of 1 mote (1/10<sup>9</sup> part of a CSPR token) per 1 unit of gas.
 
 ## Gas allocation {#gas-allocation}
 
@@ -13,15 +13,15 @@ Any finite resource on a publicly accessible computer network must be rate-limit
 
 ### Consensus before execution & basics of payment {#consensus-before-execution--basics-of-payment}
 
-The Highway protocol in its Mainnet implementation reaches consensus on a block _before_ the block is executed, introducing a subtle difference from platforms like Ethereum. In addition, deploys sent to a Casper network can only be selected based on claimed, rather than used, gas. Consequently, to incentivize user-side optimization and prevent block space exhaustion by poorly optimized deploys, the platform provides no refunds for unused gas.
+The Zug and Highway protocols reach consensus on a block _before_ the block is executed, introducing a subtle difference from platforms like Ethereum. In addition, deploys sent to a Casper network can only be selected based on claimed, rather than used, gas.
 
-Additionally, a minimal amount of CSPR must be present in the user account's main purse to ensure that the payment computation is covered. The community may introduce additional balance checks in the future.
+Additionally, a minimal amount of CSPR must be present in the user account's main purse to cover the payment computation. The community may introduce additional balance checks in the future.
 
 ### Costs and limits {#costs-and-limits}
 
-Gas cost is a measure of relative time used by different primitive operations of the execution engine, which is also assumed to be additive. By additivity, we mean that the time to execute a program is approximately proportional to the sum of gas expended by the opcodes and functions called within the program. Casper assigns gas costs to primitive execution engine opcodes and specific more complex _host-side_ functions that are callable from within the execution engine context. Gas costs for opcodes and host-side functions are specified in the [chainspec](../glossary/C.md#chainspec) and may vary according to arguments.
+Gas cost is a measure of the relative time used by different primitive operations of the execution engine, which is also assumed to be additive. By additivity, we mean that the time to execute a program is approximately proportional to the sum of gas expended by the opcodes and functions called within the program. Casper assigns gas costs to primitive execution engine opcodes and specific, more complex _host-side_ functions that are callable from within the execution engine context. Gas costs for opcodes and host-side functions are specified in the [chainspec](../glossary/C.md#chainspec) and may vary according to arguments.
 
-We expect to refine the current gas cost table to reflect time use more closely, with updates introduced in future upgrades. We also anticipate that, with the introduction of state pruning, storage costs will be calculated separately from computing time.
+We expect to refine the current gas cost table to reflect time use more closely, with updates introduced in future upgrades. We also anticipate that storage costs will be calculated separately from computing time with the introduction of state pruning. <!--TODO check this statement for 2.0-->
 
 ### Lanes {#lanes}
 
@@ -29,11 +29,13 @@ The [block gas limit](https://github.com/casper-network/casper-node/blob/b94c4f7
 
 ## Gas fees {#gas-fees}
 
-Currently, the price of gas is fixed at 1 mote per 1 unit of gas.
+The gas price is currently fixed at 1 mote per 1 gas unit.
 
 ### Fee allocation {#fee-allocation}
 
 All fees from a particular block accrue to its proposer, incentivizing non-empty block production and allowing major dApps to execute deploys for free, provided they operate a validator node and are comfortable with the latency introduced by validator scheduling.
+
+<!--TODO check these old CEPs. Should we still mention them?
 
 ### Spot pricing {#spot-pricing}
 
@@ -42,3 +44,4 @@ Please see [CEP #22](https://github.com/casper-network/ceps/pull/22) for one pot
 ### Futures pricing {#futures-pricing}
 
 Please see [CEP #17](https://github.com/casper-network/ceps/pull/17) for our draft proposal of a gas futures market.
+-->

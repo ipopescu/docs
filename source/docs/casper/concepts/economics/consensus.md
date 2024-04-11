@@ -4,7 +4,9 @@ title: Consensus
 
 # Consensus Economics
 
-[Highway consensus](../design/highway.md) is a continuous, trust-less process where a fixed set of validators engage in scheduled communication to advance the linear chain of finalized blocks, representing the history of changes to the global state of the blockchain. The fixed set of validators may change at each era boundary. The economics of this layer revolve around validator selection and incentivization of participation according to the schedule.
+<!--TODO review this entire page with AL/BK/AS-->
+
+[Casper consensus](../design/consensus.md) is a continuous, trustless process where a fixed set of validators engage in scheduled communication to advance the linear chain of finalized blocks, representing the history of changes in the global state of the blockchain. The fixed set of validators may change at each era boundary. The economics of this layer revolve around validator selection and incentivization of participation according to the schedule.
 
 ## Entry {#entry}
 
@@ -27,7 +29,7 @@ Currently, delegation is unrestricted. Please visit [Delegation details](./staki
 
 ## Incentives {#incentives}
 
-Correct operation of the Highway protocol requires the economics of the platform to discourage equivocation for safety and incentivize participation for liveness. Participation consists of on-time block proposals and timely responses to block proposals.
+Correct operation of the consensus protocol requires the economics of the platform to discourage equivocation (signing conflicting consensus messages) for safety and incentivize participation for liveness. Participation consists of on-time block proposals and timely responses to block proposals.
 
 Safety may be incentivized through slashing for equivocation. This feature is currently disabled but may be reactivated in the future.
 
@@ -71,7 +73,7 @@ This value gives us the maximum amount of CSPR that the validators can collectiv
 
 #### Distribution {#distribution}
 
-Validators receive tokens for proposing and finalizing blocks according to their performance. The concept of weight is crucial for understanding this distribution scheme:
+Validators receive rewards for proposing and finalizing blocks according to their performance. The concept of weight is crucial for understanding this distribution scheme:
 
 -   **Weight:** A validator's bonded stake, used in consensus
 -   **Assigned weight of a block/round:** The total stake of validators scheduled to participate in a block
@@ -79,7 +81,9 @@ Validators receive tokens for proposing and finalizing blocks according to their
 
 To determine eligibility, we look at **on-time finalization (OTF)**. Validators should finalize blocks on time by sending required messages before the end of their respective round.
 
-Switch blocks are not visible to the issuance calculation (as this calculation is performed in the switch block itself for each era), and, consequently, no tokens are issued for switch blocks.
+Switch blocks are not visible to the issuance calculation (as this calculation is performed in the switch block itself for each era), and, consequently, no rewards are issued for switch blocks.
+
+<!-- TODO participation and eligibility seem to be too specific to Highway. Work with AL/BK to add new explanations or confirm that we can remove these.
 
 ##### Participation schedule {#participation-schedule}
 
@@ -90,11 +94,13 @@ Each validator is assessed according to its round exponent. All assigned validat
 ##### Eligibility {#eligibility}
 
 Once a block has been proposed and enough time has passed, the history of protocol messages can be examined to detect whether the block was finalized on time, according to the conditions given above. If the block was _not_ finalized on time, validators receive a fraction of the expected tokens, governed by the `reduced_reward_multiplier` chainspec parameter. If the block was finalized on time, assigned validators share the reward proportionally to their stake, regardless of whether they have sent messages or not.
+-->
 
 ### Inactivity {#inactivity}
 
 Validators who send no messages during an entire era are marked as inactive and cease participating in the auction until they send a special deploy that reactivates their bid.
 
+<!--TODO remove this? It is too old
 ### Slashing {#slashing}
 
 Please review our [Equivocator Policy](https://github.com/casper-network/ceps/blob/master/text/0038-equivocator-policy.md). We are currently conducting research into the utility of slashing as an incentive mechanism.
@@ -102,3 +108,4 @@ Please review our [Equivocator Policy](https://github.com/casper-network/ceps/bl
 ## Founding validators {#founding-validators}
 
 Founding validators are subject to token lock-up, which prevents them from withdrawing any tokens from their bids for 90 days, then releases their genesis bid tokens in weekly steps, linearly, over an additional 90 days.
+-->
