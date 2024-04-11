@@ -47,7 +47,7 @@ The concept of eras (one era consists of multiple rounds) allows consensus to re
 
 * **Data Reduction** - Older "metadata" used in finalizing certain blocks is no longer useful and can be removed without compromising the immutability of the data stored on the blockchain.
 
-* **Banning Equivocators** - Dishonest nodes caught equivocating in a previous era cannot participate in new eras.
+* **Banning Equivocators** - Dishonest nodes caught equivocating (signing conflicting consensus messages) in a previous era cannot participate in new eras.
 <!-- TODO Once implemented, mention slashing for invalid signatures. It's consensus-independent and it will work for both Zug and Highway. -->
 
 * **Rotating Validators** - Bonded nodes bid on validator spots each era, with the top highest bidders becoming validators for the era after next (`current era`+ 2).
