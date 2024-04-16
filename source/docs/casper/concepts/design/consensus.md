@@ -47,7 +47,7 @@ The concept of eras (one era consists of multiple rounds) allows consensus to re
 
 * **Data Reduction** - Older "metadata" used in finalizing certain blocks is no longer useful and can be removed without compromising the immutability of the data stored on the blockchain.
 
-* **Banning Equivocators** - Dishonest nodes caught equivocating in a previous era cannot participate in new eras.
+* **Banning Equivocators** - Dishonest nodes caught equivocating (signing conflicting consensus messages) in a previous era cannot participate in new eras.
 <!-- TODO Once implemented, mention slashing for invalid signatures. It's consensus-independent and it will work for both Zug and Highway. -->
 
 * **Rotating Validators** - Bonded nodes bid on validator spots each era, with the top highest bidders becoming validators for the era after next (`current era`+ 2).
@@ -58,7 +58,7 @@ The final block of an era is a *switch block* and forms the initial state of the
 
 ### Finality
 
-Finality occurs when the network can be sure that a block will not be altered, reversed, or canceled after addition to the chain. This occurs via consensus, and as all transactions happen within a block, it allows for confirmation that a transaction cannot be changed. After finality, it would require greater than one third of all validators to double-sign to cause a disparity between nodes. In this event, the network would shut down and require a manual restart.
+Finality occurs when the network can be sure that a block will not be altered, reversed, or canceled after addition to the chain. This occurs via consensus, and as all transactions happen within a block, it allows for confirmation that a transaction cannot be changed. After finality, it would require more than one third of all validators to double-sign to cause a disparity between nodes. In this event, the network would shut down and require a manual restart.
 
 On a Casper network, a transaction finalizes alongside the finalizing of the block in which it is included. Validators that equivocate risk eviction, in which the network removes them from the validator set. Therefore, honest nodes receive rewards for their participation, while equivocating nodes risk loss of revenue for acting maliciously.
 
