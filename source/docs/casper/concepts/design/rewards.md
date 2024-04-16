@@ -76,7 +76,7 @@ round_seigniorage_rate = [7, 175070816]
 
 ### Rewards distribution summary
 
-The following steps summarize the rewards distribution mechanism for each round.
+The following steps summarize the rewards distribution mechanism.
 
 Each round has a reward pool set in the chainspec under the `round_seigniorage_rate`.
 
@@ -93,3 +93,5 @@ For each finality signature:
 <p align="center">
 <img src={"/image/design/rewards-pot.png"} alt="Pie chart showing how rewards are split" width="300"/>
 </p>
+
+The rewards calculation takes place at the end of an era. In addition to rewarding everything in that era, the algorithm also looks back into previous era(s), depending on the `signature_rewards_max_delay` parameter, to reward signatures on the switch blocks.
