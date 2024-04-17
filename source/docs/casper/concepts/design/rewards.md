@@ -13,7 +13,7 @@ Like other Proof-of-Stake chains, a Casper network rewards validators for partic
 <!-- TODO link to Zug and Highway once PR 1427 merges-->
 The network uses a new reward scheme that does not depend on the details of the consensus protocol and is compatible with both Zug and Highway. The current reward scheme has the following properties:
 
-- Rewards are proportional to a validator's weight.
+- Rewards are proportional to a validator's weight on average.
 - The reward scheme incentivizes cooperation.
 - Rewards are distributed for all blocks.
 - Reward calculations depend only on the linear structure of the blockchain and published finality signatures, rather than any internal details of the consensus protocol.
