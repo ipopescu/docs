@@ -7,9 +7,6 @@ slug: /economics
 
 Casper's economic activity can be conceptualized as taking place on four distinct layers: consensus, runtime, ecosystem, and the macroeconomy. Each layer, consensus and up, provides a foundation for the activity taking place on the next layer. A trust-less platform requires proper incentives for participants operating each layer to ensure they work together to unlock the platform's value.
 
-<!--TODO I suggest we remove this paragraph since it is 4 years old. 
-We cannot yet provide formal game-theoretic results for our incentive mechanisms. Still, interested readers can follow our progress with the [Economics of the Casper Blockchain](https://github.com/CasperLabs/Casper-economics-paper) paper, which will be periodically updated to summarize ongoing research.-->
-
 This online documentation section is intended only to familiarize the user with our core economics features rather than describe their precise implementation and user interface. Some of the features may not be currently active.
 
 ## Consensus {#consensus}
