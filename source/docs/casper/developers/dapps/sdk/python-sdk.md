@@ -28,7 +28,7 @@ The following set of How To's cover the full SDK feature set and are designed to
 
 * [How To: Delegate funds to a validator](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_delegate.py)
 
-* [How To: Undelegate funds from a validator ?](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_undelegate.py)
+* [How To: Undelegate funds from a validator](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_undelegate.py)
 
 * [How To: Stake funds as a validator ?](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_stake.py)
 
