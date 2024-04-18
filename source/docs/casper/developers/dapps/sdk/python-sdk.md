@@ -10,7 +10,7 @@ pip3 install pycspr
 
 ## How To's
 
-The following set of How To's cover the full SDK feature set & are designed to be run against a [CCTL](https://github.com/casper-network/cctl) network.
+The following set of How To's cover the full SDK feature set and are designed to be run against a [CCTL](https://github.com/casper-network/cctl) network.
 
 ### Cryptography
 
