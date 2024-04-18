@@ -32,7 +32,7 @@ The following set of How To's cover the full SDK feature set and are designed to
 
 * [How To: Stake funds as a validator](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_stake.py)
 
-* [How To: Unstake funds as a validator ?](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_unstake.py)
+* [How To: Unstake funds as a validator](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_unstake.py)
 
 ### Smart Contracts
 
