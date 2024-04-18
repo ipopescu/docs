@@ -48,6 +48,6 @@ The following set of How To's cover the full SDK feature set and are designed to
 
 * [How To: Use RPC API](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/node_apis/how_to_use_rpc_client.py)
 
-* [How To: Use Speculative RPC API ?](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/node_apis/how_to_use_speculative_rpc_client.py)
+* [How To: Use Speculative RPC API](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/node_apis/how_to_use_speculative_rpc_client.py)
 
 * [How To: Use SSE API](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/node_apis/how_to_use_sse_client.py)
