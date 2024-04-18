@@ -38,7 +38,7 @@ The following set of How To's cover the full SDK feature set and are designed to
 
 * [How To: Install a smart contract](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/smart_contracts/how_to_install.py)
 
-* [How To: Invoke a smart contract ?](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/smart_contracts/how_to_invoke.py)
+* [How To: Invoke a smart contract](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/smart_contracts/how_to_invoke.py)
 
 * [How To: Query a smart contract](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/smart_contracts/how_to_query.py)
 
