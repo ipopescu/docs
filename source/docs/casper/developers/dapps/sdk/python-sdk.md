@@ -1,236 +1,53 @@
 # Python SDK
 
-The [Python SDK](https://github.com/casper-network/casper-python-sdk) allows developers to interact with the Casper Node using Python 3.9+. This page covers various examples of using this SDK.
+The [Python SDK](https://github.com/casper-network/casper-python-sdk) allows developers to interact with the Casper platform using Python 3.12+.
 
 ## Installation
 
-To install the library, run:
-
 ```bash
-
-    pip3 install pycspr
+pip3 install pycspr
 ```
 
-## Tests
+## How To's
 
-You can find examples of testing this library with python scripts in the `test` directory. To run the tests, we recommend the *pytest* library:
+The following set of How To's cover the full SDK feature set and are designed to be run against a [CCTL](https://github.com/casper-network/cctl) network.
 
-```bash
-    pytest ./tests
-``` 
+### Cryptography
 
-## Usage Examples
+* [How To: Apply a checksum](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/crypto/how_to_apply_a_checksum.py)
 
-In this section, we outline a couple of essential tasks you can accomplish with the Python SDK:
+* [How To: Create Key Pairs](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/crypto/how_to_create_key_pairs.py)
 
-* [Sending a transfer](#sending-a-transfer) between two purses
-* [Staking](#staking) tokens with a validator
+* [How To: Hash data](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/crypto/how_to_hash_data.py)
 
-For further examples, take a look at the [How-tos](https://github.com/casper-network/casper-python-sdk/tree/main/how_tos).
+* [How To: Sign data](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/crypto/how_to_sign_data.py)
 
-### Sending a transfer
+### Deploys
 
-This example shows you how to define and transfer funds between purses on a Casper network. Replace the *path_to_cp2_account_key* in the code below with the receiver's account public key.
+* [How To: Transfer funds between 2 accounts](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_transfer.py)
 
-```python
-    import os
-    import pathlib
-    import random
-    import typing
+* [How To: Delegate funds to a validator](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_delegate.py)
 
-    import pycspr
-    from pycspr.client import NodeClient
-    from pycspr.client import NodeConnectionInfo
-    from pycspr.crypto import KeyAlgorithm
-    from pycspr.types import PrivateKey
-    from pycspr.types import Deploy
-    from pycspr.types import PublicKey
+* [How To: Undelegate funds from a validator](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_undelegate.py)
 
-    # path to cp1 secret key - defaults to NCTL user 1.
-    path_to_cp1_secret_key = pathlib.Path(os.getenv("NCTL")) / "assets" / "net-1" / "users" / "user-1" / "secret_key.pem"
+* [How To: Stake funds as a validator](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_stake.py)
 
-    # type of cp1 secret key - defaults to ED25519.
-    type_of_cp1_secret_key = KeyAlgorithm.ED25519.name,
+* [How To: Unstake funds as a validator](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_unstake.py)
 
-    # path to cp2 account key - defaults to NCTL user 2.
-    path_to_cp2_account_key = pathlib.Path(os.getenv("NCTL")) / "assets" / "net-1" / "users" / "user-2" / "public_key_hex"
+### Smart Contracts
 
-    # name of target chain - defaults to NCTL chain.
-    chain_name = "casper-net-1"
+* [How To: Install a smart contract](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/smart_contracts/how_to_install.py)
 
-    # host address of target node - defaults to NCTL node 1.
-    node_host = "localhost"
+* [How To: Invoke a smart contract](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/smart_contracts/how_to_invoke.py)
 
-    # Node API JSON-RPC port - defaults to 11101 @ NCTL node 1.
-    node_port_rpc = 11101
+* [How To: Query a smart contract](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/smart_contracts/how_to_query.py)
 
-    def _main(node_host, node_port_rpc, path_to_cp1_secret_key, type_of_cp1_secret_key,path_to_cp2_account_key, chain_name):
-        """Main entry point.
-        :param args: Parsed command line arguments.
-        """
-        # Set node client.
-        client = _get_client(node_host, node_port_rpc)
+### Node APIs
 
-        # Set counter-parties.
-        cp1, cp2 = _get_counter_parties(path_to_cp1_secret_key, type_of_cp1_secret_key,path_to_cp2_account_key)
+* [How To: Use REST API](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/node_apis/how_to_use_rest_client.py)
 
-        # Set deploy.
-        deploy: Deploy = _get_deploy(chain_name, cp1, cp2)
+* [How To: Use RPC API](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/node_apis/how_to_use_rpc_client.py)
 
-        # Approve deploy.
-        deploy.approve(cp1)
+* [How To: Use Speculative RPC API](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/node_apis/how_to_use_speculative_rpc_client.py)
 
-        # Dispatch deploy to a node.
-        client.deploys.send(deploy)
-
-        #If deploy is successful send the indication
-        print(f"Deploy dispatched to node [{node_host}]: {deploy.hash.hex()}")
-
-
-    def _get_client(node_host, node_port_rpc) -> NodeClient:
-        """Returns a pycspr client instance.
-        """
-        return NodeClient(NodeConnectionInfo(
-            host=node_host,
-            port_rpc=node_port_rpc,
-        ))
-
-
-    def _get_counter_parties(path_to_cp1_secret_key, type_of_cp1_secret_key,path_to_cp2_account_key) -> typing.Tuple[PrivateKey, PublicKey]:
-        """Returns the 2 counter-parties participating in the transfer.
-        """
-        cp1 = pycspr.parse_private_key(
-            path_to_cp1_secret_key,
-            type_of_cp1_secret_key,
-            )
-        cp2 = pycspr.parse_public_key(
-            path_to_cp2_account_key
-            )    
-
-        return cp1, cp2
-
-
-    def _get_deploy(chain_name, cp1: PrivateKey, cp2: PublicKey) -> Deploy:
-        """Returns transfer deploy to be dispatched to a node.
-        """
-        # Set standard deploy parameters.
-        deploy_params = pycspr.create_deploy_parameters(
-            account = cp1,
-            chain_name = chain_name
-            )
-
-        # Set deploy.
-        deploy = pycspr.create_native_transfer(
-            params = deploy_params,
-            amount = int(2.5e9),
-            target = cp2.account_hash,
-            correlation_id = random.randint(1, 1e6)
-            )
-
-        return deploy
-
-
-    # Entry point.
-    if __name__ == '__main__':
-        _main(node_host, node_port_rpc, path_to_cp1_secret_key, type_of_cp1_secret_key, path_to_cp2_account_key, chain_name)
-```
-
-### Staking
-
-This example shows you how to define and stake funds with a validator.
-
-```python
-
-    import os
-    import pathlib
-
-    import pycspr
-    from pycspr.client import NodeClient
-    from pycspr.client import NodeConnectionInfo
-    from pycspr.crypto import KeyAlgorithm
-    from pycspr.types import Deploy
-    from pycspr.types import PrivateKey
-
-    # path to cp1 secret key - defaults to NCTL user 1.
-    path_to_validator_secret_key = pathlib.Path(os.getenv("NCTL")) / "assets" / "net-1" / "users" / "user-1" / "secret_key.pem"
-
-    # type of cp1 secret key - defaults to ED25519.
-    type_of_validator_secret_key = KeyAlgorithm.ED25519.name
-
-    # path to session code wasm binary - defaults to NCTL bin/eco/add_bid.wasm.
-    path_to_wasm = pathlib.Path(os.getenv("NCTL")) / "assets" / "net-1" / "bin" / "auction" / "add_bid.wasm"
-
-    # amount to stake, i.e. bond, into the network.
-    amount = int(2.5e9)
-
-    # amount to charge delegators for service provision.
-    delegation_rate = 2
-
-    # name of target chain - defaults to NCTL chain.
-    chain_name = "casper-net-1"
-
-    # host address of target node - defaults to NCTL node 1.
-    node_host = "localhost"
-
-    # Node API JSON-RPC port - defaults to 11101 @ NCTL node 1.
-    node_port_rpc = 11101
-
-    def _main(node_host, node_port_rpc, path_to_validator_secret_key, type_of_validator_secret_key, chain_name, amount, delegation_rate, path_to_wasm):
-        """Main entry point.
-        :param args: Parsed command line arguments.
-        """
-        # Set node client.
-        client: NodeClient = _get_client(node_host, node_port_rpc)
-
-        # Set validator key.
-        validator: PrivateKey = pycspr.parse_private_key(
-            path_to_validator_secret_key,
-            type_of_validator_secret_key,
-            )
-
-        # Set deploy.
-        deploy: Deploy = _get_deploy(validator, chain_name, amount, delegation_rate, path_to_wasm)
-
-        # Approve deploy.
-        deploy.approve(validator)
-
-        # Dispatch deploy to a node.
-        client.deploys.send(deploy)
-
-        print(f"Deploy dispatched to node [{node_host}]: {deploy.hash.hex()}")
-
-
-    def _get_client(node_host, node_port_rpc) -> NodeClient:
-        """Returns a pycspr client instance.
-        """
-        return NodeClient(NodeConnectionInfo(
-            host = node_host,
-            port_rpc = node_port_rpc,
-        ))
-
-
-    def _get_deploy(validator: PrivateKey, chain_name, amount, delegation_rate, path_to_wasm) -> Deploy:
-        """Returns delegation deploy to be dispatched to a node.
-        """
-        # Set standard deploy parameters.
-        deploy_params = pycspr.create_deploy_parameters(
-            account = validator,
-            chain_name = chain_name
-            )
-
-        # Set deploy.
-        deploy = pycspr.create_validator_auction_bid(
-            params = deploy_params,
-            amount = amount,
-            delegation_rate = delegation_rate,
-            public_key = validator.as_public_key(),
-            path_to_wasm = path_to_wasm
-            )
-
-        return deploy
-
-
-    # Entry point.
-    if __name__ == '__main__':
-        _main(node_host, node_port_rpc, path_to_validator_secret_key, type_of_validator_secret_key, chain_name, amount, delegation_rate, path_to_wasm)
-```
+* [How To: Use SSE API](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/node_apis/how_to_use_sse_client.py)
