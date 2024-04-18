@@ -6,7 +6,7 @@ slug: /concepts/economics/concepts
 
 The Casper Mainnet is a Proof-of-Stake blockchain that allows validators to stake the Casper native token CSPR on the network. Validators receive CSPR as an incentive for continuing to maintain and secure the network. CSPR rewards are distributed as blocks are validated into existence and organized into eras.
 
-**Consensus mechanism:** The Casper Mainnet and Testnet use a Proof-of-Stake consensus mechanism called [Zug](../../design/zug.md). A private Casper network can choose between Zug and [Highway](../../design/highway.md) using the network's chainspec.
+**Consensus mechanism:** The Casper Mainnet and Testnet use a Proof-of-Stake consensus mechanism called [Zug](../../design/zug.md). Another Casper network can choose between Zug and [Highway](../../design/highway.md) using the network's chainspec.
 
 <!--TODO update the number of validators with 2.0 -->
 **Number of validators:** The Casper Mainnet supports up to 100 validators on the network. This number is chosen to strike a balance between performance and decentralization. This platform parameter can be increased through upgrades as development continues and performance improves. In addition, validators can stake on the Casper Mainnet through a process of permission-less bonding by participating in an auction for the validator slot.

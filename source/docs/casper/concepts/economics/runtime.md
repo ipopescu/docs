@@ -34,14 +34,3 @@ The gas price is currently fixed at 1 mote per 1 gas unit.
 ### Fee allocation {#fee-allocation}
 
 All fees from a particular block accrue to its proposer, incentivizing non-empty block production and allowing major dApps to execute deploys for free, provided they operate a validator node and are comfortable with the latency introduced by validator scheduling.
-
-<!--TODO check these old CEPs. Should we still mention them?
-
-### Spot pricing {#spot-pricing}
-
-Please see [CEP #22](https://github.com/casper-network/ceps/pull/22) for one potential design of a gas spot market.
-
-### Futures pricing {#futures-pricing}
-
-Please see [CEP #17](https://github.com/casper-network/ceps/pull/17) for our draft proposal of a gas futures market.
--->

@@ -27,14 +27,14 @@ The _auction_ determines the composition of the validator set for each protocol 
 
 _Rewards_ (per era) are issued to validators who perform at their nominal pace in such a way as to make timely progress on block finalization. These rewards are shared with delegators proportionally to their contributions, net of a cut taken by the validator.
 
-_Evictions_ deactivate validators who fail to participate in an era, turning off their bid and suspending their participation until they signal readiness to resume participation by invoking a particular entry point in the auction contract.
+_Evictions_ deactivate validators who fail to participate in an era, deactivating their bid and suspending their participation until they signal readiness to resume participation by invoking a particular entry point in the auction contract.
 
 ## Runtime {#runtime}
 
 <!-- TODO double-check these old CEPs. Do we still want to refer to them? -->
 The runtime layer encompasses the deployment and execution of smart contracts, session code, and other activities that perform computation on the global state. This suggests potential markets for finite platform resources, such as markets for computing time and storage. Such markets could ensure that resources are allocated to their highest-value uses. Currently, however, we limit ourselves to [metering computing time](../design/casper-design.md#execution-semantics-gas), measured as gas. Gas can be conceptualized as the relative time use of different Wasm operations and host-side functions. The use of storage is also presently assigned a gas cost. We do not currently have a pricing mechanism for metered gas, although an outstanding Casper Enhancement Proposal ([CEP #22](https://github.com/casper-network/ceps/pull/22)) suggests the implementation of a first-price gas auction similar to Ethereum's. The initial Mainnet deploy selection mechanism is based on FIFO.
 
-We expect to continue to work on runtime resource markets, particularly gas futures ([CEP #17](https://github.com/casper-network/ceps/pull/17)).
+We expect to continue to work on runtime resource markets.
 
 ### Agents (runtime layer) {#agents-runtime-layer}
 
