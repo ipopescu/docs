@@ -24,7 +24,7 @@ The following set of How To's cover the full SDK feature set and are designed to
 
 ### Deploys
 
-* [How To: Transfer funds between 2 accounts ?](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_transfer.py)
+* [How To: Transfer funds between 2 accounts](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_transfer.py)
 
 * [How To: Delegate funds to a validator ?](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/deploys/how_to_delegate.py)
 
