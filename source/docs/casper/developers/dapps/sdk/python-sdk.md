@@ -16,7 +16,7 @@ The following set of How To's cover the full SDK feature set and are designed to
 
 * [How To: Apply a checksum](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/crypto/how_to_apply_a_checksum.py)
 
-* [How To: Create Key Pairs ?](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/crypto/how_to_create_key_pairs.py)
+* [How To: Create Key Pairs](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/crypto/how_to_create_key_pairs.py)
 
 * [How To: Hash data ?](https://github.com/casper-network/casper-python-sdk/blob/main/how_tos/crypto/how_to_hash_data.py)
 
