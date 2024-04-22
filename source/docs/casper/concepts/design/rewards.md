@@ -88,7 +88,7 @@ The amount allocated for finality signatures is split further into two parts: cr
 
 For each finality signature:
 - The creator gets a portion of what was allocated for creating signatures, in proportion to relative consensus weight.
-- The block proposer gets a portion of corresponding to the `finders_fee` chainspec parameter, scaled by total collected signature creator weight divided by total weight in the relevant era.
+- The block proposer gets a portion corresponding to the `finders_fee` chainspec parameter, scaled by the total collected signature creator weight divided by the total weight in the relevant era.
 
 <p align="center">
 <img src={"/image/design/rewards-pot.png"} alt="Pie chart showing how rewards are split" width="300"/>
