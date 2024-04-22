@@ -32,7 +32,7 @@ Rewards are divided into these categories:
 
 In each round, a total reward pool is shared among all participating validators proportionally to their weight, as long as all validators fully participate in the processes that are rewarded by this mechanism. These processes are block creation, signature creation, signature propagation and signature publication as part of block proposals. 
 
-The total reward pool for a block is determined by the `round_seigniorage_rate` setting in the chainspec. This value, together with current total supply and minimum round length, is used to compute the full allocation of rewards for a particular block. The rate itself is set to result in a given target annual inflation, provided that validators fully participate in the rewardable processes described above.
+The `round_seigniorage_rate` setting in the chainspec determines the total reward pool for a block. This value, along with the current total supply and minimum round length, is used to compute the full allocation of rewards for a particular block. The rate itself is set to result in a target annual inflation, provided validators fully participate in the rewardable processes described above.
 
 Each switch block triggers a reward calculation. To account for potential network lag delaying the timely arrival of signatures for finalized blocks, the calculation "looks back" into previous eras. In particular, this enables rewards for switch blocks, which was impossible with the prior Highway-specific calculation. The number of prior blocks to look up is specified using the `signature_rewards_max_delay` setting in the chainspec.
 
