@@ -30,21 +30,23 @@ Rewards are divided into these categories:
 - **Block rewards**: These rewards are received for each proposed block that is finalized. They incentivize timely participation in building the chain.
 - **Finality signature rewards**: These rewards are received for collecting finality signatures for each block and generating a finality signature to sign a block. They incentivize the creation, propagation and publication of finality signatures, which is critical in establishing common knowledge of the canonical chain.
 
-In each round, a total reward pool is shared among all participating validators proportionally to their weight. The `round_seigniorage_rate` setting in the chainspec determines the reward pool as a fraction of the total supply. This value is calculated based on the total supply, target inflation rate, and minimum round length.
+In each round, a total reward pool is shared among all participating validators proportionally to their weight, as long as all validators fully participate in the processes that are rewarded by this mechanism. These processes are block creation, signature creation, signature propagation and signature publication as part of block proposals. 
 
-Each switch block triggers a reward calculation. To account for potential network lag delaying the timely arrival of signatures for finalized blocks, the calculation "looks back" into the previous eras. The number of eras to look back into is specified using the `signature_rewards_max_delay` setting in the chainspec. The rewards formula is additive and calculates rewards over two or more switch blocks.
+The total reward pool for a block is determined by the `round_seigniorage_rate` setting in the chainspec. This value, together with current total supply and minimum round length, is used to compute the full allocation of rewards for a particular block. The rate itself is set to result in a given target annual inflation, provided that validators fully participate in the rewardable processes described above.
 
-Blocks carry information on their proposer and the finality signatures collected for several past blocks. Global state contains data on token supply and validator weights as part of the Mint and Auction states. Based on these inputs, the rewards are calculated according to a formula. Rewards are designed to be proportional to weight on average, as long as blocks are created and the finality signatures are propagated and published in a timely manner. <!-- TODO Link to the formula in the CEP or elsewhere -->
+Each switch block triggers a reward calculation. To account for potential network lag delaying the timely arrival of signatures for finalized blocks, the calculation "looks back" into previous eras. The number of prior blocks to look up is specified using the `signature_rewards_max_delay` setting in the chainspec.
 
-Validators are motivated to include finality signatures as quickly as possible. If they do not include a finality signature in a block, the next validator can include it in their block and get the collection fee.
+Blocks carry information on their proposer and the finality signatures collected for several past blocks, the depth being determined by the `signature_rewards_max_delay` parameter. Global state contains data on token supply and validator weights as part of the Mint and Auction states. Based on these inputs, the rewards are calculated according to a formula. Rewards are designed to be proportional to weight on average, as long as blocks are created and the finality signatures are propagated and published in a timely manner. <!-- TODO Link to the formula in the CEP or elsewhere -->
+
+Validators are motivated to produce, propagate and publish (i.e., include in the block body) finality signatures as quickly as possible. If they do not include a finality signature in a block, the next validator can include it in their block and get the collection fee.
 
 ### Chainspec settings for calculating rewards
 
 Each Casper network chainspec contains 4 settings related to calculating rewards:
 
-- `finders_fee`: The split in finality signature rewards between the block creation and participating signers. The block creation reward is usually smaller and goes to the proposer in full.
-- `finality_signature_proportion`: The proportion of baseline rewards going to reward finality signatures specifically.
-- `signature_rewards_max_delay`: The number of eras to look back into for the reward calculation.
+- `finality_signature_proportion`: The proportion of baseline rewards going to reward finality signatures, rather than block proposal rewards.
+- `finders_fee`: The split in finality signature rewards between the block creation and participating signers.
+- `signature_rewards_max_delay`: The number of prior blocks to include for the reward calculation.
 - `round_seigniorage_rate`: Setting that calculates the fraction of the total supply that will constitute the reward pool for every round.
 
 <details>
@@ -78,20 +80,18 @@ round_seigniorage_rate = [7, 175070816]
 
 The following steps summarize the rewards distribution mechanism.
 
-Each round has a reward pool set in the chainspec under the `round_seigniorage_rate`.
+Each round has a reward pool calculated from the `round_seigniorage_rate` chainspec parameter and the current total supply for the relevant era.
 
-In each round, the reward pool is split into two parts for block creation and finality signatures. The split is configurable using the `finders_fee` setting in the chainspec:
-- A percentage is allocated for block creation.
-- A percentage is allocated for finality signatures.
+In each round, the reward pool is split into two parts for block proposals and finality signature rewards, based on the `finality_signature_proportion` chainspec parameter. 
 
-The amount allocated for finality signatures is split further into two parts: creating and collecting finality signatures. The split is configurable in the chainspec using the `finality_signature_proportion` setting. 
+The amount allocated for finality signatures is split further into two parts: creating and publishing finality signatures. The split is configurable in the chainspec using the `finders_fee` chainspec parameter. 
 
 For each finality signature:
-- The creator gets a portion of what was allocated for creating signatures, proportional to its weight.
-- The block proposer gets a portion of the collection allocation proportional to the creator's weight.
+- The creator gets a portion of what was allocated for creating signatures, in proportion to relative consensus weight.
+- The block proposer gets a portion of corresponding to the `finders_fee` chainspec parameter, scaled by total collected signature creator weight divided by total weight in the relevant era.
 
 <p align="center">
 <img src={"/image/design/rewards-pot.png"} alt="Pie chart showing how rewards are split" width="300"/>
 </p>
 
-The rewards calculation takes place at the end of an era. In addition to rewarding everything in that era, the algorithm also looks back into previous era(s), depending on the `signature_rewards_max_delay` parameter, to reward signatures on the switch blocks.
+The rewards calculation takes place at the end of an era. In addition to rewarding everything in that era, the algorithm also looks back into previous era(s), depending on the `signature_rewards_max_delay` parameter, to compensate for delay in creation and distribution of finality signature. In particular, this enables us to reward switch blocks, which was impossible with the prior, Highway-specific calculation.
