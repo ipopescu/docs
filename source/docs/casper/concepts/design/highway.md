@@ -6,8 +6,6 @@ title: Highway Consensus
 
 The [Highway](https://arxiv.org/pdf/2101.02159.pdf) consensus protocol was used on the Casper Mainnet until the [Zug](./zug.md) consensus protocol was introduced in version 2.0 of the Casper node software. Consensus in Casper is described in more detail [here](./consensus.md). This page describes the Highway consensus protocol at a high level. Private networks can choose between Zug and Highway, depending on their needs.
 
-<!-- TODO confirm that we can use Casper-specific terms in these descriptions, even though Highway is a more general algorithm. For example, a value is a block. I understand that the value is a list of deploys, and a block has other calculated values, but this simplification makes the explanations easier. -->
-
 ## Unit Broadcasting
 
 In Highway, nodes communicate by broadcasting units. A unit is a structure containing the following:
@@ -20,7 +18,6 @@ An empty unit still carries an implicit vote. The citations determine which bloc
 
 Over time, the units form a Directed Acyclic Graph (DAG), where units are the vertices and citations are the edges.
 
-<!-- TODO Include a higher res diagram here. -->
 <p align="center">
 <img src={"/image/design/highway-dag.png"} alt="Image showing the DAG" width="600"/>
 </p>

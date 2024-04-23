@@ -4,8 +4,6 @@ title: Rewards Design
 
 # Network Participation Rewards
 
-<!-- TODO Check existing pages describing rewards under economics. Refactor and update these pages. -->
-
 Validators receive rewards for participating in consensus and thus securing the network. Delegators also receive rewards indirectly by staking with a validator. This page serves as an introduction to how the rewards are calculated and distributed. For more details, refer to the corresponding CEP. <!-- TODO Link here to the future CEP. -->
 
 Like other Proof-of-Stake chains, a Casper network rewards validators for participating in building a linear chain of blocks, each containing ordered state changes and ensuring that the entire ecosystem of validators, builders, and users eventually achieve common knowledge of the chain's history. External, non-validator participants in the ecosystem can thus have a high degree of confidence on the canonical history of the blockchain's state, thus making the blockchain economically useful.

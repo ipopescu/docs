@@ -4,9 +4,6 @@ title: Consensus
 
 # Consensus Economics
 
-<!--TODO review this entire page with AL/BK/AS-->
-<!--TODO Is Zug a Correct-by-construction (CBC) protocol (async liveness, provable safety)?-->
-
 [Casper consensus](../design/consensus.md) is a continuous, trustless process where a fixed set of validators engage in scheduled communication to advance the linear chain of finalized blocks, representing the history of changes in the global state of the blockchain. The fixed set of validators may change at each era boundary. The economics of this layer revolve around validator selection and incentivization of participation according to the schedule.
 
 ## Entry {#entry}
@@ -33,6 +30,7 @@ Currently, delegation is unrestricted. Please visit [Delegation details](./staki
 Correct operation of the consensus protocol requires the economics of the platform to discourage equivocation (signing conflicting consensus messages) for safety and incentivize participation for liveness. Participation consists of on-time block proposals and timely responses to block proposals.
 
 Safety may be incentivized through slashing for equivocation. This feature is currently disabled but may be reactivated in the future.
+
 <!--TODO Material below this needs to be reworded because the new consensus-independent rewards don't care about consensus performance directly-->
 The network incentivizes participation by scaling rewards for on-time proposals and responses, taking into account the speed of finalizing blocks. All rewards are added directly to the corresponding bids and delegations.
 
@@ -73,6 +71,7 @@ base_round_reward(i) = round_issuance_rate * supply(i)
 This value gives us the maximum amount of CSPR that the validators can collectively receive from a proposed block.
 
 #### Distribution {#distribution}
+
 <!--TODO Needs to be reworked in light of new rewards -->
 Validators receive rewards for proposing and finalizing blocks according to their performance. The concept of weight is crucial for understanding this distribution scheme:
 
