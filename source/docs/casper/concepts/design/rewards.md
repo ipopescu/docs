@@ -94,4 +94,4 @@ For each finality signature:
 <img src={"/image/design/rewards-pot.png"} alt="Pie chart showing how rewards are split" width="300"/>
 </p>
 
-The rewards calculation takes place at the end of an era. In addition to rewarding everything in that era, the algorithm also looks back into previous era(s), depending on the `signature_rewards_max_delay` parameter, to compensate for delay in creation and distribution of finality signature. In particular, this enables us to reward switch blocks, which was impossible with the prior, Highway-specific calculation.
+The rewards calculation takes place at the end of an era. In addition to rewarding everything in that era, the algorithm also looks back into blocks from the previous era, depending on the `signature_rewards_max_delay` parameter, to compensate for the delay in creating and distributing finality signatures.
