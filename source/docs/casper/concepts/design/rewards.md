@@ -15,7 +15,7 @@ The network uses a new reward scheme that does not depend on the details of the 
 
 - Rewards are proportional to a validator's weight on average.
 - The reward scheme incentivizes cooperation.
-- Rewards are distributed for all blocks.
+- Rewards are distributed at the end of an era.
 - Reward calculations depend only on the linear structure of the blockchain and published finality signatures, rather than any internal details of the consensus protocol.
 - Reward calculations assume a known constant token supply inflation with nominal platform operation.
 
