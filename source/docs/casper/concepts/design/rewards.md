@@ -4,18 +4,15 @@ title: Rewards Design
 
 # Network Participation Rewards
 
-<!-- TODO Check existing pages describing rewards under economics. Refactor and update these pages. -->
-
 Validators receive rewards for participating in consensus and thus securing the network. Delegators also receive rewards indirectly by staking with a validator. This page serves as an introduction to how the rewards are calculated and distributed. For more details, refer to the corresponding CEP. <!-- TODO Link here to the future CEP. -->
 
 Like other Proof-of-Stake chains, a Casper network rewards validators for participating in building a linear chain of blocks, each containing ordered state changes and ensuring that the entire ecosystem of validators, builders, and users eventually achieve common knowledge of the chain's history. External, non-validator participants in the ecosystem can thus have a high degree of confidence on the canonical history of the blockchain's state, thus making the blockchain economically useful.
 
-<!-- TODO link to Zug and Highway once PR 1427 merges-->
-The network uses a new reward scheme that does not depend on the details of the consensus protocol and is compatible with both Zug and Highway. The current reward scheme has the following properties:
+The network uses a new reward scheme that does not depend on the details of the consensus protocol and is compatible with both [Zug](./zug.md) and [Highway](./highway.md). The current reward scheme has the following properties:
 
 - Rewards are proportional to a validator's weight on average.
 - The reward scheme incentivizes cooperation.
-- Rewards are distributed at the end of an era for all blocks in that era and a number of eligible blocks from the previous era.
+- Rewards are distributed at the end of an era for all blocks in that era and several eligible blocks from the previous era.
 - Reward calculations depend only on the linear structure of the blockchain and published finality signatures, rather than any internal details of the consensus protocol.
 - Reward calculations assume a known constant token supply inflation with nominal platform operation.
 
