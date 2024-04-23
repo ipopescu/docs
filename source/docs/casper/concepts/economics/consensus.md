@@ -33,7 +33,7 @@ Currently, delegation is unrestricted. Please visit [Delegation details](./staki
 Correct operation of the consensus protocol requires the economics of the platform to discourage equivocation (signing conflicting consensus messages) for safety and incentivize participation for liveness. Participation consists of on-time block proposals and timely responses to block proposals.
 
 Safety may be incentivized through slashing for equivocation. This feature is currently disabled but may be reactivated in the future.
-
+<!--TODO Material below this needs to be reworded because the new consensus-independent rewards don't care about consensus performance directly-->
 The network incentivizes participation by scaling rewards for on-time proposals and responses, taking into account the speed of finalizing blocks. All rewards are added directly to the corresponding bids and delegations.
 
 ### Participation {#participation}
@@ -73,7 +73,7 @@ base_round_reward(i) = round_issuance_rate * supply(i)
 This value gives us the maximum amount of CSPR that the validators can collectively receive from a proposed block.
 
 #### Distribution {#distribution}
-
+<!--TODO Needs to be reworked in light of new rewards -->
 Validators receive rewards for proposing and finalizing blocks according to their performance. The concept of weight is crucial for understanding this distribution scheme:
 
 -   **Weight:** A validator's bonded stake, used in consensus
@@ -82,6 +82,7 @@ Validators receive rewards for proposing and finalizing blocks according to thei
 
 To determine eligibility, we look at **on-time finalization (OTF)**. Validators should finalize blocks on time by sending required messages before the end of their respective round.
 
+<!--TODO This is no longer true with the new rewards, since we allow for "lookback" into a previous era, thereby enabling us to reward switch blocks in full-->
 Switch blocks are not visible to the issuance calculation (as this calculation is performed in the switch block itself for each era), and, consequently, no rewards are issued for switch blocks.
 
 <!-- TODO participation and eligibility seem to be too specific to Highway. Work with AL/BK to add new explanations or confirm that we can remove these.
@@ -101,7 +102,11 @@ Once a block has been proposed and enough time has passed, the history of protoc
 
 Validators who send no messages during an entire era are marked as inactive and cease participating in the auction until they send a special deploy that reactivates their bid.
 
-<!--TODO remove this? It is too old
+<!--TODO remove this? It is too old.
+Consult with @fizyk20, but I believe slashing functionality still exists in principle and can be activated.
+
+Note that founding validator token lockup is not relevant to the public blockchain as it exists, but I believe that functionality also remains in the codebase and can be potentially used in new deployments. Perhaps should be asked in stand-up to identify someone who worked with this more recently than I have, however.
+
 ### Slashing {#slashing}
 
 Please review our [Equivocator Policy](https://github.com/casper-network/ceps/blob/master/text/0038-equivocator-policy.md). We are currently conducting research into the utility of slashing as an incentive mechanism.

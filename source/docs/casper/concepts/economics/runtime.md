@@ -4,7 +4,7 @@ slug: /runtime
 ---
 
 # Runtime Economics
-
+<!--TODO We will likely need to remove the bit about state pruning, since we will, in fact, now support state pruning. Similarly gas price/"conversion rate" will no longer be fixed to 1 mote per 1 unit of gas ("block vacancy" again)-->
 The economics of the runtime layer should incentivize efficient allocation of computational resources, primarily CPU time, to users. Pending state pruning implementation, disk space use is treated as CPU time usage and charged irreversibly per byte written. Currently, [gas](./gas-concepts.md) is allocated according to a first-in, first-out model for deploys, with a fixed price of 1 mote (1/10<sup>9</sup> part of a CSPR token) per 1 unit of gas.
 
 ## Gas allocation {#gas-allocation}
@@ -21,7 +21,7 @@ Additionally, a minimal amount of CSPR must be present in the user account's mai
 
 Gas cost is a measure of the relative time used by different primitive operations of the execution engine, which is also assumed to be additive. By additivity, we mean that the time to execute a program is approximately proportional to the sum of gas expended by the opcodes and functions called within the program. Casper assigns gas costs to primitive execution engine opcodes and specific, more complex _host-side_ functions that are callable from within the execution engine context. Gas costs for opcodes and host-side functions are specified in the [chainspec](../glossary/C.md#chainspec) and may vary according to arguments.
 
-We expect to refine the current gas cost table to reflect time use more closely, with updates introduced in future upgrades. We also anticipate that storage costs will be calculated separately from computing time with the introduction of state pruning. <!--TODO check this statement for 2.0-->
+We expect to refine the current gas cost table to reflect time use more closely, with updates introduced in future upgrades. We also anticipate that storage costs will be calculated separately from computing time with the introduction of state pruning. <!--TODO check this statement for 2.0 Turns out the answer is "no" for now, despite introduction of state pruning. May change in 2.0+-->
 
 ### Lanes {#lanes}
 
@@ -30,7 +30,9 @@ The [block gas limit](https://github.com/casper-network/casper-node/blob/b94c4f7
 ## Gas fees {#gas-fees}
 
 The gas price is currently fixed at 1 mote per 1 gas unit.
+<!--TODO See remarks about "block vacancy" above-->
 
 ### Fee allocation {#fee-allocation}
 
+<!--TODO This entire section will need a rework-->
 All fees from a particular block accrue to its proposer, incentivizing non-empty block production and allowing major dApps to execute deploys for free, provided they operate a validator node and are comfortable with the latency introduced by validator scheduling.
