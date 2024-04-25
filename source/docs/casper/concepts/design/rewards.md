@@ -42,7 +42,7 @@ Validators are motivated to produce, propagate and publish (i.e., include in the
 Each Casper network chainspec contains 4 settings related to calculating rewards:
 
 - `finality_signature_proportion`: The proportion of baseline rewards going to reward finality signatures, rather than block proposal rewards.
-- `finders_fee`: The split in finality signature rewards between the block creation and participating signers.
+- `finders_fee`: The proportion of the rewards allocated to finality signatures that are due for signature publication in a block proposal.
 - `signature_rewards_max_delay`: The number of prior blocks to include for the reward calculation.
 - `round_seigniorage_rate`: Setting that calculates the fraction of the total supply that will constitute the reward pool for every round.
 
