@@ -36,6 +36,7 @@ module.exports = {
                     },
                     items: ["concepts/design/zug", "concepts/design/highway"],
                 },
+                "concepts/design/rewards",
                 "concepts/design/reading-and-writing-to-the-blockchain",
             ],
         },
