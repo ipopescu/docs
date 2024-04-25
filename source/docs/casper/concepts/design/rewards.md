@@ -75,6 +75,15 @@ round_seigniorage_rate = [7, 175070816]
 
 ### Rewards distribution summary
 
+<!--TODO add more details or link to the CEP when ready: 
+The signature rewards are proportional to the weight of the signing validators for both the signers and the finders. There's a finder's fee that determines how the split happens. Basically,
+
+There is a fraction of rewards due for a block that is dedicated to rewarding signature creation and collection
+Signature rewards are split between the finder (proposer) and the signature creators
+The signature creators get a (1 - finder's fee) * relative_weight part of the signature reward pot due for the block
+The finder gets finder's fee * total relative weight of signatures collected to incentivize collecting and reporting all the signatures
+-->
+
 The following steps summarize the rewards distribution mechanism.
 
 Each round has a reward pool calculated from the `round_seigniorage_rate` chainspec parameter and the current total supply for the relevant era.
