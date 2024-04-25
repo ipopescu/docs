@@ -16,7 +16,7 @@ When you delegate, the system automatically charges some gas to set up related d
 
 For example, the chainspec file in release 2.0.0 contains the following information. Notice the delegation cost specified with `delegate`.
 
-"`rust
+```rust
 [system_costs.auction_costs]
 get_era_validators = 10_000
 read_seigniorage_recipients = 10_000
