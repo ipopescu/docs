@@ -7,11 +7,11 @@ slug: /economics
 
 Casper's economic activity can be conceptualized as taking place on four distinct layers: consensus, runtime, ecosystem, and the macroeconomy. Each layer, consensus and up, provides a foundation for the activity taking place on the next layer. A trust-less platform requires proper incentives for participants operating each layer to ensure they work together to unlock the platform's value.
 
-This online documentation section is intended only to familiarize the user with our core economics features rather than describe their precise implementation and user interface. Some of the features may not be currently active.
+This online documentation section is intended only to familiarize the user with the Casper core economics features rather than describe their precise implementation and user interface. Some of the features may not be currently active.
 
 ## Consensus {#consensus}
-<!--TODO Liveness is only mathematically guaranteed over 2/3 active weight, and I believe the network may, as a piece of software and not a theoretical construct, stall altogether below this, but @fizyk20 would know better-->
-The consensus layer of the Casper Mainnet runs the [Zug](../design/zug.md) consensus protocol. The distinguishing characteristics of this protocol are its safety and liveness guarantees. Specifically, blocks in the canonical history cannot be reverted, and new blocks continue to be added to this history indefinitely. The guarantees, however, require that more than one-third of validators remain online and honest; this required behavior must be incentivized for the platform to remain secure and live. Read the paper for more details: [From Weakly-terminating Binary Agreement and Reliable Broadcast to Atomic Broadcast](https://arxiv.org/abs/2205.06314).
+
+The consensus layer of the Casper Mainnet runs the [Zug](../design/zug.md) consensus protocol. The distinguishing characteristics of this protocol are its safety and liveness guarantees, speed, simplicity, and distributed nature. Blocks in the canonical history cannot be reverted (safety), and new blocks continue to be added to this history indefinitely (liveness). The safety and liveness guarantees require that honest validators comprise at least 67% of total validator weight. This required behavior must be incentivized for the platform to remain secure and live. Read the paper for more details: [From Weakly-terminating Binary Agreement and Reliable Broadcast to Atomic Broadcast](https://arxiv.org/abs/2205.06314).
 
 When discussing consensus, we default to considering it "one era at a time" unless expressly stated otherwise. Recall that each era is a separate instance of the protocol.
 
@@ -31,21 +31,22 @@ _Evictions_ deactivate validators who fail to participate in an era, deactivatin
 
 ## Runtime {#runtime}
 
-<!-- TODO double-check these old CEPs. Do we still want to refer to them? 
-This needs to drop the reference to the CEP and ask me later to provide specific wording that reflects the new dynamic pricing system for "spot" gas (you may have heard references to this as "block vacancy")-->
-The runtime layer encompasses the deployment and execution of smart contracts, session code, and other activities that perform computation on the global state. This suggests potential markets for finite platform resources, such as markets for computing time and storage. Such markets could ensure that resources are allocated to their highest-value uses. Currently, however, we limit ourselves to [metering computing time](../design/casper-design.md#execution-semantics-gas), measured as gas. Gas can be conceptualized as the relative time use of different Wasm operations and host-side functions. The use of storage is also presently assigned a gas cost. We do not currently have a pricing mechanism for metered gas, although an outstanding Casper Enhancement Proposal ([CEP #22](https://github.com/casper-network/ceps/pull/22)) suggests the implementation of a first-price gas auction similar to Ethereum's. The initial Mainnet deploy selection mechanism is based on FIFO.
+<!-- TODO provide specific wording that reflects the new dynamic pricing system for "spot" gas (you may have heard references to this as "block vacancy")-->
+The runtime layer encompasses the installation and execution of smart contracts, and other activities that alter the network's global state. This suggests potential markets for finite platform resources, such as markets for computing time and storage. Such markets could ensure that resources are allocated to their highest-value uses. Currently, however, we limit ourselves to [metering computing time](../design/casper-design.md#execution-semantics-gas), measured as gas. Gas can be conceptualized as the relative time use of different Wasm operations and host-side functions. The use of storage is also presently assigned a gas cost. A dynamic pricing system assigns the gas price and is described in more detail [here](./gas-concepts.md).
+
+The initial Mainnet transaction selection mechanism is based on FIFO.
 
 We expect to continue to work on runtime resource markets.
 
 ### Agents (runtime layer) {#agents-runtime-layer}
 
-_Validators_ again play a vital role in this layer since protocol operation includes the construction and validation of new blocks, which consist of deploys that change the global state, which the validators also maintain.
+_Validators_ again play a vital role in this layer since protocol operation includes the construction and validation of new blocks, which consist of transactions that change the global state, which the validators also maintain.
 
 _Users_ execute session and contract code using the platform's computational resources
 
 ### Incentives (runtime layer) {#incentives-runtime-layer}
-<!--TODO Probably deserves its own cleanup PR, but note that we are going to the fee elimination model as a default, and therefore gas/balance holds will need to be discussed, again, probably, in a separate PR @ipopescu-->
-_Transaction fees_, or charges for gas use, ensure that the users compensate validators for performing their computations. Transaction fees are awarded to the block creator. Because we expect to launch with FIFO ordering of deploys, it can be assumed that one unit of gas will be priced at one mote until future changes to deploy orders are implemented.
+<!--TODO explain the fee elimination model as a default, and therefore gas/balance holds will need to be discussed, again, probably, in a separate PR-->
+Gas/balance holds ensure that the users compensate validators for performing their computations.
 
 ## Ecosystem {#ecosystem}
 
