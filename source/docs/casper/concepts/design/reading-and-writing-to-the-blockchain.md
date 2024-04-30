@@ -8,7 +8,7 @@ Casper features several means of reading and writing data to global state, depen
 
 :::note
 
-Due to the nature of Casper's serialization standard, `NamedKeys` should be used sparingly and only for small data sets. Developers should use dictionaries for larger mapped structures.
+Casper's Condor release shifts `NamedKeys` to a top-level key type, making them more viable for larger data sets.
 
 :::
 

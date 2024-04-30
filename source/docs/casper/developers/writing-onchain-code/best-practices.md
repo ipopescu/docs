@@ -4,9 +4,9 @@ At its core, the Casper platform is software, and best practices for general sof
 
 ## Data Efficiency
 
-When developing on Casper, a policy of efficient data usage will ensure the lowest possible cost for on-chain computation. To this end, minimizing the number of necessary [Deploys](../cli/sending-deploys.md) will drastically decrease the overall cost.
+When developing on Casper, a policy of efficient data usage will ensure the lowest possible cost for on-chain computation. To this end, minimizing the number of necessary [transactions](../cli/sending-transactions.md) will drastically decrease the overall cost.
 
-When creating smart contracts, including an explicit initialization entry point allows the contract to self-initialize without a subsequent Deploy of session code. This entry point creates the internal structure of the contract and cannot be called after the initial deploy. Below is an example of a self-initalizing entry point that can be used within the `call` function.
+When creating smart contracts, including an explicit initialization entry point allows the contract to self-initialize without a subsequent transaction of session code. This entry point creates the internal structure of the contract and cannot be called after the initial transaction. Below is an example of a self-initalizing entry point that can be used within the `call` function.
 
 <details>
 <summary>Example Self-initialization Entry Point</summary>
@@ -24,27 +24,35 @@ pub extern "C" fn init() {
     storage::new_dictionary(LEDGER).unwrap_or_revert();
 }
 
+pub extern "C" fn call() {
+    let init_entry_point = EntryPoint::new(
+        ENTRY_POINT_INIT,
+        vec![],
+        CLType::Unit,
+        EntryPointAccess::Public,
+        EntryPointType::Contract,
+    );
 ```
 
 </details>
 
-Bear in mind, the host node will not enforce this. The smart contract author must create the entry point and ensure it cannot be called after initial deployment.
+Bear in mind, the host node will not enforce this. The smart contract author must create the entry point and ensure it cannot be called after initial transaction.
 
 ## Costs
 
-Computations occurring on-chain come with associated [gas costs](../../concepts/economics/gas-concepts.md). Efficient coding can help to minimize gas costs, through the reduction of overall Wasm sent to global state. Beginning with 1.5.0, even invalid Wasm will incur gas costs when sent to global state. As such, proper testing prior to sending a Deploy is critical.
+Computations occurring on-chain come with associated [gas costs](../../concepts/economics/gas-concepts.md). Efficient coding can help to minimize gas costs, through the reduction of overall Wasm sent to global state. Beginning with 1.5.0, even invalid Wasm will incur gas costs when sent to global state. As such, proper testing prior to sending a transaction is critical.
 
 Further, there is a set cost of 2.5 CSPR to create a new purse. If possible, the [reuse of purses](../../resources/advanced/transfer-token-to-contract.md#scenario2) should be considered to reduce this cost. If reusing purses, proper access management must be maintained to prevent lapses in security. Ultimately, any choices made in regards to security and contract safeguards rely on the smart contract author.
 
 ### Tips to reduce WASM size
 
-Deploys have a maxim size specified in each network chainspec as `max_deploy_size`. For example, networks running [node version 1.5.1](https://github.com/casper-network/casper-node/blob/6873c86cc3ab3aae1c8187a7528f94da605e2669/resources/production/chainspec.toml#L101), have the following maximum deploy size in bytes:
+Transactions have a maxim size specified in each network chainspec as `max_transaction_size = 1_048_576`. For example, networks running node version 2.0, have the following maximum transaction size in bytes:
 
 ```
-max_deploy_size = 1_048_576
+max_transaction_size = 1_048_576
 ```
 
-Here are a few tips to reduce the size of Wasm included in a deploy:
+Here are a few tips to reduce the size of Wasm included in a transaction:
 
 1. Build the smart contract in release mode. You will find an example [here](https://github.com/casper-ecosystem/cep18/blob/2c702e23497d2c9493374466e7af0c002006cbda/Makefile#L10)
 
@@ -75,7 +83,7 @@ As often as practicable, developers should inline functions by including the bod
 
 ## Testing
 
-Testing all Deploys prior to committing them to [Mainnet](https://cspr.live/) can assist authors in detecting bugs and inefficiencies prior to incurring gas fees. Casper provides several methods of testing, including unit testing, testing using NCTL and sending Deploys to [Testnet](https://testnet.cspr.live/).
+Testing all transactions prior to committing them to [Mainnet](https://cspr.live/) can assist authors in detecting bugs and inefficiencies prior to incurring gas fees. Casper provides several methods of testing, including unit testing, testing using NCTL and sending transactions to [Testnet](https://testnet.cspr.live/).
 
 Information on these processes can be found at the following locations:
 

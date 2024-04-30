@@ -20,7 +20,7 @@ The reward mechanism by which validators are rewarded for participating in conse
 
 ## Session code {#session-code}
 
-_Session code_ is Wasm executed in the context of an account through sending a [Deploy](./D.md#deploy). The _session code_ contains code the user wishes to execute against the blockchain. When the session code executes, it performs changes to global state.
+_Session code_ is Wasm executed in the context of an account entity through sending a [transaction](./glossary/T.md#transaction). The _session code_ contains code the user wishes to execute against the blockchain. When the session code executes, it performs changes to global state.
 
 ## Slashing {#slashing}
 
@@ -48,7 +48,7 @@ A feature of Proof-of-Stake protocols that allows token holders to actively part
 
 ## State root hash {#state-root-hash}
 
-The state root hash is an identifier of the network's [global state](./G.md#global-state) at a moment in time. The state root hash changes with each block executed, containing deploys. Normally, empty blocks do not modify global state. But, if the empty block is the last one in an era, it will also change the state root hash due to changes introduced by the auction contract calculating the validators for future eras.
+The state root hash is an identifier of the network's [global state](./G.md#global-state) at a moment in time. The state root hash changes with each block executed, containing transactions. Normally, empty blocks do not modify global state. But, if the empty block is the last one in an era, it will also change the state root hash due to changes introduced by the auction contract calculating the validators for future eras.
 
 ## Stateful {#stateful}
 

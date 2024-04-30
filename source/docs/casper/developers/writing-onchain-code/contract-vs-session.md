@@ -14,7 +14,7 @@ The following table summarizes the key differences between session code and cont
 
 | Session Code | Contract Code |
 | --- | --- |
-| Session code always executes in the context of the account that signed the deploy containing the session code. | A smart contract,  which is stored on-chain logic, executes within its own context. |
+| Session code always executes in the context of the account that signed the transaction containing the session code. | A smart contract, which is stored on-chain logic, executes within its own context. |
 | Session code has only one entry point, `call`, which can be used to interact with the session code. | A smart contract can have multiple entry points that can be invoked.|  
 | The `call` entry point initiates any action the session code takes. | Any action undertaken by a contract must initiate through an outside call, usually via session code.|
 | When a `put_key` call is made within the body of the session code, the key is added to the account's named keys. | When a `put_key` call is made within the smart contract's context, the contract's record is modified to have a new named_key entry. |

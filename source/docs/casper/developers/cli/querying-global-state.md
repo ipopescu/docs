@@ -18,7 +18,7 @@ The first step in querying the global state is obtaining the state root hash. Th
 
 :::note
 
-After sending deploys to the network, it's necessary to fetch the new state root hash in order to see the changes reflected in the global state. Without doing this, you would be querying past versions of the state.
+After sending transactions to the network, it's necessary to fetch the new state root hash in order to see the changes reflected in the global state. Without doing this, you would be querying past versions of the state.
 
 :::
 
@@ -43,7 +43,7 @@ casper-client query-global-state \
 The arguments used above are:
 -   `node-address` - An IP address of a peer on the network. The default port for JSON-RPC servers on Mainnet and Testnet is 7777
 -   `state-root-hash` -  Hex-encoded hash of the state root
--   `key` - The identifier for the query. This must be one of the following: public key, account hash, contract package hash, transfer hash, or deploy hash
+-   `key` - The identifier for the query. This must be one of the following: public key, account hash, contract package hash, transfer hash, or transaction hash
 -   `q` - An optional query path argument that allows you to drill into the specifics of a query with respect to the key
 
 ### Query the account

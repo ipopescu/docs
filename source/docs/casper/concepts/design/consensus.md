@@ -5,7 +5,7 @@ The decentralized nature of a Casper network requires a method for validators to
 
 ## Safety, Liveness, and Byzantine Fault Tolerance
 
-In a Casper network, validator nodes receive different inputs via Deploys from connecting clients. Given the consensus mechanism and rules, all honest nodes should output the same value, which is a finalized block in Casper. The [Deploy Lifecycle](../deploy-and-deploy-lifecycle.md) describes what happens after blocks are proposed and finalized. Each finalized block will contain the set of Deploys, which the network will eventually execute. The property described here, where all honest nodes agree on a final value, is called **safety**.
+In a Casper network, validator nodes receive different inputs via transactions from connecting clients. Given the consensus mechanism and rules, all honest nodes should output the same value, which is a finalized block in Casper. The [Transaction Lifecycle](../transactions-and-transaction-lifecycle.md) describes what happens after blocks are proposed and finalized. Each finalized block will contain the set of transactions, which the network will eventually execute. The property described here, where all honest nodes agree on a final value, is called **safety**.
 
 The consensus protocol ensures that honest validators agree on finalized blocks in a finite time, allowing the network to continue producing blocks indefinitely. This property of the protocol is called **liveness**.
 

@@ -6,9 +6,9 @@ title: Network Design
 
 ## Introduction
 
-Casper is a Proof-of-Stake blockchain platform with an account-based model that performs execution after [consensus](../glossary/C.md#consensus). A Casper network stores data in a structure known as [Global State](../global-state.md). Users interact with global state through session code sent in a [Deploy](../glossary/D.md#deploy). Deploys contain [Wasm](https://webassembly.org/) to be executed by the network, thus allowing developers to use their preferred programming language rather than a proprietary language.
+Casper is a Proof-of-Stake blockchain platform with an account-based model that performs execution after [consensus](../glossary/C.md#consensus). A Casper network stores data in a structure known as [Global State](../global-state.md). Users interact with global state through session code sent in a [transaction](../glossary/T.md#transaction). Transactions may contain [Wasm](https://webassembly.org/) to be executed by the network, thus allowing developers to use their preferred programming language rather than a proprietary language.
 
-A deploy executes in the context of the user's [Account](#accounts-head) but can call stored Wasm that will execute in its own context. User-related information other than an account is stored in global state as an [Unforgeable Reference](#uref-head) or `URef`. After a node accepts a deploy as valid, it places the deploy in a proposed [Block](#block-structure-head) and gossips it among nodes until the network reaches consensus. At this point, the network executes the Wasm included within the deploy.
+A transaction executes in the context of the user's [Account](#accounts-head) but can call stored Wasm that will execute in its own context. User-related information other than an account is stored in global state as an [Unforgeable Reference](#uref-head) or `URef`. After a node accepts a transaction as valid, it places the transaction in a proposed [Block](#block-structure-head) and gossips it among nodes until the network reaches consensus. At this point, the network executes the Wasm included within the transaction.
 
 1. [Execution Semantics](#execution-semantics-head)
 
@@ -30,7 +30,7 @@ Computation is done in a [WebAssembly (Wasm)](https://webassembly.org/) interpre
 
 Costs for opcode instructions on the Casper Mainnet network can be found [here](https://github.com/casper-network/casper-node/blob/dev/resources/production/chainspec.toml#L115).
 
-All executions are finite because each has a finite _gas limit_ that specifies the maximum amount of gas available to spend before the runtime terminates the computation. The payment executable session determines how to pay for the deploy. The gas limit is set by executing the payment code specified within the deploy.
+All executions are finite because each has a finite _gas limit_ that specifies the maximum amount of gas available to spend before the runtime terminates the computation. The payment executable session determines how to pay for the transaction. The gas limit is set by executing the payment code specified within the transaction.
 
 Although the network measures costs in `Gas`, payment for computation occurs in [motes](#tokens-divisibility). Therefore, there is a conversion rate between `Gas` and motes.
 
@@ -38,7 +38,7 @@ Although the network measures costs in `Gas`, payment for computation occurs in 
 
 Please note that Casper will not refund any amount of unused gas.
 
-This decision is taken to incentivize the [Casper Runtime Economics](../economics/runtime.md#runtime-economics) by efficiently allocating the computational resources. The [consensus-before-execution model](../economics/runtime.md#consensus-before-execution-basics-of-payment) implements the mechanism to encourage the optimized gas consumption from users and to prevent the overuse of block space by poorly handled deploys.
+This decision is taken to incentivize the [Casper Runtime Economics](../economics/runtime.md#runtime-economics) by efficiently allocating the computational resources. The [consensus-before-execution model](../economics/runtime.md#consensus-before-execution-basics-of-payment) implements the mechanism to encourage the optimized gas consumption from users and to prevent the overuse of block space by poorly handled transactions.
 
 :::
 
@@ -52,7 +52,7 @@ All these features are accessible via functions in the [Casper External FFI](htt
 
 #### Generating `URef`s {#execution-semantics-urefs}
 
-`URef`s are generated using a [cryptographically secure random number generator](https://rust-random.github.io/rand/rand_chacha/struct.ChaCha20Rng.html) using the [ChaCha algorithm](https://cr.yp.to/chacha.html). The random number generator is seeded by taking the `blake2b256` hash of the deploy hash concatenated with an index representing the current phase of execution (to prevent collisions between `URef`s generated in different phases of the same deploy).
+`URef`s are generated using a [cryptographically secure random number generator](https://rust-random.github.io/rand/rand_chacha/struct.ChaCha20Rng.html) using the [ChaCha algorithm](https://cr.yp.to/chacha.html). The random number generator is seeded by taking the `blake2b256` hash of the transaction hash concatenated with an index representing the current phase of execution (to prevent collisions between `URef`s generated in different phases of the same transaction).
 
 ![Generating URefs](/image/design/generating-urefs.png)
 
@@ -64,7 +64,7 @@ The Casper platform supports two types of keys for creating accounts and signing
 - [Ed25519](../accounts-and-keys.md#eddsa-keys) keys, which use the Edwards-curve Digital Signature Algorithm (EdDSA) and are 66 bytes long
 - [Secp256k1](../accounts-and-keys.md#ecdsa-keys) keys, commonly known as Ethereum keys, which are 68 bytes long
 
-By default, a transactional interaction with the blockchain takes the form of a Deploy cryptographically signed by the key-pair corresponding to the PublicKey used to create the account. All user activity on the Casper blockchain (i.e., "deploys") must originate from an account. Each account has its own context where it can locally store information (e.g., references to useful contracts, metrics, and aggregated data from other parts of the blockchain). Each account also has a "main purse" where it can hold Casper tokens (see [Tokens](#tokens-purses-and-accounts) for more information).
+By default, a transactional interaction with the blockchain takes the form of a transaction cryptographically signed by the key-pair corresponding to the PublicKey used to create the account. All user activity on the Casper blockchain (i.e., "transactions") must originate from an account. Each account has its own context where it can locally store information (e.g., references to useful contracts, metrics, and aggregated data from other parts of the blockchain). Each account also has a "main purse" where it can hold Casper tokens (see [Tokens](#tokens-purses-and-accounts) for more information).
 
 This chapter describes the permission model for accounts and their local storage capabilities and briefly mentions some runtime functions for interacting with accounts.
 
@@ -88,13 +88,13 @@ An `Account` contains the following data:
 
 #### Actions and Thresholds {#accounts-actions-thresholds}
 
-An account can perform two types of actions: sending deploys and managing keys. A deploy is simply executing some code on the blockchain, while key management involves changing the associated keys (which will be described in more detail later). Key management cannot be performed independently, as all effects on the blockchain must come via a deploy; therefore, a key management action implies that a deploy action is also taking place. 
+An account can perform two types of actions: sending transactions and managing keys. A transaction is simply executing some code on the blockchain, while key management involves changing the associated keys (which will be described in more detail later). Key management cannot be performed independently, as all effects on the blockchain must come via a transaction; therefore, a key management action implies that a transaction is also taking place. 
 
-The `ActionThresholds` contained in the `Account` data structure set a `Weight`, which must be met to perform that action. The next section describes these weight thresholds. Since a key management action requires a deploy action, the key management threshold should always be greater than or equal to the deploy threshold.
+The `ActionThresholds` contained in the `Account` data structure set a `Weight`, which must be met to perform that action. The next section describes these weight thresholds. Since a key management action requires a transaction, the key management threshold should always be greater than or equal to the transaction threshold.
 
 #### Associated Keys and Weights {#accounts-associated-keys-weights}
 
-Accounts on a Casper network can associate other key pairs through a multiple signature scheme for sending transactions. An account's _associated keys_ are the set of public keys allowed to provide signatures on deploys for that account. Each associated key has a weight; these weights combine to meet the action thresholds provided in the previous section. Each deploy must be signed by one or more keys associated with the account that deploy is for, and the sum of the weights of those keys must be greater than or equal to the deployment threshold weight for that account. We call the keys that have signed a deploy the "authorizing keys". Similarly, if a deploy contains key management actions (detailed below), the sum of the weights of the authorizing keys must be greater than or equal to the key management action threshold of the account.
+Addressable entities on a Casper network can associate other key pairs through a multiple signature scheme for sending transactions. An addressable entity's _associated keys_ are the set of public keys allowed to provide signatures on transactions for that entity. Each associated key has a weight; these weights combine to meet the action thresholds provided in the previous section. Each transaction must be signed by one or more keys associated with the entity that transaction is for, and the sum of the weights of those keys must be greater than or equal to the transaction threshold weight for that account. We call the keys that have signed a transaction the "authorizing keys". Similarly, if a transaction contains key management actions (detailed below), the sum of the weights of the authorizing keys must be greater than or equal to the key management action threshold of the entity.
 
 :::note
 
@@ -114,7 +114,7 @@ Key management actions have validity rules preventing users from locking themsel
 
 #### Account security and recovery using key management {#accounts-recovery}
 
-This permissions model's purpose is to keep accounts safe from lost or stolen keys while allowing the usage of modern mobile devices. For example, it may be convenient to sign deploys from a smartphone without worrying about the repercussions of losing the phone. The recommended setup is to have a low-weight key on the phone, enough for the deploy threshold but not enough for key management. If the phone is lost or stolen, a key management action using other associated keys from another device (e.g., a home computer) can be used to remove the lost associated key and add a key that resides on a replacement phone.
+This permissions model's purpose is to keep accounts safe from lost or stolen keys while allowing the usage of modern mobile devices. For example, it may be convenient to sign transactions from a smartphone without worrying about the repercussions of losing the phone. The recommended setup is to have a low-weight key on the phone, enough for the transaction threshold but not enough for key management. If the phone is lost or stolen, a key management action using other associated keys from another device (e.g., a home computer) can be used to remove the lost associated key and add a key that resides on a replacement phone.
 
 :::note
 
@@ -124,11 +124,11 @@ It is extremely important to ensure there will always be access to a sufficient 
 
 ### The Account Context {#accounts-context}
 
-A deploy is a user request to perform some execution on the blockchain (see [Execution Semantics](#execution-semantics-head) for more information). It contains "payment code" and "session code", which are references to stored on-chain contracts or Wasm to be executed. For executable Wasm, its execution and the logic therein occur within the context of the account signing the deploy. This means that the executing Wasm has access to the named keys and main purse of the account's context.
+A transaction is a user request to perform some execution on the blockchain (see [Execution Semantics](#execution-semantics-head) for more information). It contains "payment code" and "session code", which are references to stored on-chain contracts or Wasm to be executed. For executable Wasm, its execution and the logic therein occur within the context of the entity signing the transaction. This means that the executing Wasm has access to the named keys and main purse of the account entity's context.
 
 :::note
 
-In the case where there is a reference to stored on-chain Wasm (smart contracts), the execution of the on-chain Wasm will occur in its own separate runtime context. As a result, the stored Wasm will not have access to the named keys or main purse of the calling account.
+In the case where there is a reference to stored on-chain Wasm (smart contracts), the execution of the on-chain Wasm will occur in its own separate runtime context. As a result, the stored Wasm will not have access to the named keys or main purse of the calling account entity.
 
 :::
 
@@ -152,9 +152,9 @@ The ability to pass `URef`s between contexts via `call_contract` / `ret`, allows
 
 ### `URef`s and Purses
 
-Purses represent a unique type of `URef` used for accounting measures within a Casper network. `URef`s exist as a top-level entity, meaning that individual accounts do not own ‘URef’s. As described above, accounts and contracts possess certain `Access Rights`, allowing them to interact with the given `URef`. While an account will possess an associated `URef` representing their main purse, this `URef` exists as a [`Unit`](../serialization-standard.md#clvalue-unit) and corresponds to a *balance* key within the Casper *mint*. The individual balance key within the Casper mint is the account's purse, with transfers authorized solely through the associated `URef` and the `Access Rights` granted to it.
+Purses represent a unique type of `URef` used for accounting measures within a Casper network. `URef`s exist as a top-level entity, meaning that individual entities do not own ‘URef’s. As described above, entities possess certain `Access Rights`, allowing them to interact with the given `URef`. While an account entity will possess an associated `URef` representing their main purse, this `URef` exists as a [`Unit`](../serialization-standard.md#clvalue-unit) and corresponds to a *balance* key within the Casper *mint*. The individual balance key within the Casper mint is the account entity's purse, with transfers authorized solely through the associated `URef` and the `Access Rights` granted to it.
 
-Through this logic, the Casper mint holds all motes on the network and transfers between balance keys at the behest of accounts and contracts as required.
+Through this logic, the Casper mint holds all motes on the network and transfers between balance keys at the behest of entities as required.
 
 ## Block Structure {#block-structure-head}
 
@@ -222,15 +222,15 @@ The [block header](../serialization-standard.md#serialization-standard-block) co
 
 #### Body {#body}
 
-The block body contains an **ordered** list of `DeployHashes` which refer to deploys, and an **ordered** list of `DeployHashes` for native transfers (which are specialized deploys that only transfer tokens between accounts). All deploys, including a specialization such as native transfer, can be broadly categorized as some unit of work that, when executed and committed, affect change to [Global State](#global-state-intro). A valid block may contain no deploys and / or native transfers.
+The block body contains an **ordered** list of transaction hashes. All transactions, including `mint`, `auction`, `install_upgrade` and `standard` transactions, can be broadly categorized as some unit of work that, when executed and committed, affect change to [Global State](#global-state-intro). A valid block may contain no transactions.
 
 The block body also contains the public key of the validator that proposed the block.
 
-Refer to the [Serialization Standard](../serialization-standard.md) for additional information on how blocks and deploy are serialized.
+Refer to the [Serialization Standard](../serialization-standard.md) for additional information on how blocks and transactions are serialized.
 
 ## Tokens {#tokens-head}
 
-Casper is a decentralized Proof-of-Stake blockchain platform that uses a consensus algorithm called [Highway](./highway.md). Having a unit of value is required to make this system work because users must pay for computation, and validators must have [stake](../economics/staking/staking.md) to bond. In the blockchain space, this unit of value is a _token_.
+Casper is a decentralized Proof-of-Stake blockchain platform that may use either the [Highway](./highway.md) or [Zug](./zug.md) consensus mechanisms. Having a unit of value is required to make this system work because users must pay for computation, and validators must have [stake](../economics/staking/staking.md) to bond. In the blockchain space, this unit of value is a _token_.
 
 This chapter describes tokens and how one can use them on the Casper platform.
 
@@ -252,11 +252,11 @@ The concept of `CSPR` is human-readable convenience and does not exist within th
 
 ### Purses and Accounts {#tokens-purses-and-accounts}
 
-All [accounts](#accounts-head) on the Casper system have a purse associated with the Casper system mint, called the _main purse_. However, for security reasons, the `URef` of the main purse is only available to code running in the context of that account (i.e. only in payment or session code). Therefore, the mint's `transfer` method that accepts `URef`s is not the most convenient when transferring between account main purses. For this reason, Casper supplies a [transfer_to_account](https://docs.rs/casper-contract/latest/casper_contract/contract_api/system/fn.transfer_to_account.html) function, which takes the public key used to derive the identity key of the account. This function uses the mint transfer function with the current account's main purse as the `source` and the main purse of the account at the provided key as the `target`.
+All [entities](../addressable-entity.md) on the Casper system have a purse associated with the Casper system mint, called the _main purse_. However, for security reasons, the `URef` of the main purse is only available to code running in the context of that entity (i.e. only in payment or session code). Therefore, the mint's `transfer` method that accepts `URef`s is not the most convenient when transferring between account entity main purses. For this reason, Casper supplies a [transfer_to_account](https://docs.rs/casper-contract/latest/casper_contract/contract_api/system/fn.transfer_to_account.html) function, which takes the public key used to derive the identity key of the account entity. This function uses the mint transfer function with the current account entity's main purse as the `source` and the main purse of the account entity at the provided key as the `target`.
 
 ### The Casper Mint Contract {#mint-contract}
 
-The Casper *mint* is a system contract that manages the balance of *motes* within a Casper network. These motes are used to pay for computation and bonding on the network. The mint system contract holds all motes on a Casper network but maintains an internal ledger of the balances for each Account's _main purse_. Each balance is associated with a `URef`, which is a key to instruct the mint to perform actions on that balance (e.g., transfer motes). Informally, these balances are referred to as _purses_ and conceptually represent a container for motes. The `URef` is how a purse is referenced externally, outside the mint.
+The Casper *mint* is a system contract that manages the balance of *motes* within a Casper network. These motes are used to pay for computation and bonding on the network. The mint system contract holds all motes on a Casper network but maintains an internal ledger of the balances for each entity's _main purse_. Each balance is associated with a `URef`, which is a key to instruct the mint to perform actions on that balance (e.g., transfer motes). Informally, these balances are referred to as _purses_ and conceptually represent a container for motes. The `URef` is how a purse is referenced externally, outside the mint.
 
 The `AccessRights` of the URefs permissions model determines what actions can be performed when using a `URef` associated with a purse.
 

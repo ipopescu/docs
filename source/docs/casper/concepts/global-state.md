@@ -10,7 +10,7 @@ Refer to [Keys and Permissions](./serialization-standard.md#serialization-standa
 
 :::
 
-Each finalized block causes changes to the network's global state because of the execution of the deploys it contains. For validators to efficiently judge the correctness of these changes, information about the new state needs to be communicated succinctly. Moreover, the network must communicate portions of global state to users while allowing them to verify the correctness of the parts they receive. For these reasons, the key-value store is implemented as a [Merkle trie](#global-state-trie).
+Each finalized block causes changes to the network's global state because of the execution of the transactions it contains. For validators to efficiently judge the correctness of these changes, information about the new state needs to be communicated succinctly. Moreover, the network must communicate portions of global state to users while allowing them to verify the correctness of the parts they receive. For these reasons, the key-value store is implemented as a [Merkle trie](#global-state-trie).
 
 ## Merkle Trie Structure {#global-state-trie}
 
@@ -36,6 +36,6 @@ The Rust implementation of Casper's trie can be found on GitHub:
 
 :::note
 
-Conceptually, each block has its trie because the state changes based on the deploys it contains. For this reason, Casper's implementation has a notion of a `TrieStore`, which allows us to look up the root node for each trie.
+Conceptually, each block has its trie because the state changes based on the transactions it contains. For this reason, Casper's implementation has a notion of a `TrieStore`, which allows us to look up the root node for each trie.
 
 :::

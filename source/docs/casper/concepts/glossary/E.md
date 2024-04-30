@@ -26,4 +26,4 @@ Validators that fail to participate in [era](./E.md#era) will have their bid dea
 
 ## External client {#external-client}
 
-Any hardware/software connecting to a Node for the purpose of sending deploys or querying the state of the blockchain.
+Any hardware/software connecting to a Node for the purpose of sending transactions or querying the state of the blockchain.
