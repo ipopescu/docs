@@ -13,7 +13,7 @@ These settings describe the active protocol version.
 |Attribute         |Description                                    | Mainnet Setting |
 |----------------- |-----------------------------------------------|-----------------|
 |version          | The Casper node protocol version. | '1.5.2'|
-|hard_reset       | When set to true, clear blocks and deploys back to the switch block (the end of the last era) just before the activation point. Used during the upgrade process to reset the network progress. In most cases, this setting should be true.| true|
+|hard_reset       | When set to true, clear blocks and transactions back to the switch block (the end of the last era) just before the activation point. Used during the upgrade process to reset the network progress. In most cases, this setting should be true.| true|
 |activation_point | The protocol version that should become active. <br /><br />If it is a timestamp string, it represents the timestamp for the genesis block. This is the beginning of Era 0. By this time, a sufficient majority (> 50% + F/2 — see the `finality_threshold_fraction` below) of validator nodes must be running to start the blockchain. This timestamp is also used in seeding the pseudo-random number generator used in the contract runtime for computing the genesis post-state hash. <br /><br />If it is an integer, it represents an era ID, meaning the protocol version becomes active at the start of this era. | 9100|
 
 
@@ -62,21 +62,23 @@ These settings configure the Highway Consensus protocol.
 |maximum_round_length | Highway dynamically chooses its round length between `minimum_block_time` and `maximum_round_length`. | '132seconds'|
 |reduced_reward_multiplier | The factor by which rewards for a round are multiplied if the greatest summit has ≤50% quorum, i.e., no finality. Expressed as a fraction (1/5 by default on Mainnet). | [1, 5]|
 
-## deploys
+## transactions
 
-These settings manage deploys and their lifecycle.
+These settings manage transactions and their lifecycle.
 
 |Attribute         |Description                                    | Mainnet Setting |
 |----------------- |-----------------------------------------------|-----------------|
 |max_payment_cost | The maximum number of motes allowed to be spent during payment. 0 means unlimited. | '0'|
-|max_ttl | The duration after the deploy timestamp during which the deploy can be included in a block. | '18hours'|
-|max_dependencies | The maximum number of other deploys a deploy can depend on (requiring them to have been executed before it can execute). | 10|
-|max_block_size | Maximum block size in bytes, including deploys contained by the block. 0 means unlimited. | 10_485_760|
-|max_deploy_size | Maximum deploy size in bytes. Size is of the deploy when serialized via ToBytes. | 1_048_576|
-|block_max_deploy_count | The maximum number of non-transfer deploys permitted in a single block. | 50|
-|block_max_transfer_count | The maximum number of Wasm-less transfer deploys permitted in a single block. | 1250|
+|max_ttl | The duration after the transaction timestamp during which the transaction can be included in a block. | '18hours'|
+|max_dependencies | The maximum number of other transactions a transaction can depend on (requiring them to have been executed before it can execute). | 10|
+|max_block_size | Maximum block size in bytes, including transactions contained by the block. 0 means unlimited. | 10_485_760|
+|max_transaction_size | Maximum transaction size in bytes. Size is of the transaction when serialized via ToBytes. | 1_048_576|
+|block_max_mint_count | Maximum number of mint transactions (i.e. transfers) allowed in a block.| 500|
+|block_max_auction_count | Maximum number of auction transactions allowed in a block. | 100|
+|block_max_install_upgrade_count | Maximum number of installer/upgrader transactions allowed in a block.| 2|
+|block_max_standard_count | Maximum number of other transactions (non-transfer, non-staking, non-installer/upgrader) allowed in a block.| 50|
 |block_max_approval_count | The maximum number of approvals permitted in a single block. | 2600|
-|block_gas_limit | The upper limit of the total gas of all deploys in a block. | 4_000_000_000_000|
+|block_gas_limit | The upper limit of the total gas of all transactions in a block. | 4_000_000_000_000|
 |payment_args_max_length | The limit of length of serialized payment code arguments. | 1024|
 |session_args_max_length | The limit of length of serialized session code arguments. | 1024|
 |native_transfer_minimum_motes | The minimum amount in motes for a valid native transfer. | 2_500_000_000|

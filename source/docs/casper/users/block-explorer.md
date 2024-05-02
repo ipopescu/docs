@@ -19,7 +19,7 @@ A block explorer is a search engine for the blockchain. It allows you to find in
 
 ##  Using a Block Explorer
 
-You can use a block explorer to view the blockchain statistics, list of validators, list of blocks executed on the blockchain, list of deploys, and the nodes operating on the blockchain. You can also transfer CSPR tokens, delegate tokens to a validator to earn rewards or undelegate tokens from a validator.
+You can use a block explorer to view the blockchain statistics, list of validators, list of blocks executed on the blockchain, list of transactions, and the nodes operating on the blockchain. You can also transfer CSPR tokens, delegate tokens to a validator to earn rewards or undelegate tokens from a validator.
 
 The following topics link you to detailed instructions on using the [cspr.live](https://cspr.live/) block explorer to access and work with your CSPR tokens.
 

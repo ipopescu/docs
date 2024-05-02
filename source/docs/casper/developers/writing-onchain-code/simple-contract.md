@@ -4,13 +4,13 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## What is a Smart Contract?
 
-A smart contract is a self-contained program installed on a blockchain. In the context of a Casper network, a smart contract consists of contract code installed on-chain using a [Deploy](../../concepts/design/casper-design.md#execution-semantics-deploys). Casper smart contracts are programs that run on a Casper network. They interact with accounts and other contracts through entry points, allowing for various triggers, conditions, and logic.
+A smart contract is a self-contained program installed on a blockchain. In the context of a Casper network, a smart contract consists of contract code installed on-chain using a [transaction](../../concepts/transactions.md). Casper smart contracts are programs that run on a Casper network. They interact with entities through entry points, allowing for various triggers, conditions, and logic.
 
 Smart contracts exist as stored on-chain logic, allowing disparate users to call the included entry points. These contracts can, in turn, call one another to perform interconnected operations and create more complex programs. The decentralized nature of blockchain technology means that these smart contracts do not suffer from any single point of failure. Even if a Casper node leaves the network, other nodes will continue to allow the contract to operate as intended.
 
 ## Key Features of Casper Contracts
 
-On the Casper platform, developers may write smart contracts in any language that compiles to Wasm binaries. This tutorial focuses specifically on writing a smart contract in the Rust language. The Rust compiler compiles the contract code into Wasm. After that, the Wasm binary can be [sent to a node](../cli/installing-contracts.md) on a Casper network using a Deploy. Nodes within the network then [gossip deploys](../../concepts/design/p2p.md#communications-gossiping), include them within a block, and finalize them. After finalizing, the network executes the deploys within the block.
+On the Casper platform, developers may write smart contracts in any language that compiles to Wasm binaries. This tutorial focuses specifically on writing a smart contract in the Rust language. The Rust compiler compiles the contract code into Wasm. After that, the Wasm binary can be [sent to a node](../cli/installing-contracts.md) on a Casper network using a transaction. Nodes within the network then [gossip transactions](../../concepts/design/p2p.md#communications-gossiping), include them within a block, and finalize them. After finalizing, the network executes the transactions within the block.
 
 Further, the Casper platform allows for [upgradable contracts](./upgrading-contracts.md). A [ContractPackage](https://docs.rs/casper-types/latest/casper_types/contracts/struct.ContractPackage.html) is created through the [new_contract](https://docs.rs/casper-contract/latest/casper_contract/contract_api/storage/fn.new_contract.html) or [new_locked_contract](https://docs.rs/casper-contract/latest/casper_contract/contract_api/storage/fn.new_locked_contract.html) methods. Through these methods, the Casper execution engine automatically creates the new contract package and assigns a [`ContractPackageHash`](../../concepts/hash-types.md#hash-and-key-explanations). The new contract is added to this package with a [`ContractHash`](https://docs.rs/casper-types/latest/casper_types/contracts/struct.ContractHash.html) key. The execution engine stores the new contract within the contract package alongside any previously installed contract versions, if applicable.
 
@@ -248,7 +248,7 @@ const COUNT_KEY: &str = "count";
 
 Entry points provide access to contract code installed in global state. Either [session code](./contract-vs-session.md#what-is-session-code) or another smart contract may call these entry points. A contract must have at least one entry point and may have more than one entry point. Entry points are defined by their name, and those names should be clear and self-describing. Each entry point is equivalent to a static main entry point in a traditional program.
 
-Entry points are not functions or methods, and they have no arguments. They are static entry points into the contract's logic. Yet, the contract logic can access parameters by name, passed along with the Deploy. Note that another smart contract may access any of these entry points.
+Entry points are not functions or methods, and they have no arguments. They are static entry points into the contract's logic. Yet, the contract logic can access parameters by name, passed along with the transaction. Note that another smart contract may access any of these entry points.
 
 If an entry point has one or more mandatory parameters that will cause the logic to revert if they are not included, declare them within that entry point. Optional and non-critical parameters should be excluded.
 
@@ -325,7 +325,7 @@ In the following, we will add more content to this call function.
 - The [String](https://doc.rust-lang.org/nightly/alloc/string/struct.String.html) is the name given to identify the data
 - The [Key](https://docs.rs/casper-types/latest/casper_types/enum.Key.html) is the data to be referenced
 
-You can create named keys to store any record or value as needed, such as other accounts, smart contracts, URefs, transfers, deploy information, purse balances, etc. The list of possible Key variants can be found [here](https://docs.rs/casper-types/latest/casper_types/enum.Key.html).
+You can create named keys to store any record or value as needed, such as other accounts, smart contracts, URefs, transfers, transaction information, purse balances, etc. The list of possible Key variants can be found [here](https://docs.rs/casper-types/latest/casper_types/enum.Key.html).
 
 For the counter, we store the integer that we increment into a named key.
 
@@ -354,7 +354,7 @@ Usually, these contracts are upgradeable with the ability to add new [versions](
 
 5) Create additional named keys.
 
-Generally, the `Contract_Hash` and `Contract_Version` are saved as `NamedKeys` in the account's context for later use.
+Generally, the `Contract_Hash` and `Contract_Version` are saved as `NamedKeys` for later use.
 
 ```rust
     // Store the contract version in the context's named keys.
@@ -437,7 +437,7 @@ pub fn new_locked_contract(
 - `hash_name` - Contract hash value. Puts [contractHash](https://docs.rs/casper-types/latest/casper_types/contracts/struct.ContractHash.html) in the current context's named keys under `hash_name`.
 - `uref_name` - Access URef value. Puts access_uref in the current context's named keys under `uref_name`.
 
-**Note**: The current context is the context of the person who initiated the `call` function, usually an account.
+**Note**: The current context is the context of the person who initiated the `call` function, usually an account entity.
 
 The counter contract in our example would be locked if we created it this way:
 

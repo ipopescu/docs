@@ -149,7 +149,7 @@ If a return value is needed, it should be declared using the syntax described in
 runtime::ret(value);
 ```
 
-Each call to an entry point is treated as a [Deploy](../concepts/deploy-and-deploy-lifecycle.md) to the network, and therefore, each call incurs a cost paid in motes (the network's native accounting unit).
+Each call to an entry point is treated as a [Deploy](../concepts/transactions-and-transaction-lifecycle.md) to the network, and therefore, each call incurs a cost paid in motes (the network's native accounting unit).
 
 </TabItem>
 <TabItem value="Ethereum" label="Ethereum">

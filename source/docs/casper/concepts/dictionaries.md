@@ -3,13 +3,13 @@ title: Dictionaries
 ---
 # Understanding Dictionaries {#dictionaries}
 
-In a Casper network, you can now store sets of data under [`Keys`](./hash-types.md#hash-and-key-explanations). Previously, [URefs](./glossary/U.md#uref) were the exclusive means by which users could store data in global state. To maintain persistent access to these URefs, they would have to be stored within an `Account` or `Contract` context. In the case of Contracts, sustained and continuous use of URefs would result in the expansion of the associated [NamedKeys](./glossary/N.md#namedkeys) structures.
+In a Casper network, you can now store sets of data under [`Keys`](./hash-types.md#hash-and-key-explanations). Previously, [URefs](./glossary/U.md#uref) were the exclusive means by which users could store data in global state. To maintain persistent access to these URefs, they would have to be stored within an `addressable entity`'s context. In the case of Contracts, sustained and continuous use of URefs would result in the expansion of the associated [NamedKeys](./glossary/N.md#namedkeys) structures.
 
 Individual value changes to data stored within the NamedKeys would require deserializing the entire NamedKeys data structure, increasing gas costs over time and thus having a negative impact. Additionally, users storing large subsets of mapped data structures would face the same deep copy problem where minor or single updates required the complete deserialization of the map structure, also leading to increased gas costs.
 
 As a solution to this problem, the Casper platform provides the `Dictionary` feature, which allows users a more efficient and scalable means to aggregate data over time.
 
-In almost all cases, dictionaries are the better form of data storage. They allow greater flexibility in altering stored data at a lower cost.
+Casper's Condor release shifts `NamedKeys` to a top-level key, removing this restriction and making them viable for data storage.
 
 ## Seed URefs
 
@@ -19,15 +19,11 @@ As each dictionary item exists as a stand-alone entity in global state, regularl
 
 ## Using Dictionaries
 
-Dictionaries are ideal for storing larger volumes of data for which `NamedKeys` would be less suitable.
+Creating a new dictionary is fairly simple and done within the context of a `transaction` sent to a Casper network. The associated code is included within the [`casper_contract`](https://docs.rs/casper-contract/latest/casper_contract/) crate. Creating a dictionary also stores the associated seed URef within the named keys of the current context.
 
-Creating a new dictionary is fairly simple and done within the context of a `Deploy` sent to a Casper network. The associated code is included within the [`casper_contract`](https://docs.rs/casper-contract/latest/casper_contract/) crate. Creating a dictionary also stores the associated seed URef within the named keys of the current context.
+Developers should always consider context when creating dictionaries. We recommend creating a dictionary within the context of a Contract entity.
 
-Developers should always consider context when creating dictionaries. We recommend creating a dictionary within the context of a Contract.
-
-While you can create a dictionary in the context of an Account and then pass associated access rights to a Contract, this approach can create potential security issues. If a third party uses the Contract, the initiating Account with access rights to the dictionary may be undesirable. To rectify this, you may send an additional `Deploy` removing those access rights, but it is better to create the dictionary within the context of the Contract.
-
-Dictionaries allow a contract to store additional data without drastically expanding the size of the `NamedKeys` within their context. If a contract's `NamedKeys` expand too far, they may run into system limitations that would unintentionally disable the contract's functionality.
+While you can create a dictionary in the context of an Account and then pass associated access rights to a Contract, this approach can create potential security issues. If a third party uses the Contract, the initiating Account with access rights to the dictionary may be undesirable. To rectify this, you may send an additional `transaction` removing those access rights, but it is better to create the dictionary within the context of the Contract.
 
 A dictionary item key can be no longer than 64 bytes in length. 
 

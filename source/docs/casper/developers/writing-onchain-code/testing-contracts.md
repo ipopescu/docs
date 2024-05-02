@@ -2,7 +2,7 @@
 
 ## Introduction
 
-As part of the Casper development environment, we provide a [testing framework](https://docs.rs/casper-engine-test-support/latest/casper_engine_test_support/) to test new contracts without running a full node. The framework creates an instance of the Casper execution engine, which can confirm successful deploys and monitor changes to global state using assertions. The Casper test crate must be included within the Rust workspace alongside the Wasm-producing crate to be validated.
+As part of the Casper development environment, we provide a [testing framework](https://docs.rs/casper-engine-test-support/latest/casper_engine_test_support/) to test new contracts without running a full node. The framework creates an instance of the Casper execution engine, which can confirm successful transactions and monitor changes to global state using assertions. The Casper test crate must be included within the Rust workspace alongside the Wasm-producing crate to be validated.
 
 :::note
 
@@ -95,7 +95,7 @@ As part of this process, we use the `DEFAULT_RUN_GENESIS_REQUEST` to install the
 
 #### Installing the Contract
 
-Test functions use the `ExecuteRequestBuilder` to install a contract to be tested. In the counter tests, we use standard dependencies and the counter contract. Within the execution request, we specify the `DEFAULT_ACCOUNT_ADDR` established by our genesis builder as the account sending the Deploy.
+Test functions use the `ExecuteRequestBuilder` to install a contract to be tested. In the counter tests, we use standard dependencies and the counter contract. Within the execution request, we specify the `DEFAULT_ACCOUNT_ADDR` established by our genesis builder as the account sending the transaction.
 
 After building the `ExecuteRequestBuilder` (in this example, `contract_installation_request`), we process the request through `builder.exec` and then add and process other requests as necessary.
 
@@ -116,7 +116,7 @@ After building the `ExecuteRequestBuilder` (in this example, `contract_installat
 
 #### Calling the Contract by Hash
 
-To verify the installed contract, we need its contract hash. The test will then call its entry points using the `contract_call_by_hash` function. The following code retrieves the contract hash from the named keys of the `DEFAULT_ACCOUNT_ADDR` that sent the installation Deploy.
+To verify the installed contract, we need its contract hash. The test will then call its entry points using the `contract_call_by_hash` function. The following code retrieves the contract hash from the named keys of the `DEFAULT_ACCOUNT_ADDR` that sent the installation transaction.
 
 ```rust
     // Check the contract hash.
@@ -153,7 +153,7 @@ Next, we test an entry point that should not exist in the first version of the c
 
 In the counter example, we use the session code included in the [counter-call.wasm](https://github.com/casper-ecosystem/counter/blob/master/counter-call/src/main.rs) file. For more details on what session code is and how it differs from contract code, see the [next section](./contract-vs-session.md#what-is-session-code).
 
-The following session code uses the contract hash to identify the contract, the account for sending the deploy (`DEFAULT_ACCOUNT_ADDR`), the deploy to be sent (`COUNTER_CALL_WASM`), and the runtime arguments required. Once again, the `ExecuteRequestBuilder` simulates the execution of session code and calls the `counter-inc` entry point.
+The following session code uses the contract hash to identify the contract, the account for sending the transaction (`DEFAULT_ACCOUNT_ADDR`), the transaction to be sent (`COUNTER_CALL_WASM`), and the runtime arguments required. Once again, the `ExecuteRequestBuilder` simulates the execution of session code and calls the `counter-inc` entry point.
 
 ```rust
     // Use session code to increment the counter.
@@ -195,7 +195,7 @@ For more test examples, visit the [casper-node](https://github.com/casper-networ
 
 If the code to be tested involves multiple contracts, they must be installed within the test. The exceptions are system contracts installed as part of the `DEFAULT_RUN_GENESIS_REQUEST`. The testing framework exists independently of any Casper network, so you will need access to the original contract installation code or the Wasm you wish to include.
 
-Each contract installation will require an additional Wasm file installed through a `Deploy` using `ExecuteRequestBuilder`. Depending on your requirements as a smart contract author, you may need to use [return values](../../resources/advanced/return-values-tutorial.md) to interact with stacks of contracts. Interaction between contracts will require session code to initiate the process, as contracts will not execute actions autonomously.
+Each contract installation will require an additional Wasm file installed through a `Transaction` using `ExecuteRequestBuilder`. Depending on your requirements as a smart contract author, you may need to use [return values](../../resources/advanced/return-values-tutorial.md) to interact with stacks of contracts. Interaction between contracts will require session code to initiate the process, as contracts will not execute actions autonomously.
 
 The major difference between calling a contract from session code versus contract code is the ability to use non-standard dependencies for the `ExecuteRequestBuilder`. Where session code must designate a Wasm file within the standard dependencies, contract code can use one of the four available options for calling other contracts, namely:
 

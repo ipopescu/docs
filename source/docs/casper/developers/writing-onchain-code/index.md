@@ -50,6 +50,6 @@ The following tutorials outline some aspects of writing smart contracts on a Cas
 |[NFTs on Casper with the CEP-78 NFT Standard](https://github.com/casper-ecosystem/cep-78-enhanced-nft/blob/dev/README.md) | Implementing the Casper CEP-78 NFT standard     |
 |[Fungible Tokens on Casper](https://github.com/casper-ecosystem/cep18/blob/master/docs/full-tutorial.md)              | Implement the Casper Fungible Token standard                         |
 |[Interacting with Runtime Return Values](../../resources/advanced/return-values-tutorial.md)| Learning how to return a value using contract code         |
-|[Working with Authorization Keys](../../resources/advanced/list-auth-keys-tutorial.md)| Retrieving and using the authorization keys associated with a deploy         |
+|[Working with Authorization Keys](../../resources/advanced/list-auth-keys-tutorial.md)| Retrieving and using the authorization keys associated with a transaction         |
 |[Safely Transfer Tokens to a Contract](../../resources/advanced/transfer-token-to-contract.md) | How to handle tokens via a contract                     |
 

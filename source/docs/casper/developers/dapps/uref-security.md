@@ -6,7 +6,7 @@ title: URef Access Rights
 
 ## Understanding Access Rights
 
-An [Unforgeable Reference](/concepts/design/casper-design/#uref-head) or **URef** is a key type used for storage on a Casper network. They can store any value other than `Account` and exist as a top-level entity. As such, no individual account may *own* a URef, they can only hold the necessary `AccessRights` to interact with a given URef.
+An [Unforgeable Reference](/concepts/design/casper-design/#uref-head) or **URef** is a key type used for storage on a Casper network. They can store any value other than `Account` and exist as a top-level entity. As such, no individual entity may *own* a URef, they can only hold the necessary `AccessRights` to interact with a given URef.
 
 [`AccessRights`](/concepts/serialization-standard/#clvalue-uref) determine how an entity on a Casper network may interact with a URef. They appear as a single byte suffix after the concatenation of te URef's address. As an example, the following is an example of a URef with no associated access rights:
 
@@ -42,7 +42,7 @@ Any access rights granted alongside a passed URef are ***irrevocable***.
 
 ## AccessRights and Purses
 
-A `Purse` is a unique type of `URef` representing a token balance. Each `Account` will have an associated URef that represents its main purse. Accounts and contracts may have additional purses.
+A `Purse` is a unique type of `URef` representing a token balance. Each `Addressable Entity` will have an associated URef that represents its main purse. Account and contract entities may have additional purses.
 
 For URefs that represent a purse, access rights determine the ability to read or change the associated balance of tokens. The following table outlines what each operation allows in the context of a purse:
 

@@ -60,7 +60,7 @@ For the sake of user convenience and compatibility, we expect the delivery of ha
 - `Key::EraSummary` is a `Key` under which we store current era info.
 - `Key::Unbond` is a variant of the key type that tracks unbonding purses.
 - `Key::ChainspecRegistry` is a unique `Key` which contains a mapping of file names to the hash of the file itself. These files include *Chainspec.toml* and may also include *Accounts.toml* and *GlobalState.toml*.
-- `Key::ChecksumRegistry` is a unique `key` variant under which we write a registry of checksums for a given block.  There are two checksums in the registry, one for the execution results and the other for the approvals of all deploys in the block.
+- `Key::ChecksumRegistry` is a unique `key` variant under which we write a registry of checksums for a given block.  There are two checksums in the registry, one for the execution results and the other for the approvals of all transactions in the block.
 - `Key::BidAddr` manages data associated with bids for the `Auction` contract. It may be any one of three variants: `unified`, `validator`, or `delegator`.
 - `Key::Package` is a `Key` under which package information is stored.
 - `Key::AddressableEntity` is a `Key` under which an [`AddressableEntity`](/developers/json-rpc/types_chain.md/#addressableentity) is stored. It may be one of three variants: `Account`, `System` or `SmartContract`.

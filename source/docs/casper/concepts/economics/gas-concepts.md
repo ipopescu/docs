@@ -8,21 +8,23 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## What is gas?
 
-Gas is a conceptual measure of resources utilized when executing transactions on the blockchain. Gas cost is the amount of gas consumed during the processing cycles that execute a transaction on the network. It is directly correlated with the amount of computer processing a validator needs to provide in order to execute a transaction.
+Gas is a conceptual measure of resources used when executing transactions on the blockchain. Cost is the amount of gas consumed during the processing cycles that execute a transaction on the network. It is directly correlated with the amount of computer processing a validator needs to provide in order to execute a transaction.
 
 Gas fees are consumed on the network irrespective of whether your transaction was successful or not. Even when a transaction fails, you have to pay the transaction fee because your deploy consumed resources and space on the block as the validator attempted to execute it on your behalf.
 
-## How is gas cost determined?
+## How is cost determined?
 
-The amount of gas required for a transaction is determined by how much code is executed on the blockchain. Currently, gas is priced at a fixed price of 1 mote (1 CSPR is 10^9 motes) per 1 unit of gas. The gas charged for a transaction on the blockchain is paid to the network's validators.
+The amount of gas required for a transaction is determined by how much code is executed on the blockchain and the current average of all block utilization. Currently, gas is priced at a fixed price of 1 mote (1 CSPR is 10^9 motes) per 1 unit of gas. Cost is determined by the network's `current_gas_price` multiplier, which is dynamic and based on current network usage. A high rate of block utilization will increase the `current_gas_price` multiplier at the switch block, while low utilization will decrease the multiplier. There is both a minimum and a maximum potential multiplier, and all settings related to dynamic pricing can be configured in a Casper network's [chainspec](../glossary/C.md#chainspec).
 
-## Why do we need gas cost?
+The gas charged for a transaction on the blockchain is paid to the network's validators.
+
+## Why do we need to charge a cost?
 
 Casper is a decentralized network of individual validators supplying their computational resources to keep the network live. As such, computations must be rate-limited and priced for the following reasons:
 
 -   Rate-limiting is used to ensure a secure and live network:
     -   It prevents a specific kind of denial-of-service (DoS) attack. In computer networks, rate-limiting is used to control the rate of requests sent or received by a network to prevent DoS attacks. Gas behaves in a similar fashion, because each block permits only a fixed amount of transactions (gas) to be included in the era.
-    -   It explicitly quantifies the system load. The gas cost helps us evaluate the use of computational resources and measure the amount of computational work that validators need to perform for each transaction. With this knowledge, we can specify minimum system requirements for validators.
+    -   It explicitly quantifies the system load. The cost helps us evaluate the use of computational resources and measure the amount of computational work that validators need to perform for each transaction. With this knowledge, we can specify minimum system requirements for validators.
 -   Pricing leads to more meaningful transactions:
     -   Issuers of transactions and smart contract writers will be more aware of the limited network resources because there is a cost associated with each transaction. Pricing prevents users from spamming arbitrary amounts of empty transactions because there is a price to pay for each deploy.
 
@@ -44,9 +46,9 @@ Here is an [example](https://cspr.live/deploy/afeb43036c41e667af8bc34782c48a66cf
 
 <img src={useBaseUrl("/image/gas-concepts/error-raw.png")} width="550" alt="Gas error in raw data" />
 
-## How do I determine the gas cost for a transaction?
+## How do I determine the cost for a transaction?
 
-Currently, we are hard at work to create tools to help you estimate gas costs. Meanwhile, we recommend using the NCTL tool on your local machine or the [Testnet](https://testnet.cspr.live/) to [deploy your contracts](../../developers/cli/sending-deploys.md) in a test environment. You can check a deploy status and roughly see how much it would actually cost when deployed. You can estimate the costs in this way and then add a small buffer if the network state has changed. Note that when estimating gas cost locally or on the Testnet, the blockchain specification needs to match the specification of the Mainnet, where you will need to pay for the transaction with actual Casper (CSPR) tokens.
+Currently, we are hard at work to create tools to help you estimate gas costs. Meanwhile, we recommend using the NCTL tool on your local machine or the [Testnet](https://testnet.cspr.live/) to [deploy your contracts](../../developers/cli/sending-transactions.md) in a test environment. You can check a deploy status and roughly see how much it would actually cost when deployed. You can estimate the costs in this way and then add a small buffer if the network state has changed. Note that when estimating cost locally or on the Testnet, the blockchain specification needs to match the specification of the Mainnet, where you will need to pay for the transaction with actual Casper (CSPR) tokens.
 
 ## Why do I see a gas limit error?
 

@@ -84,7 +84,7 @@ This is the location for larger and variable data for the `casper-node`, organiz
 - `casper-node/<NETWORK NAME>` - Folder containing databases and related files produced by the node binary. For Mainnet, the network name is `casper` and for Testnet it is `casper-test`.
     - `data.lmdb` - Persistent global state store of the network
     - `data.lmbd-lock` - Lockfile for the `data.lmdb` database
-    - `storage.lmdb` - Persistent store of all other network data, primarily Blocks and Deploys
+    - `storage.lmdb` - Persistent store of all other network data, primarily Blocks and transactions
     - `storage.lmdb-lock` - Lockfile for the `storage.lmdb` database
     - `unit_files/` - Folder containing transient caches of consensus information
 
@@ -160,13 +160,13 @@ The node requires a publicly accessible IP address. The `config_from_example.sh`
 
 The following default values are specified in the file if you want to change them:
 
-- The port that will be used for status and deploys
+- The port that will be used for status and transactions
 - The port used for networking
 - Known_addresses - these are the bootstrap nodes (there is no need to change these)
 
 ### Enabling Speculative Execution
 
-The `speculative_exec` endpoint provides a method to execute a Deploy without committing its execution effects to global state. This can be used by developers to roughly estimate the gas costs of sending the Deploy in question. By default, `speculative_exec` is disabled on a node.
+The `speculative_exec` endpoint provides a method to execute a transaction without committing its execution effects to global state. This can be used by developers to roughly estimate the gas costs of sending the transaction in question. By default, `speculative_exec` is disabled on a node.
 
 `speculative_exec` can be enabled within *config.toml* by changing `enable_server` to `true` under the configuration options for the speculative execution JSON-RPC HTTP server.
 

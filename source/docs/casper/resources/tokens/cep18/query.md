@@ -9,7 +9,7 @@ This document covers the necessary information that you will need to interact wi
 
 - The Casper fungible token contract
 
-- The CEP-18 utility contract, which should appear in the `NamedKeys` of the account that sent the Deploy as `cep18_test_contract`
+- The CEP-18 utility contract, which should appear in the `NamedKeys` of the account that sent the transaction as `cep18_test_contract`
 
 ## Querying the Contract Package
 
@@ -17,7 +17,7 @@ We will need the contract package's `contract_hash` to interact with the recentl
 
 ```json
 casper-client query-global-state -n http://<HOST IP>:<PORT> \
-// This is the contract package hash, which can be found within the `NamedKeys` of the account that sent the installing deploy.
+// This is the contract package hash, which can be found within the `NamedKeys` of the account that sent the installing transaction.
 --key hash-82bd86d2675b2dc44c19027fb7717a99db6fda5e0cad8d597f2495a9dbc9df7f \
 // This is the most up to date state root hash, which can found by using the `get-state-root-hash` command in the Casper client.
 --state-root-hash f9f73c3a4da5893b67c4cac94a5695d76cfefff61b050c98a7b19e2b8efd3933

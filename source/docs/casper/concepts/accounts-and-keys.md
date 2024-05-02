@@ -6,7 +6,7 @@ title: Accounts and Keys
 
 The Casper blockchain uses an on-chain [account-based model](./design/casper-design.md#accounts-head), uniquely identified by an `AccountHash` derived from a specific `PublicKey`. The `AccountHash` is a 32-byte hash derived from any of the supported `PublicKey` variants below to standardize keys that can vary in length.
 
-By default, a transactional interaction with the blockchain takes the form of a `Deploy` cryptographically signed by the key-pair corresponding to the `PublicKey` used to create the account.
+By default, a transactional interaction with the blockchain takes the form of a `Transaction` cryptographically signed by the key-pair corresponding to the `PublicKey` used to create the account.
 
 The Casper platform supports two types of keys for creating accounts and signing transactions: 
 - [Ed25519](#eddsa-keys) keys, which use the Edwards-curve Digital Signature Algorithm (EdDSA) and are 66 bytes long
@@ -151,11 +151,11 @@ casper-client transfer \
 
 :::tip
 
-The payment amount varies based on each deploy and network [chainspec](../concepts/glossary/C.md#chainspec).
+The payment amount varies based on each transaction and network [chainspec](../concepts/glossary/C.md#chainspec).
 
 :::
 
-The Casper command-line client requires the secret key in *PEM* format to send a Deploy from this account. If you want to use existing Ethereum keys with the command-line client, a conversion to *PEM* format is needed.
+The Casper command-line client requires the secret key in *PEM* format to send a transaction from this account. If you want to use existing Ethereum keys with the command-line client, a conversion to *PEM* format is needed.
 
 The following example is a JS script that generates a *PEM* file, using a [key encoder](https://github.com/stacks-network/key-encoder-js) and Node.js. To install these components, do the following:
 

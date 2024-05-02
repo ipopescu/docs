@@ -12,7 +12,7 @@ The [Highway](https://arxiv.org/pdf/2101.02159.pdf) consensus protocol was used 
 
 In Highway, nodes communicate by broadcasting units. A unit is a structure containing the following:
 - Citations of other units (at most one per node), subject to validity conditions
-- An optional proposed list of deploys to be included in a block. Note that the list can be empty
+- An optional proposed list of transactions to be included in a block. Note that the list can be empty
 - The unit's creator and its digital signature
 - Additional metadata, including a timestamp, sequence number, round length, etc.
 
@@ -32,7 +32,7 @@ The Highway protocol proceeds in rounds with a minimum round length. Different n
 
 ## Block Finalization
 
-In each round, the assigned leader proposes a list of deploys to be included in a block. A block is finalized if there is a summit among the cited units. A summit is a structure within the graph characterized by a quorum *q*, a percentage of the participating validator weight, and a level *k*. Level *k* represents the depth in the graph. For a given fault tolerance threshold *t* (FTT), finality is defined as:
+In each round, the assigned leader proposes a list of transactions to be included in a block. A block is finalized if there is a summit among the cited units. A summit is a structure within the graph characterized by a quorum *q*, a percentage of the participating validator weight, and a level *k*. Level *k* represents the depth in the graph. For a given fault tolerance threshold *t* (FTT), finality is defined as:
 
 <p align="center">
 <img src={"/image/design/highway-finality.png"} alt="Image showing the finality equation" width="200"/>

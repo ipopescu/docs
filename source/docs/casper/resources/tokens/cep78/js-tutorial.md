@@ -23,7 +23,7 @@ npm install casper-cep78-js-client
 
 ## Installing a CEP-78 Contract using the JavaScript Client
 
-The `install` method crafts a [Deploy](./deploy-and-deploy-lifecycle/) using `InstallArgs`.
+The `install` method crafts a [Deploy](./transactions-and-transaction-lifecycle/) using `InstallArgs`.
 As with every deploy created by the SDK, you can send it using the `.send(rpcUrl)` method providing the RPC URL that you want to use. It will return deployHash. 
 
 ```js
