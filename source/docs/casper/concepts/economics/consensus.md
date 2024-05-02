@@ -93,13 +93,6 @@ The rewards calculation takes place at the end of an era. In addition to rewardi
 
 Validators who send no messages during an entire era are marked as inactive and cease participating in the auction until they send a special transaction that reactivates their bid.
 
-<!--TODO remove this?
-
-### Slashing {#slashing}
-
-Please review our [Equivocator Policy](https://github.com/casper-network/ceps/blob/master/text/0038-equivocator-policy.md). We are currently conducting research into the utility of slashing as an incentive mechanism.
-
 ## Founding Validators {#founding-validators}
 
-Founding validators are subject to token lock-up, which prevents them from withdrawing any tokens from their bids for 90 days, then releases their genesis bid tokens in weekly steps, linearly, over an additional 90 days.
--->
+When launching a new Casper network, founding validators are subject to token lock-up, which prevents them from withdrawing any tokens from their bids for 90 days. Then, the network releases their genesis bid tokens in weekly steps, linearly, over an additional 90 days.
