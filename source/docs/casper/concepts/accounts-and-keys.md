@@ -18,7 +18,7 @@ You can also [generate an account hash](#generating-an-account-hash) from a publ
 
 ## Creating Accounts and Keys {#creating-accounts-and-keys}
 
-When you create an account on the Casper blockchain, a cryptographic key-pair will be created when using either the [Casper command-line client](#option-1-key-generation-using-the-casper-client) or a block explorer.
+When you create an account on the Casper blockchain, a cryptographic key-pair will be created when using either the [Casper command-line client](#option-1-key-generation-using-the-casper-client) or a block explorer. Developers must use the Casper command-line client as described below. Otherwise, they won't have access to the secret key file needed during development.
 
 :::note
 
@@ -104,6 +104,8 @@ For instance, on the official Testnet, the [CSPR.live](https://testnet.cspr.live
 Start by creating an account using the [Casper Wallet](https://www.casperwallet.io/), [Ledger](https://support.ledger.com/hc/en-us/articles/4416379141009-Casper-CSPR-?support=true), or [Torus Wallet](https://casper.tor.us/).
 
 :::caution
+
+Developers must generate keys using the [Casper command-line client](#option-1-key-generation-using-the-casper-client) to access the `secret_key.pem` file.
 
 The Casper Signer has been replaced with the Casper Wallet and will be deprecated. We recommend migrating all your Casper accounts to the Casper Wallet as outlined [here](https://www.casperwallet.io/user-guide/signer-user-start-here).
 
