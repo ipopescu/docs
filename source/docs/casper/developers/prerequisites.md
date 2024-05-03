@@ -242,11 +242,9 @@ The Casper blockchain uses an on-chain account-based model, uniquely identified 
 
 By default, a transactional interaction with the blockchain takes the form of a `Deploy` cryptographically signed by the key-pair corresponding to the `PublicKey` used to create the account.
 
-Users can create accounts using the [Casper command-line client](../concepts/accounts-and-keys.md#option-1-generating-keys-using-the-casper-client-option-1-key-generation-using-the-casper-client). 
+Developers must create accounts using the [Casper command-line client](../concepts/accounts-and-keys.md#option-1-generating-keys-using-the-casper-client-option-1-key-generation-using-the-casper-client) to access the `secret_key.pem` file needed during development.
 
-Alternatively, some Casper networks, such as the official Testnet and Mainnet, provide a browser-based block explorer that allows account creation as outlined [here](../concepts/accounts-and-keys.md#option-2-generating-keys-using-a-block-explorer-option-2-key-generation-using-a-block-explorer). 
-
-Use either method to generate an account and its corresponding cryptographic key-pair.
+Some Casper networks, such as the official Testnet and Mainnet, provide wallets that allow account creation as outlined here. However, these wallets do not give developers access to the secret key file.
 
 ### Generating the account hash
 
