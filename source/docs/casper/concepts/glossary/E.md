@@ -14,11 +14,15 @@ The ecosystem layer in Casper encompasses dApp design and operation.
 
 See [EntryPoint](../../developers/json-rpc/types_chain.md#entrypoint) and [Defining the Contract Entry Points](../../developers/writing-onchain-code/simple-contract.md#step-4-defining-the-contract-entry-points).
 
+## Equivocation
+
+A process where dishonest nodes sign conflicting consensus messages. If a node is caught equivocating, other validators will ignore its messages, and the node will become inactive.
+
 ## Era {#era}
 
 A period of time during which the validator set does not change.
 
-In a Casper network, validators cannot join and leave at any point in time, but only at era boundaries. An era's validators are determined using an [auction](./A.md#auction). At the beginning of the era, the validators create a new instance of the Highway protocol and run this consensus protocol until they finalize the era's last block (see [booking block](./B.md#booking-block)).
+In a Casper network, validators cannot join and leave at any point in time, but only at era boundaries. An era's validators are determined using an [auction](./A.md#auction). At the beginning of the era, the validators create a new instance of the consensus protocol and run this instance until they finalize the era's last block (see [booking block](./B.md#booking-block)).
 
 ## Eviction {#eviction}
 

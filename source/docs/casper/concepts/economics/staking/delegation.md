@@ -6,35 +6,45 @@ slug: /concepts/economics/delegation
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-This section provides a detailed explanation of the delegation cost mechanism, how the gas cost relates with delegations, where to find the details etc. Please note that the cost amounts are likely to change with time and you may have to check the latest release details to get the most up-to-date and accurate details.
+This section provides a detailed explanation of the delegation cost mechanism, how the gas cost relates to delegations, where to find the details, etc. Please note that the cost amounts are likely to change over time, and you may have to check the latest release details to get the most up-to-date and accurate details.
 
 ## Delegation Cost
 
-The delegation cost is defined in the chainspec.toml file for each Casper network. In this [example chainspec](https://github.com/casper-network/casper-node/blob/release-1.3.2/resources/production/chainspec.toml), the delegation is set to cost 2.5 CSPR. However, `when you perform the delegation, you see that it costs a little more` than what is specified in the chainspec. Let’s discuss why this happens.
+The delegation cost is defined in the chainspec.toml file of a Casper network. In this [example chainspec](https://github.com/casper-network/casper-node/blob/release-2.0.0-rc1/resources/production/chainspec.toml), the delegation is set to cost 2.5 CSPR. However, `when you perform the delegation, you see that it costs a little more` than what is specified in the chainspec. Let's discuss why this happens.
 
-When you delegate, the system automatically charges some gas to set up related data in the global state of the network to track your delegation. This cost is addition to the delegation cost defined in the chainspec file.
+When you delegate, the system automatically charges some gas to set up related data in the global state of the network to track your delegation. This cost is added to the delegation cost defined in the chainspec file.
 
-For example, the chainspec file in release 1.3.2 will contain the following information. This is how the delegation cost is defined in the chainspec.toml file of a Casper network.
+For example, the chainspec file in release 2.0.0 contains the following information. Notice the delegation cost specified with `delegate`.
 
-<p align="center"><img src={useBaseUrl("/image/economic-delegationCost.png")}  alt="cost" width="400" class="center"/></p>
+```rust
+[system_costs.auction_costs]
+get_era_validators = 10_000
+read_seigniorage_recipients = 10_000
+add_bid = 2_500_000_000
+withdraw_bid = 2_500_000_000
+delegate = 2_500_000_000
+undelegate = 2_500_000_000
+run_auction = 10_000
+slash = 10_000
+distribute = 10_000
+withdraw_delegator_reward = 10_000
+withdraw_validator_reward = 10_000
+read_era_id = 10_000
+activate_bid = 10_000
+redelegate = 2_500_000_000
+```
 
-<p align="center">
+Delegation fees may change over time, so it is essential to stay current. To do so, select the latest release in [Github](https://github.com/casper-network/casper-node) and navigate to the `resources/production/chainspec.toml` file.
 
-**Figure 1**: Delegation cost is defined in the chainspec.toml file of a Casper network
-
-</p>
-
-Delegation fees may change over time, so, it is essential to stay up to date. To do so, select the latest release in [Github](https://github.com/casper-network/casper-node), and navigate to the chainspec.toml file.
-
-If you are unsure about anything, please join the [Discord channel](https://discord.com/invite/casperblockchain) to ask us questions.
+For further questions, please join the [Discord channel](https://discord.com/invite/casperblockchain).
 
 ## First-time Delegation
 
-If you perform the delegation for the first time, the system charges some gas to create a purse to hold the delegated tokens.
+If you perform a delegation for the first time, the system charges some motes to create a purse to hold the delegated tokens.
 
-_Example:_ The system can charge 0.5 CSPR in addition to the base delegation fee of 2.5 CSPR, resulting in a delegation cost of 3 CSPR on [Mainnet](https://cspr.live/)
+**Example:** The system can charge 0.5 CSPR in addition to the base delegation fee of 2.5 CSPR, resulting in a delegation cost of 3 CSPR on [Mainnet](https://cspr.live/).
 
-It is essential to have enough funds in your account's main purse when you set up a delegation transaction. Otherwise, the transaction will fail, and you will lose the transfer cost. For example, if you have 200 CSPR in your purse, delegate at most 197 CSPR and leave at least 3 CSPR for the delegation cost. Another option is to delegate 195 CSPR and leave some additional buffer.
+When you set up a delegation transaction, it is essential to have enough funds in your account's main purse. Otherwise, the transaction will fail, and you will lose the transfer cost. For example, if you have 200 CSPR in your purse, delegate at most 197 CSPR and leave at least 3 CSPR for the delegation cost. Another option is to delegate 195 CSPR and leave some additional buffer.
 
 As a result, when performing a [delegation using the command line](../../../developers/cli/delegate.md), we recommend you specify a little more than the base transaction payment to ensure that the transaction will go through without failure.
 
@@ -44,12 +54,10 @@ As a result, when performing a [delegation using the command line](../../../deve
 
 **Figure 2** : On Testnet or Mainnet, the transaction fee for a delegation is a little bit higher than 2.5 CSPR </p>
 
----
+:::note
 
-**_NOTE:_**
+Transaction costs depend on each Casper network and the cost tables defined in the chainspec. Most of these examples are from the Casper Mainnet or Testnet.
 
-Transaction costs depend on each Casper network and the cost tables defined in the chainspec. The examples you will find in the documentation are general.
+:::
 
----
-
-Lastly, we recommend that you try out delegations on the [Casper Testnet](https://testnet.cspr.live/>) before making actual transactions on the [Casper Mainnet](https://cspr.live/). This way, you will understand the costs involved in delegating tokens.
+Lastly, we recommend that you try out delegations on the [Casper Testnet](https://testnet.cspr.live/) before making transactions on the [Casper Mainnet](https://cspr.live/). This will help you understand the costs involved in delegating tokens.

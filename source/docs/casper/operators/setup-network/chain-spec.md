@@ -50,8 +50,11 @@ These settings manage the core protocol behavior.
 |prune_batch_size | Global state prune batch size for tip pruning in version 1.4.15. Possible values:<br />- 0 when the feature is OFF<br />- Integer if the feature is ON, representing the number of eras to process per block.| 0|
 |strict_argument_checking | Enables strict arguments checking when calling a contract; i.e., all non-optional args are provided and they are of the correct `CLType`. | false|
 |simultaneous_peer_requests | Number of simultaneous peer requests. | 5|
-|consensus_protocol | The consensus protocol to use. Options are 'Zug' or 'Highway'. | 'Highway'|
+|consensus_protocol | The consensus protocol to use. Options are 'Zug' or 'Highway'. | 'Zug'|
 |max_delegators_per_validator | The maximum amount of delegators per validator. If the value is 0, there is no maximum capacity. | 1200|
+|finders_fee | The split in finality signature rewards between block producer and participating signers. | [1, 5]|
+|finality_signature_proportion | The proportion of baseline rewards going to reward finality signatures specifically. | [1, 2]|
+|signature_rewards_max_delay | Lookback interval indicating how many past blocks we are looking at to reward. | 3|
 
 ## highway
 

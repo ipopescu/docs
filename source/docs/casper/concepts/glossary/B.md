@@ -33,9 +33,9 @@ Note that only validators can create valid blocks.
 
 ## Block finality {#block-finality}
 
-A block is "finalized" if the validators agree on adding it to the blockchain.
+A block is "finalized" if validators with more than two-thirds of the total network weight agree on adding it to the blockchain.
 
-There are different levels of _finality_ in the [Highway](./H.md#highway) protocol. A finalized block has a fault-tolerance _F_, expressed as a fraction of the total stake. For an observer to see a conflicting block as finalized, several validators whose total stake exceeds _F_ would have to collude and show different information in a way that would ultimately be detected and punished (see [slashing](./S.md#slashing)).
+For an observer to see a conflicting block as finalized, several validators whose total weight exceeds one-third of the total network weight would have to collude and show different information in a way that would ultimately be detected and punished (see [eviction](./E.md#eviction-eviction)).
 
 ## Block gossiping {#block-gossiping}
 

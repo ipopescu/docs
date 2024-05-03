@@ -180,7 +180,7 @@ struct GossipedAddress(SocketAddr);
 
 ### Consensus
 
-A consensus message is sent exclusively between instances of the consensus component, from one peer to another. A precise description of the Highway consensus protocol is out of scope of this document, see the `consensus::Message` type or an appropriate description of the underlying protocol for details.
+A [consensus](./consensus.md) message is sent exclusively between instances of the consensus component, from one peer to another.
 
 ### Gossiping
 
