@@ -126,7 +126,7 @@ Familiarize yourself with the essential Casper crates described [here](./essenti
 
 ## Installing the Casper Client {#install-casper-client}
 
-The default Casper client is on [crates.io](https://crates.io/crates/casper-client). This client can transmit your deploys to a Casper network.
+The default Casper client is on [crates.io](https://crates.io/crates/casper-client). This client can transmit your transactions to a Casper network.
 
 ```bash
 cargo install casper-client
@@ -240,7 +240,7 @@ The following video complements the instructions below, showing you the expected
 
 The Casper blockchain uses an on-chain account-based model, uniquely identified by an `AccountHash` derived from a specific `PublicKey`.
 
-By default, a transactional interaction with the blockchain takes the form of a `Deploy` cryptographically signed by the key-pair corresponding to the `PublicKey` used to create the account.
+By default, a transactional interaction with the blockchain takes the form of a `Transaction` cryptographically signed by the key-pair corresponding to the `PublicKey` used to create the account.
 
 Users can create accounts using the [Casper command-line client](../concepts/accounts-and-keys.md#option-1-generating-keys-using-the-casper-client-option-1-key-generation-using-the-casper-client). 
 

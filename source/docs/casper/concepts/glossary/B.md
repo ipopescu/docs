@@ -23,11 +23,11 @@ Each block points to its parent. An exception is the first block, which has no p
 
 ## Block creation {#block-creation}
 
-Block creation means computing the deployment results and collecting the results that belong together into a block. We follow a process called _execution after consensus_.
+Block creation means computing the transaction results and collecting the results into a block. We follow a process called _execution after consensus_.
 
-The [block proposal](./B.md#block-proposal) happens first, and the proposed [proto block](./P.md#proto-block) contains a set of deploys that have not been executed yet.
+The [block proposal](./B.md#block-proposal) happens first, and the proposed [proto block](./P.md#proto-block) contains a set of transactions that have not been executed yet.
 
-Only after consensus on a _proto block_ has been reached, the deploys are executed. The resulting new global state [root hash](./R.md#root-hash) is put into an actual block, together with the executed deploys.
+Only after consensus on a _proto block_ has been reached, the transactions are executed. The resulting new global state [root hash](./R.md#root-hash) is put into an actual block, together with the executed transactions.
 
 Note that only validators can create valid blocks.
 
@@ -51,7 +51,7 @@ See [block gossiping](#block-gossiping).
 
 ## Block processing {#block-processing}
 
-Block processing consists of running the deploys in a block received from another node to determine updates to the global state. Note that this is an essential part of [validating blocks](#block-validation).
+Block processing consists of running the transactions in a block received from another node to determine updates to the global state. Note that this is an essential part of [validating blocks](#block-validation).
 
 ## Block proposal {#block-proposal}
 

@@ -9,7 +9,7 @@ There are 3 layers to building a decentralized application that interacts with a
 
 The front-end, or *client-side* of a dApp consists of the interface that the user uses to interact with smart contracts on a Casper Network. This interface usually comes in the form of a website/webpage, mobile device application or computer program, but could also include APIs with endpoints that may be called or queried.
 
-You will need to choose a Casper-compatible SDK for the language you are using to call and query smart contracts on a Casper network. Casper's SDKs have methods available for constructing Deploys and gathering global state data. While these interactions can be prepared on the front-end, they must be sent to the backend of your application before being sent off to a network, so as to fulfill [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) requirements.
+You will need to choose a Casper-compatible SDK for the language you are using to call and query smart contracts on a Casper network. Casper's SDKs have methods available for constructing transactions and gathering global state data. While these interactions can be prepared on the front-end, they must be sent to the backend of your application before being sent off to a network, so as to fulfill [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) requirements.
 
 ### Signing Transactions
 
@@ -17,7 +17,7 @@ The signing of transactions will, in many cases, need to be performed by the use
 
 1. The Casper Wallet
 
-   Use the [Casper Wallet](https://www.casperwallet.io/develop) to sign deploys for a Casper network. Deploy objects are first converted to JSON, then sent to the Wallet to be signed, then must be sent to the backend and forwarded to a node.
+   Use the [Casper Wallet](https://www.casperwallet.io/develop) to sign transactions for a Casper network. Transaction objects are first converted to JSON, then sent to the Wallet to be signed, then must be sent to the backend and forwarded to a node.
 
    :::caution
 
@@ -27,7 +27,7 @@ The signing of transactions will, in many cases, need to be performed by the use
 
 2. Third-party signers
 
-   Third-party signers may be used as well. A JSON representation of the unsigned transaction should be forwarded to the third-party signer and accept a callback containing the signed deploy object.
+   Third-party signers may be used as well. A JSON representation of the unsigned transaction should be forwarded to the third-party signer and accept a callback containing the signed transaction object.
 
 ### Querying Global State
 
@@ -65,7 +65,7 @@ You can find online peers for Mainnet at [cspr.live](https://cspr.live) or testn
 
 :::
 
-There are two main types of blockchain interactions that will originate from the front-end: deploys and queries. In the case of a dApp, both of these will pass through the back-end.
+There are two main types of blockchain interactions that will originate from the front-end: transactions and queries. In the case of a dApp, both of these will pass through the back-end.
 
 Blockchain interaction for state queries is handled solely on the backend. On the front-end, a user simply chooses the path at which they want to query data. This path is sent to the backend where the server will perform the state query and send the result back to the front-end.
 
@@ -73,7 +73,7 @@ In the case of a user-signed transaction originating from the dApp's front-end, 
 
 ## Blockchain
 
-The last stop for a deploy or query is the blockchain itself. Like the majority of smart contract blockchains, Casper networks maintain a forever-growing, immutable ledger that can be read and written to. When building a dApp for a Casper network, user interactions in the form of queries and deploys originate from the front-end, are forwarded to the backend, and are then sent to a Casper node for interaction with the blockchain. You can communicate with Casper nodes using JSON RPC calls, and have a variety of open [transactional](../json-rpc/json-rpc-transactional.md), [informational](../json-rpc/json-rpc-informational.md), and [Proof-of-Stake](../json-rpc/json-rpc-pos.md) endpoints. By utilizing an SDK on the backend, you won't need to construct these JSON RPC calls yourself, they'll be done for you within the available methods.
+The last stop for a transaction or query is the blockchain itself. Like the majority of smart contract blockchains, Casper networks maintain a forever-growing, immutable ledger that can be read and written to. When building a dApp for a Casper network, user interactions in the form of queries and transactions originate from the front-end, are forwarded to the backend, and are then sent to a Casper node for interaction with the blockchain. You can communicate with Casper nodes using JSON RPC calls, and have a variety of open [transactional](../json-rpc/json-rpc-transactional.md), [informational](../json-rpc/json-rpc-informational.md), and [Proof-of-Stake](../json-rpc/json-rpc-pos.md) endpoints. By utilizing an SDK on the backend, you won't need to construct these JSON RPC calls yourself, they'll be done for you within the available methods.
 
 More than likely, you will want your dApp to perform personalized functions, store custom data, and perhaps even store or transact upon tokens with monetary value. All of these behaviors can be implemented by writing custom smart contracts for your application. Smart contracts on a Casper network can perform any function that a classical computer can. Casper's smart contracts are executed as [WebAssembly](https://webassembly.org/) binaries, and can be written in any language that compiles to WebAssembly. Currently, most developers choose to write their smart contracts in [Rust](https://www.rust-lang.org/) for its reliability and ease-of-use. Additionally, Casper's smart contract documentation is written for Rust.
 

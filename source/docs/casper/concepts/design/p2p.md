@@ -28,7 +28,7 @@ In general, only consensus messages, which are only sent by active validators, a
 
 ## Gossiping {#communications-gossiping}
 
-Multiple types of objects are gossipped, the most prominent ones being blocks, deploys, and endpoints (see [Identity](#identity)). Each of these objects is immutable and can be identified by a unique hash.
+Multiple types of objects are gossipped, the most prominent ones being blocks, transactions, and endpoints (see [Identity](#identity)). Each of these objects is immutable and can be identified by a unique hash.
 
 Gossiping is a process of distributing a value across the entire network without directly sending it to each node. This process allows only a subset of nodes to be connected to the original sender and spreading the bandwidth and processing requirements across the network at the cost of latency and overall bandwidth consumed.
 
@@ -45,11 +45,11 @@ Through this process, a message will spread to almost all nodes over time.
 
 ## Requesting missing data {#requesting-missing-data}
 
-While gossiping and broadcasting are sufficient to distribute data across the network in most cases, nodes can also request missing data from peers should they require it. A common example is a missing deploy from a block.
+While gossiping and broadcasting are sufficient to distribute data across the network in most cases, nodes can also request missing data from peers should they require it. A common example is a missing transaction from a block.
 
 ### Validation {#validation}
 
-Objects have a concept of dependencies. For example, a block depends on all the deploys whose hashes are listed inside it. A node considers any object valid if all of its dependencies are available on the local node.
+Objects have a concept of dependencies. For example, a block depends on all the transactions whose hashes are listed inside it. A node considers any object valid if all of its dependencies are available on the local node.
 
 Should a node receive an object from a peer that is not valid yet, it will attempt to complete its validation before processing it further. In the case of gossiping, this means pausing the gossiping of the object until all its dependencies can be retrieved.
 

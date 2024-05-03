@@ -22,6 +22,8 @@ Delegators are users who participate in the platform's security by delegating th
 
 Deploys are units of work when executed cause global state to be altered. Deploys can contain Wasm to be executed and/or Wasm to be stored on chain. Among many examples, Deploys can transfer tokens from one Account's purse to another, reward node validation, or execute Wasm on the network.
 
+Casper's Condor release introduces the [Transaction](./T.md#transaction). Legacy deploys are a subset of the new transaction architecture and, in most cases, will continue to function as expected.
+
 All deploys on a Casper network can be broadly categorized as some unit of work that, when executed and committed, affects change to the [global state](./G.md#global-state).
 
 Review the [deploy data structure](../serialization-standard.md#deploy) and the [deploy implementation](https://github.com/casper-network/casper-node/blob/master/node/src/types/deploy.rs#L475) for more details.

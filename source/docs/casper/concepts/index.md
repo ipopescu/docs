@@ -13,12 +13,13 @@ This section of the documentation covers the core concepts underpinning the Casp
 | Topic                                                       | Description                                                                                    |
 | ----------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
 | [Introduction to the Casper Blockchain](./about.md) | High-level details about the Casper blockchain |
-| [Introduction to dApps](./intro-to-dapps.md) | Developing distributed applications on the Casper blockchain | 
+| [Introduction to dApps](./intro-to-dapps.md) | Developing distributed applications on the Casper blockchain |
+| [Addressable Entities](./addressable-entity.md) | Learn about addressable entities and how they relate to accounts and smart contracts. |
 | [Accounts and Cryptographic Keys](./accounts-and-keys.md) | The Casper programming model is account-based. Learn how Casper accounts work and how they are secured | 
 | [Hash Types](./hash-types.md) | Hashes are used throughout the Casper ecosystem for keys, addresses, packaging data, and more | 
 | [Global State](./global-state.md) | Learn about the storage layer for the Casper blockchain. All accounts, contracts, and data are stored in global state | 
 | [Call Stacks](./callstack.md) | Learn how Casper manages the calling of a contract | 
-| [Deploys and the Deploy Lifecycle](./deploy-and-deploy-lifecycle.md) | Deploys are a concept fundamental to the Casper blockchain. Learn about deploys, what they are for, how to create and send them | 
+| [Transactions and the Transaction Lifecycle](./transactions-and-transaction-lifecycle.md) | Transactions are a concept fundamental to the Casper blockchain. Learn about transactions, what they are for, how to create and send them | 
 | [Smart Contracts](./smart-contracts.md) | Learn how to develop smart contracts on Casper | 
 | [Dictionaries](./dictionaries.md) | Learn about dictionaries, which are a primary construct for storing and retrieving data on the Casper platform | 
 | [Serialization](./serialization-standard.md) | Learn about serializing data types and the Casper Serialization Standard | 

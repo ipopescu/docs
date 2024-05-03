@@ -1,8 +1,11 @@
 # Calling Contracts
 
-Calling a contract on a Casper network requires the use of a deploy. When using the Casper Rust client, JavaScript SDK, or any other client, the intermediary client crafts the deploy for you, using the arguments you provide. This document outlines the various deploy variants through which you can execute Wasm or invoke the execution of on-chain Wasm.
+Calling a contract on a Casper network requires the use of a transaction. When using the Casper Rust client, JavaScript SDK, or any other client, the intermediary client crafts the transaction for you, using the arguments you provide. This document outlines the various transaction variants through which you can execute Wasm or invoke the execution of on-chain Wasm.
 
-## Using Deploy Variants
+
+<!-- TODO Include Transaction variants. -->
+
+## Using Legacy Deploy Variants
 
 ### ModuleBytes
 

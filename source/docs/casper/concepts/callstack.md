@@ -6,13 +6,13 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 # Understanding Call Stacks
 
-Users wishing to interact with a Casper network must do so through [sending a Deploy](../developers/cli/sending-deploys.md). All Deploys consist of [session code](../developers/writing-onchain-code/writing-session-code.md) run in the context of the user account that sent the Deploy. The session code may [install contract code to global state](../developers/cli/installing-contracts.md), or interact with previously [installed contract code](../developers/writing-onchain-code/calling-contracts.md).
+Users wishing to interact with a Casper network must do so through [sending a transaction](../developers/cli/sending-transactions.md). All transactions consist of [session code](../developers/writing-onchain-code/writing-session-code.md) run in the context of the user account entity that sent the transaction. The session code may [install contract code to global state](../developers/cli/installing-contracts.md), or interact with previously [installed contract code](../developers/writing-onchain-code/calling-contracts.md).
 
-When the session code within a Deploy interacts with one or more contracts, this is the beginning of a [`Call Stack`](https://docs.rs/casper-types/latest/casper_types/system/enum.CallStackElement.html). A call stack is the chronological order in which contracts call other contracts, initiated by an instance of session code.
+When the session code within a transaction interacts with one or more contracts, this is the beginning of a [`Call Stack`](https://docs.rs/casper-types/latest/casper_types/system/enum.CallStackElement.html). A call stack is the chronological order in which contracts call other contracts, initiated by an instance of session code.
 
 ## The Caller
 
-In every instance of a call stack, the originating caller is the session code within the account's context that began the interaction. Contract code cannot spontaneously act without session code to activate it. As such, the session code represents the *zeroth* entity in each call stack. The account that initiated the deploy can be retrieved with the [contract_api::runtime::get_caller](https://docs.rs/casper-contract/3.0.0/casper_contract/contract_api/runtime/fn.get_caller.html) function.
+In every instance of a call stack, the originating caller is the session code within the account's context that began the interaction. Contract code cannot spontaneously act without session code to activate it. As such, the session code represents the *zeroth* entity in each call stack. The account that initiated the transaction can be retrieved with the [contract_api::runtime::get_caller](https://docs.rs/casper-contract/3.0.0/casper_contract/contract_api/runtime/fn.get_caller.html) function.
 
 ## The Call Stack
 
