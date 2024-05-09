@@ -6,7 +6,7 @@
 
 The following are changes introduced alongside release of the Condor network upgrade.
 
-[Understanding Hash Types](../concepts/hash-types.md) - Additional Key Types.
+[Understanding Key Types](../concepts/key-types.md) - Additional Key Types and document restructuring.
 
 [Serialization Standard](../concepts/serialization-standard.md) - Serialization information for new types.
 
