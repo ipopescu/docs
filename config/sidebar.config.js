@@ -5,7 +5,7 @@ module.exports = {
         "concepts/intro-to-dapps",
         "concepts/addressable-entity",
         "concepts/accounts-and-keys",
-        "concepts/hash-types",
+        "concepts/key-types",
         "concepts/transactions-and-transaction-lifecycle",
         "concepts/global-state",
         "concepts/smart-contracts",
