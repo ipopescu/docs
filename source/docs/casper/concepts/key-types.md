@@ -205,7 +205,8 @@ Type|Prefix|Example|
 
 |Type|Prefix|Example|
 |---|---|---|
-|Key::Message | message- | message-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a-topic-name-0202020202020202020202020202020202020202020202020202020202020202-f |
+| Message Topic| message-topic-entity-contract- | message-topic-entity-contract-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a |
+| Message | message-entity-contract- |message-entity-contract-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a-0202020202020202020202020202020202020202020202020202020202020202-f|
 
 ### NamedKey
 
@@ -213,7 +214,7 @@ Type|Prefix|Example|
 
 |Type|Prefix|Example|
 |---|---|---|
-|Key::NamedKey | (named-key-?) | |
+|Key::NamedKey | named-key-entity-contract- | named-key-entity-contract-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a-2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b |
 
 ### BlockGlobal
 
@@ -221,7 +222,8 @@ Type|Prefix|Example|
 
 |Type|Prefix|Example|
 |---|---|---|
-|Key::BlockGlobal | | |
+| Block Time | block-time- | block-time-00000000000000000000000000000000000000000000000000000000000000 |
+| Block Message Count | block-message-count- | block-message-count-00000000000000000000000000000000000000000000000000000000000000 |
 
 ### BalanceHold
 
@@ -229,7 +231,7 @@ Type|Prefix|Example|
 
 |Type|Prefix|Example|
 |---|---|---|
-|Key::BalanceHold | | |
+|Key::BalanceHold | balance-hold- | balance-hold-002a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a6400000000000000 |
 
 ### EntryPoint
 
@@ -237,4 +239,4 @@ Type|Prefix|Example|
 
 |Type|Prefix|Example|
 |---|---|---|
-|Key::EntryPoint | | |
+|Key::EntryPoint | entry-point-v2-entity-contract- | entry-point-v2-entity-contract-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a-1 |
