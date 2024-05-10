@@ -4,7 +4,7 @@ title: Key Types
 
 # Understanding Key Types
 
-For the sake of user convenience and compatibility, we expect the delivery of hashes, keys and similar data in the form of a prefixed string when using the node. The following is a list of string representations used.
+For user convenience and compatibility, we expect the delivery of hashes, keys, and similar data as a prefixed string when using the node. The following is a list of string representations used.
 
 ## Hash Explanations {#hash-explanations}
 
