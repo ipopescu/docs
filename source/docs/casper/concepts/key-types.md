@@ -10,7 +10,7 @@ For user convenience and compatibility, we expect the delivery of hashes, keys, 
 
 ### PublicKey
 
-`PublicKey` is a 32 byte asymmetric public key, preceded by a one-byte prefix that tells whether the key is `ed25519` or `secp256k1`. There is a third type of `PublicKey` that refers to the system and it is a single `00`.
+`PublicKey` is a 32-bytes asymmetric public key, preceded by a one-byte prefix that tells whether the key is `ed25519` or `secp256k1`. There is a third type of `PublicKey` that refers to the system and it is a single `00`.
 
 Type|Prefix|Example|
 |---|---|---|
@@ -18,7 +18,7 @@ Type|Prefix|Example|
 
 ### AccountHash
 
-`AccountHash` is a 32 byte hash of the `PublicKey` serving to identify user accounts.
+`AccountHash` is a 32-bytes hash of the `PublicKey` serving to identify user accounts.
 
 |Type|Prefix|Example|
 |---|---|---|
@@ -26,7 +26,7 @@ Type|Prefix|Example|
 
 ### ContractHash
 
-`ContractHash` is the 32 byte hash of specific smart contract versions. You can use this to call specific contract versions.
+`ContractHash` is the 32-bytes hash of specific smart contract versions. You can use this to call specific contract versions.
 
 |Type|Prefix|Example|
 |---|---|---|
@@ -34,7 +34,7 @@ Type|Prefix|Example|
 
 ### ContractPackageHash
 
-`ContractPackageHash` is a 32 byte hash of the smart contract package. This hash directs you to the contract package. The function `call_versioned_contract` uses `ContractPackageHash` and allows you to call the latest version of the contract (by default). It also allows you to call any version stored previously to the package.
+`ContractPackageHash` is a 32-bytes hash of the smart contract package. This hash directs you to the contract package. The function `call_versioned_contract` uses `ContractPackageHash` and allows you to call the latest version of the contract (by default). It also allows you to call any version stored previously to the package.
 
 |Type|Prefix|Example|
 |---|---|---|
@@ -62,7 +62,7 @@ Type|Prefix|Example|
 
 ### URef
 
-`Key::URef` contains an URef suffixed by access rights.
+`Key::URef` contains an URef suffixed by [access rights](./developers/dapps/uref-security.md).
 
 |Type|Prefix|Example|
 |---|---|---|
@@ -100,6 +100,14 @@ Type|Prefix|Example|
 |---|---|---|
 |Key::Balance | balance- | balance-0101010101010101010101010101010101010101010101010101010101010101|
 
+### BalanceHold
+
+`Key::BalanceHold` is a `Key` under which a hold on a purse balance is stored.
+
+|Type|Prefix|Example|
+|---|---|---|
+|Key::BalanceHold | balance-hold- | balance-hold-002a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a6400000000000000 |
+
 ### Bid
 
 `Key::Bid` is used to keep track of bids for the auction contract. It is not generally used by users.
@@ -130,7 +138,7 @@ Type|Prefix|Example|
 
 |Type|Prefix|Example|
 |---|---|---|
-|Key::SystemContractRegistry | system-contract-registry- |system-contract-registry-00000000000000000000000000000000|
+|Key::SystemContractRegistry | system-entity-registry- |system-entity-registry-0000000000000000000000000000000000000000000000000000000000000000|
 
 ### EraSummary
 
@@ -214,7 +222,8 @@ Type|Prefix|Example|
 
 |Type|Prefix|Example|
 |---|---|---|
-|Key::NamedKey | named-key-entity-contract- | named-key-entity-contract-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a-2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b |
+| Account Named Key | named-key-entity-account- | named-key-entity-account-928d914bdcad3ca269e750f63ed3615c5d3f615cf97dba87006fd9f979dacb3c-dde6f264c89fe385a5b07c26d77284d6fddabe79653c5ca25cec39a6363e6ec7 |
+| Contract Named Key | named-key-entity-contract- | named-key-entity-contract-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a-2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b2b |
 
 ### BlockGlobal
 
@@ -224,14 +233,6 @@ Type|Prefix|Example|
 |---|---|---|
 | Block Time | block-time- | block-time-00000000000000000000000000000000000000000000000000000000000000 |
 | Block Message Count | block-message-count- | block-message-count-00000000000000000000000000000000000000000000000000000000000000 |
-
-### BalanceHold
-
-`Key::BalanceHold` is a `Key` under which a hold on a purse balance is stored.
-
-|Type|Prefix|Example|
-|---|---|---|
-|Key::BalanceHold | balance-hold- | balance-hold-002a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a6400000000000000 |
 
 ### EntryPoint
 
