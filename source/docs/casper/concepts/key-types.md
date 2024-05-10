@@ -54,7 +54,7 @@ Type|Prefix|Example|
 
 ### Hash
 
-`Key::Hash` contains a byte array with a length of 32, and as such can be used to pass any of the hashes. Please take note that the developer of the contract is responsible for implementation of any checks necessary on the receiving side.
+`Key::Hash` contains a byte array with a length of 32, which can be used to pass any of the hashes. Please take note that the developer of the contract is responsible for the implementation of any checks necessary on the receiving side.
 
 |Type|Prefix|Example|
 |---|---|---|
