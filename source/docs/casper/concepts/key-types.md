@@ -62,7 +62,7 @@ Type|Prefix|Example|
 
 ### URef
 
-`Key::URef` contains an URef suffixed by [access rights](./developers/dapps/uref-security.md).
+`Key::URef` contains an URef suffixed by [access rights](../developers/dapps/uref-security.md).
 
 |Type|Prefix|Example|
 |---|---|---|
