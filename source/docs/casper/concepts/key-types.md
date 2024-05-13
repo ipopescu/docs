@@ -206,4 +206,5 @@ For user convenience and compatibility, we expect the delivery of hashes, keys, 
 
 |Type|Prefix|Example|
 |---|---|---|
-|Key::EntryPoint | entry-point-v2-entity-contract- | entry-point-v2-entity-contract-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a-1 |
+| V1 Entry Point | entry-point-v1-entity-contract- | entry-point-v1-entity-contract-53c02487fa9a4bb1cd3e27b849e942cddb97caacb357e5b6bc86f702b2e32dbb-3eba75fc27f0ec2786e09c09d72d61e4c28a86d44d8efc9911460d5438396481 |
+| V2 Entry Point | entry-point-v2-entity-contract- | entry-point-v2-entity-contract-2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a-1 |
