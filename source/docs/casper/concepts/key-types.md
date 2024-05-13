@@ -6,40 +6,6 @@ title: Key Types
 
 For user convenience and compatibility, we expect the delivery of hashes, keys, and similar data as a prefixed string when using the node. The following is a list of string representations used.
 
-## Hash Explanations {#hash-explanations}
-
-### PublicKey
-
-`PublicKey` is a 32-bytes asymmetric public key, preceded by a one-byte prefix that tells whether the key is `ed25519` or `secp256k1`. There is a third type of `PublicKey` that refers to the system and it is a single `00`.
-
-Type|Prefix|Example|
-|---|---|---|
-|PublicKey | | 018a88e3dd7409f195fd52db2d3cba5d72ca6709bf1d94121bf3748801b40f6f5c|
-
-### AccountHash
-
-`AccountHash` is a 32-bytes hash of the `PublicKey` serving to identify user accounts.
-
-|Type|Prefix|Example|
-|---|---|---|
-|AccountHash | account-hash- | account-hash-ef4687f74d465826239bab05c4e1bdd2223dd8c201b96f361f775125e624ef70|
-
-### ContractHash
-
-`ContractHash` is the 32-bytes hash of specific smart contract versions. You can use this to call specific contract versions.
-
-|Type|Prefix|Example|
-|---|---|---|
-|ContractHash | contract- | contract-0101010101010101010101010101010101010101010101010101010101010101|
-
-### ContractPackageHash
-
-`ContractPackageHash` is a 32-bytes hash of the smart contract package. This hash directs you to the contract package. The function `call_versioned_contract` uses `ContractPackageHash` and allows you to call the latest version of the contract (by default). It also allows you to call any version stored previously to the package.
-
-|Type|Prefix|Example|
-|---|---|---|
-|ContractPackageHash | contract-package- | contract-package-0101010101010101010101010101010101010101010101010101010101010101|
-
 ## Key Explanations {#key-explanations}
 
 `Key` is a wrapper type that may contain one of several possible sets of data.
