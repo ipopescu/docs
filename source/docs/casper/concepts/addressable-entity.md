@@ -26,5 +26,5 @@ As part of the migration to Casper 2.0, system contracts (`Mint`, `Auction` and 
 
 - [Accounts and Keys](../concepts/accounts-and-keys.md)
 - [Smart Contracts](../concepts/smart-contracts.md)
-- [Hash Types](../concepts/hash-types.md)
+- [Hash Types](../concepts/key-types.md)
 - [Multi-Signature Management](../resources/advanced/multi-sig/index.md)

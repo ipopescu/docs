@@ -190,9 +190,9 @@ A `BlockAdded` event is emitted when a new block is added to the blockchain and 
 }
 ```
 
-* [hash](../../concepts/hash-types.md) - The blake2b hash of the Deploy.
+* [hash](../../concepts/key-types.md) - The blake2b hash of the Deploy.
 * [account](../../concepts/serialization-standard.md#serialization-standard-account) - The hexadecimal-encoded public key of the account submitting the Deploy.
-* [body_hash](../../concepts/hash-types.md) - The blake2b hash of the Deploy body.
+* [body_hash](../../concepts/key-types.md) - The blake2b hash of the Deploy body.
 * [payment](../../concepts/glossary/P.md#payment-code) - Gas payment information.
 * [session](../writing-onchain-code/contract-vs-session.md#what-is-session-code) - The session logic defining the Deploy's functionality.
 * [approvals](../json-rpc/types_chain.md#approval) - The signer's hexadecimal-encoded public key and signature.

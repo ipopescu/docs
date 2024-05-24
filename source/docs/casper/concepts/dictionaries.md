@@ -3,7 +3,7 @@ title: Dictionaries
 ---
 # Understanding Dictionaries {#dictionaries}
 
-In a Casper network, you can now store sets of data under [`Keys`](./hash-types.md#hash-and-key-explanations). Previously, [URefs](./glossary/U.md#uref) were the exclusive means by which users could store data in global state. To maintain persistent access to these URefs, they would have to be stored within an `addressable entity`'s context. In the case of Contracts, sustained and continuous use of URefs would result in the expansion of the associated [NamedKeys](./glossary/N.md#namedkeys) structures.
+In a Casper network, you can now store sets of data under [`Keys`](./key-types.md#hash-and-key-explanations). Previously, [URefs](./glossary/U.md#uref) were the exclusive means by which users could store data in global state. To maintain persistent access to these URefs, they would have to be stored within an `addressable entity`'s context. In the case of Contracts, sustained and continuous use of URefs would result in the expansion of the associated [NamedKeys](./glossary/N.md#namedkeys) structures.
 
 Individual value changes to data stored within the NamedKeys would require deserializing the entire NamedKeys data structure, increasing gas costs over time and thus having a negative impact. Additionally, users storing large subsets of mapped data structures would face the same deep copy problem where minor or single updates required the complete deserialization of the map structure, also leading to increased gas costs.
 
@@ -13,7 +13,7 @@ Casper's Condor release shifts `NamedKeys` to a top-level key, removing this res
 
 ## Seed URefs
 
-Items within a dictionary exist as individual records stored underneath their unique [dictionary address](./hash-types.md#hash-and-key-explanations) in global state. In other words, items associated with a specific dictionary share the same seed [`URef`](./design/casper-design.md#uref-head) but are otherwise independent of each other. Dictionary items are not stored beneath this URef, it is only used to create the dictionary key.
+Items within a dictionary exist as individual records stored underneath their unique [dictionary address](./key-types.md#hash-and-key-explanations) in global state. In other words, items associated with a specific dictionary share the same seed [`URef`](./design/casper-design.md#uref-head) but are otherwise independent of each other. Dictionary items are not stored beneath this URef, it is only used to create the dictionary key.
 
 As each dictionary item exists as a stand-alone entity in global state, regularly used dictionary keys may be used directly without referencing their seed URef.
 
