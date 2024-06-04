@@ -251,7 +251,7 @@ module.exports = {
                 "operators/setup/joining",
                 "operators/setup/non-root-user",
                 "operators/setup/node-events",
-                "operators/setup/event-sidecar",
+                "operators/setup/casper-sidecar",
             ],
         },
         {

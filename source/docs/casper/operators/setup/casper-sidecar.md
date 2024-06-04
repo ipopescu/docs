@@ -4,28 +4,18 @@ title: SSE Sidecar
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# The Casper Event Sidecar
+# The Casper Sidecar
 
-The Casper Event Sidecar is an application running alongside the node process, allowing subscribers to monitor the event stream without querying the node. The application usually runs on the same machine as the node process, but it can be configured to run remotely if necessary. The load on the node process is thus drastically reduced. Users needing access to the JSON-RPC will still need to query the node directly.
-
-An alternate name for this application is the SSE Sidecar because it uses the node's Event Stream API returning Server-Sent Events (SSEs) in JSON format. Visit GitHub for detailed information on the following:
-
-<!-- TODO add links when the private sidecar repository is available 
-- Source code - link to the main repository 
-- System components and architecture - link to the architecture section
-- Node configuration instructions - link to resources/ETC_README.md#configuration
-   - Default configuration file - link to resources/default_config.toml
-- Maintenance scripts - link to resources/maintainer_scripts
--->
+The Casper Sidecar is an application running alongside the node process, allowing subscribers to monitor the event stream without querying the node. The application usually runs on the same machine as the node process, but it can be configured to run remotely if necessary. The load on the node process is thus drastically reduced. Users needing access to the JSON-RPC will still need to query the node directly. Visit [GitHub](https://github.com/casper-network/casper-sidecar/) for the latest source code and information on [system architecture](https://github.com/casper-network/casper-sidecar/?tab=readme-ov-file#system-components--architecture).
 
 <img class="align-center" src={useBaseUrl("/image/operators/sidecar-diagram.png")} alt="Sidecar components and architecture diagram" width="800"/>
 
 
 ## Installing the Sidecar Service {#installing-the-sidecar}
 
-The following command will install the Debian package for the Casper Event Sidecar service on various flavors of Linux. 
+The following command will install the Debian package for the Casper Sidecar service on various flavors of Linux. 
 
-<!-- TODO Once the package is published, update the command below with the new link to the casper-event-sidecar*.deb package. The link below assumes a package available locally. -->
+<!-- TODO Once the package is published, update the command below with the new link to the *.deb package. The link below assumes a package available locally. -->
 
 ```bash
 sudo apt install ./casper-event-sidecar_0.1.0-0_amd64.deb
@@ -124,16 +114,7 @@ sudo systemctl start casper-event-sidecar.service
 
 ## Configuring the Sidecar Service {#configuring-the-sidecar}
 
-Detailed node configuration instructions are available in GitHub.
-<!-- TODO link GitHub to ETC_README.md#configuration from the sidecar repo -->
-
-If the service was installed on a Casper node, this file holds a default configuration: `/etc/casper-event-sidecar/config.toml`. The file is also available in GitHub.
-<!-- TODO link GitHub to resources/default_config.toml from the sidecar repo -->
-
-Operators have the option to configure an administrative REST server that exposes a `metrics` endpoint.
-<!-- TODO link GitHub [admin_server] documentation -->
-
-Operators need to update the Sidecar configuration file according to their needs. GitHub has further details regarding each configuration option.
+Detailed node configuration instructions are available in [GitHub](https://github.com/casper-network/casper-sidecar/blob/dev/resources/ETC_README.md). Operators need to update the Sidecar configuration file according to their needs. GitHub has further details regarding each configuration option.
 
 ## Monitoring the Sidecar's Event Stream
 
@@ -148,7 +129,6 @@ curl -s http://HOST:PORT/events/CHANNEL
 - `CHANNEL` - The type of emitted event
 
 Given the default configuration, here are the commands for each endpoint:
-<!-- TODO link "default configuration" to the default_config.toml#L27-L29 -->
 
 - **Deploy events:** 
 
