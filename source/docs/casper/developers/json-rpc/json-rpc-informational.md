@@ -561,6 +561,75 @@ If the `execution_results` field is empty, it means that the network processed t
 
 </details>
 
+## info_get_reward {#info-get-reward}
+
+This method returns the reward for a given era and a validator or delegator.
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|[validator](types_chain.md#publickey)|String|The public key of the validator.|
+|[era_identifier](types_chain.md#eraientifier)|Object|The era identifier. If `None`, the last finalized era is used.|
+|[delegator](types_chain.md#publickey)|String|The public key of the delegator. If `Some`, the rewards for the delegator are returned. If `None`, the rewards for the validator are returned.|
+
+<details>
+
+<summary>Example info_get_reward request</summary>
+
+```bash
+
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "method": "info_get_reward",
+  "params": [
+      {
+          "name": "era_identifier",
+          "value": {
+              "Era": 1
+          }
+      },
+      {
+          "name": "validator",
+          "value": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c"
+      },
+      {
+          "name": "delegator",
+          "value": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c"
+      }
+  ],
+}
+
+```
+
+</details>
+
+### `info_get_reward_result`
+
+|Parameter|Type|Description|
+|---------|----|-----------|    
+|api_version|String|The RPC API version.|
+|[era_id](types_chain.md#eraid)|Integer|The era for which the reward was calculated.|
+|[reward_amount](types_chain.md#U512)|Integer|The total reward amount in the requested era.|
+
+<details>
+
+<summary>Example info_get_reward result</summary>
+
+```bash
+
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "value": {
+      "api_version": "2.0.0",
+      "reward_amount": "42",
+      "era_id": 1
+  }  
+
+```
+
+</details>
+
 ## info_get_transaction {#info-get-transaction}
 
 This method retrieves a transaction from a network. It requires a `transaction_hash` to query the Deploy.

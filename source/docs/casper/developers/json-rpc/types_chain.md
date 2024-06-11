@@ -755,6 +755,16 @@ Required Parameters:
 
 Era ID newtype.
 
+## EraIdentifier {#eraidentifier}
+
+Identifier for an era.
+
+One of:
+
+* [`Era`](#eraid) 
+
+* [`Block`](#blockidentifier)
+
 ## EraInfo {#erainfo}
 
 Auction metadata. Intended to be recorded at each era.
