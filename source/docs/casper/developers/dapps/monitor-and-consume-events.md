@@ -15,11 +15,11 @@ Smart contracts can also emit contract-level events, as explained [here](../writ
 
 ## The Casper Sidecar
 
-The Casper Sidecar is an application running alongside the node process. It allows subscribers to monitor a node's event stream, query stored events, and query the node's JSON RPC API, thus receiving faster responses and reducing the load placed on the node. The Sidecar supports the following functionalities:
+The Casper Sidecar is an application running alongside the node process. It allows subscribers to monitor a node's event stream, query stored events, and query the node's JSON-RPC API, thus receiving faster responses and reducing the load placed on the node. The Sidecar supports the following functionalities:
 
-* A [server-sent events (SSE) endpoint](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#the-sse-server) with an `/events` endpoint that streams all the events received from all connected nodes. The Sidecar also stores these events.
+* A [server-sent events (SSE) endpoint](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#the-sse-server) with an `/events` endpoint streaming events from all the connected nodes. The Sidecar also stores these events.
 * A [REST API server](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#the-rest-api-server) that allows clients to query stored events.
-* A [JSON RPC bridge](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#the-rpc-api-server) between end users and a Casper node's binary port.
+* A [JSON-RPC API](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#the-rpc-api-server) to interact with a Casper node.
 * [Legacy emulation](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/LEGACY_SSE_EMULATION.md) for clients using older versions of the SSE API.
 
 <img class="align-center" src={useBaseUrl("/image/operators/sidecar-diagram.png")} alt="Sidecar components and architecture diagram" width="800"/>
@@ -49,9 +49,7 @@ To summarize, events are divided into two categories and emitted on their respec
 - **Node-generated events** - All events coming from connected node(s) are emitted on the `events` endpoint. The default URL to consume these events on a Mainnet or Testnet node is usually `http://HOST:19999/events/`. This URL depends on how the Sidecar was configured on the node.
 - **Sidecar-generated events** - The Sidecar also emits events on the `events/sidecar` endpoint, designated for events originating solely from the Sidecar service. The URL to consume these events using Sidecar on a Mainnet or Testnet node is usually `http://HOST:19999/events/sidecar/`. This URL depends on how the Sidecar was configured on the node.
 
-Learn more about each endpoint, message versioning, and different types of shutdown events on the [Monitoring the Sidecar Service](../../operators/setup/casper-sidecar.md#monitoring-the-sidecars-event-stream) page.
-
-Moreover, the [Node's Event Stream](../../operators/setup/node-events.md) page explains the various event types emitted by the node and available through the Sidecar service.
+The [Casper Sidecar Usage Guide](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/USAGE.md) describes each event type in detail.
 
 ### Listening to the Event Stream
 
@@ -201,16 +199,19 @@ curl -sN http://65.21.235.219:19999/events?start_from=29267508
 
 </Tabs>
 
-The server will replay all the cached events if the ID is 0 or if you specify an event ID already purged from the cache. [This section](../../operators/setup/node-events.md#replaying-the-event-stream) contains more details about the number of events cached.
+The server will replay all the cached events if the ID is 0 or if you specify an event ID already purged from the cache.
 
+## The JSON-RPC API
+
+The Sidecar also offers a JSON-RPC API server for clients to interact with a Casper network. It is a JSON bridge between end users and a Casper node's binary port, forwarding requests to the Casper node's binary port. For more details on how the JSON-RPC API works, see the [JSON-RPC README](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/json_rpc/README.md).
 
 ## The REST API
 
 The Sidecar offers a REST API to query stored events. You can discover the specific endpoints of the REST API using [OpenAPI](https://github.com/casper-network/casper-sidecar/tree/feat-2.0?tab=readme-ov-file#openapi-specification) and [Swagger](https://github.com/casper-network/casper-sidecar/tree/feat-2.0?tab=readme-ov-file#swagger-documentation). The [usage instructions](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/USAGE.md) in the repository provide more details.
 
-## The JSON RPC API
+<img class="align-center" src={useBaseUrl("/image/operators/sidecar-swagger-1.png")} alt="Sidecar components and architecture diagram" width="800"/>
 
-The Sidecar also offers a JSON RPC API server for clients to interact with a Casper network. It is a JSON bridge between end users and a Casper node's binary port, forwarding requests to the Casper node's binary port. For more details on how the JSON RPC API works, see the [RPC README](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/json_rpc/README.md).
+<img class="align-center" src={useBaseUrl("/image/operators/sidecar-swagger-2.png")} alt="Sidecar components and architecture diagram" width="800"/>
 
 ## Troubleshooting Tips
 
