@@ -1,5 +1,5 @@
 ---
-title: The Casper Sidecar
+title: Sidecar Setup
 ---
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
