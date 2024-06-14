@@ -26,12 +26,12 @@ If you want to follow the [lifecycle](../../concepts/design/casper-design.md#exe
 
 - The IP address of a [peer](../prerequisites.md#acquire-node-address-from-network-peers) on the network
 - The port specified as the `event_stream_server.address` in the node's *config.toml*, which is by default 9999 on Mainnet and Testnet
-- The URL for DeployAccepted events, which is <HOST:PORT>/events/deploys
+- The URL for streamed events, which is <HOST:PORT>/events
 
-With the following command, you can start watching the event stream for DeployAccepted events. Note the event ID recorded when you send the Deploy in the next section.
+With the following command, you can start watching the event stream. Note the event ID recorded when you send the Deploy in the next section.
 
 ```bash
-curl -s http://65.21.235.219:9999/events/deploys
+curl -s http://65.21.235.219:9999/events
 ```
 
 ## Sending a Deploy to the Network {#sending-the-deploy}
