@@ -23,7 +23,7 @@ Operators need to update the Sidecar configuration file according to their needs
 
 ## Installing the Sidecar {#installing-the-sidecar}
 
-The following command will install the Debian package for the Casper Sidecar service on various flavors of Linux. 
+The following command will install the Debian package for the Casper Sidecar service on various Linux flavors. 
 
 <!-- TODO Once the package is published, update the command below with the new link to the *.deb package. The link below assumes a package available locally. -->
 <!--TODO update the sample output with the latest once a deb package is available. -->
@@ -125,7 +125,7 @@ sudo systemctl start casper-sidecar.service
 
 ## The Admin Server
 
-If enabled, the Sidecar's administrative API can be accessed with the following command. The `PORT` is usually `18887`, but it depends on how the Sidecar was configured.
+If enabled, the Sidecar's administrative API can be accessed using the following command. The `PORT` is usually `18887`, depending on how the Sidecar was configured.
 
 ```bash
 http://localhost:PORT/metrics/
@@ -188,11 +188,11 @@ received_bytes_count{filter="events/sigs"} 10194
 
 ## Swagger Documentation
 
-Access the Swagger documentation at `http://localhost:PORT/swagger-ui/`. The `PORT` is usually `18888`, but it depends on how the Sidecar was configured.
+You can access the Swagger documentation at `http://localhost:PORT/swagger-ui/`. The `PORT` is usually `18888`, depending on how the Sidecar was configured.
 
 ## OpenAPI Specification
 
-An OpenAPI schema is available at `http://localhost:PORT/api-doc.json/`. The `PORT` is usually `18888`, but it depends on how the Sidecar was configured.
+An OpenAPI schema is available at `http://localhost:PORT/api-doc.json/`. The `PORT` is usually `18888`, depending on how the Sidecar was configured.
 
 ## Using the Sidecar
 

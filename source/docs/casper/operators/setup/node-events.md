@@ -17,11 +17,11 @@ curl -s http://HOST:PORT/events/
 - `HOST` - The IP address of a node on the network.
 - `PORT` - The port specified as the `event_stream_server.address` in the node's *config.toml*.
 
-Another helpful tools is the [Casper Sidecar](./casper-sidecar.md), which is the recommended way to monitor events on a node. Visit the [Casper Sidecar Usage Guide](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/USAGE.md#the-sidecar-event-stream) for a detailed list of events and REST queries you can use to monitor the node and the state of the network.
+Another helpful tool is the [Casper Sidecar](./casper-sidecar.md), which provides the recommended way to monitor events on a node. Visit the [Casper Sidecar Usage Guide](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/USAGE.md#the-sidecar-event-stream) for a detailed list of events and REST queries you can use to monitor the node and the state of the network.
 
 ## Replaying the Event Stream
 
-This command will replay the event stream from an old event onward. The server will replay all the cached events if the ID is 0 or if you specify an event ID already purged from the cache. Replace the `HOST`, `PORT`, and `ID` fields with the values needed.
+This command will replay the event stream from an old event onward. If the ID is 0 or if you specify an event ID already purged from the cache, the server will replay all the cached events. Replace the `HOST`, `PORT`, and `ID` fields with the needed values.
 
 ```bash
 curl -sN http://HOST:PORT/events?start_from=ID
