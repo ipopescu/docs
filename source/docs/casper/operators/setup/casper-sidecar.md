@@ -131,61 +131,6 @@ If enabled, the Sidecar's administrative API can be accessed using the following
 http://localhost:PORT/metrics/
 ```
 
-<details>
-<summary><b>Sample response</b></summary>
-
-```bash
-# HELP internal_events Count of internal events
-# TYPE internal_events counter
-internal_events{category="main_inbound_sse_data",description="db_save_end"} 10424
-internal_events{category="main_inbound_sse_data",description="db_save_start"} 10424
-internal_events{category="main_inbound_sse_data",description="event_received_end"} 10424
-internal_events{category="main_inbound_sse_data",description="event_received_start"} 10424
-internal_events{category="main_inbound_sse_data",description="outbound_sse_data_send_end"} 2659
-internal_events{category="main_inbound_sse_data",description="outbound_sse_data_send_start"} 2659
-# HELP node_statuses Current status of node to which sidecar is connected. Numbers mean: 0 - preparing; 1 - connecting; 2 - connected; 3 - reconnecting; -1 - defunct -> used up all connection attempts ; -2 - defunct -> node is in an incompatible version
-# TYPE node_statuses gauge
-node_statuses{node="160.23.111.980:9999"} 2
-node_statuses{node="2.20.80.56:9999"} 2
-# HELP received_bytes Received bytes
-# TYPE received_bytes histogram
-received_bytes_bucket{filter="events/deploys",le="500"} 2
-received_bytes_bucket{filter="events/deploys",le="1000"} 2
-received_bytes_bucket{filter="events/deploys",le="2000"} 64
-received_bytes_bucket{filter="events/deploys",le="5000"} 64
-received_bytes_bucket{filter="events/deploys",le="50000"} 64
-received_bytes_bucket{filter="events/deploys",le="500000"} 66
-received_bytes_bucket{filter="events/deploys",le="5000000"} 66
-received_bytes_bucket{filter="events/deploys",le="50000000"} 66
-received_bytes_bucket{filter="events/deploys",le="+Inf"} 66
-received_bytes_sum{filter="events/deploys"} 385714
-received_bytes_count{filter="events/deploys"} 66
-received_bytes_bucket{filter="events/main",le="500"} 4
-received_bytes_bucket{filter="events/main",le="1000"} 104
-received_bytes_bucket{filter="events/main",le="2000"} 106
-received_bytes_bucket{filter="events/main",le="5000"} 106
-received_bytes_bucket{filter="events/main",le="50000"} 154
-received_bytes_bucket{filter="events/main",le="500000"} 168
-received_bytes_bucket{filter="events/main",le="5000000"} 170
-received_bytes_bucket{filter="events/main",le="50000000"} 170
-received_bytes_bucket{filter="events/main",le="+Inf"} 170
-received_bytes_sum{filter="events/main"} 7454612
-received_bytes_count{filter="events/main"} 170
-received_bytes_bucket{filter="events/sigs",le="500"} 10194
-received_bytes_bucket{filter="events/sigs",le="1000"} 10194
-received_bytes_bucket{filter="events/sigs",le="2000"} 10194
-received_bytes_bucket{filter="events/sigs",le="5000"} 10194
-received_bytes_bucket{filter="events/sigs",le="50000"} 10194
-received_bytes_bucket{filter="events/sigs",le="500000"} 10194
-received_bytes_bucket{filter="events/sigs",le="5000000"} 10194
-received_bytes_bucket{filter="events/sigs",le="50000000"} 10194
-received_bytes_bucket{filter="events/sigs",le="+Inf"} 10194
-received_bytes_sum{filter="events/sigs"} 3516488
-received_bytes_count{filter="events/sigs"} 10194
-```
-
-</details>
-
 ## Swagger Documentation
 
 You can access the Swagger documentation at `http://localhost:PORT/swagger-ui/`. The `PORT` is usually `18888`, depending on how the Sidecar was configured.
