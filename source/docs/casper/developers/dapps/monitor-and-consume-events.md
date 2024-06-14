@@ -5,29 +5,46 @@ title: Monitoring Events with the Casper Sidecar
 import Tabs from '@theme/Tabs'; import TabItem from '@theme/TabItem';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-<!--TODO update all links to dev, once feat-2.0 merges-->
+<!--TODO once the Sidecar's feat-2.0 merges, update all related links to the dev branch.-->
 
 # Monitoring and Consuming Events
 
 The Casper platform uses [event streaming](../../operators/setup/node-events.md) to signal state changes in smart contracts and nodes. Using the [Casper Sidecar](#the-casper-sidecar) service and client-side SDKs, dApps actively listening for emitted events can consume them and perform actions based on event data.
 
-Smart contracts can also emit contract-level events as explained [here](../writing-onchain-code/emitting-contract-events.md). DApps can consume these events by listening to the event stream, detecting [TransactionProcessed](#deployprocessed) events, and parsing the `messages` array storing String-representations of the emitted events.
+Smart contracts can also emit contract-level events, as explained [here](../writing-onchain-code/emitting-contract-events.md). DApps can consume these events by listening to the event stream, detecting [TransactionProcessed](#deployprocessed) events, and parsing the `messages` array storing String-representations of the emitted events.
 
 ## The Casper Sidecar
 
 The Casper Sidecar is an application running alongside the node process. It allows subscribers to monitor a node's event stream, query stored events, and query the node's JSON RPC API, thus receiving faster responses and reducing the load placed on the node. The Sidecar supports the following functionalities:
 
-* A server-sent events (SSE) server with an `/events` endpoint that streams all the events received from all connected nodes. The Sidecar also stores these events.
-* A REST API server that allows clients to query stored events.
-* A JSON RPC bridge between end users and a Casper node's binary port.
+* A [server-sent events (SSE) endpoint](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#the-sse-server) with an `/events` endpoint that streams all the events received from all connected nodes. The Sidecar also stores these events.
+* A [REST API server](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#the-rest-api-server) that allows clients to query stored events.
+* A [JSON RPC bridge](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#the-rpc-api-server) between end users and a Casper node's binary port.
+* [Legacy emulation](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/LEGACY_SSE_EMULATION.md) for clients using older versions of the SSE API.
 
 <img class="align-center" src={useBaseUrl("/image/operators/sidecar-diagram.png")} alt="Sidecar components and architecture diagram" width="800"/>
 
-Visit [GitHub](https://github.com/casper-network/casper-sidecar/) for the latest source code and information on [system architecture](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#system-components--architecture).
+Visit [GitHub](https://github.com/casper-network/casper-sidecar/) for the latest source code and information on:
 
-## The Sidecar Event Stream
+* [System architecture](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#system-components--architecture)
+* [Configuring the Sidecar](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#configuring-the-sidecar)
+* [Running and testing](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#running-and-testing-the-sidecar) the Sidecar
+* [Swagger documentation](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#swagger-documentation) for its REST API
+* [OpenAPI schema](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#openapi-specification) for the JSON-RPC API
+* [Troubleshooting tips](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/README.md#troubleshooting-tips)
 
-The Sidecar's event stream endpoint is a passthrough for all the events emitted by the node(s) to which the Sidecar connects. This stream also includes one endpoint for Sidecar-generated events that can be useful, although the node did not emit them. Events are divided into two categories and emitted on their respective endpoints:
+## The Event Stream
+
+Casper nodes offer an event stream API that returns server-sent events (SSEs) with JSON-encoded data. The Sidecar reads the event stream of all connected nodes, acting as a passthrough and replicating the SSE interface of the connected nodes.
+
+The Sidecar can:
+* Republish the current events from the node to clients listening to Sidecar's SSE API.
+* Publish a configurable number of previous events to clients connecting to the Sidecar's SSE API with `?start_from=` query (similar to the node's SSE API).
+* Store the events in external storage so clients can query them via the REST API.
+
+The Sidecar also provides an endpoint for Sidecar-generated events that can be useful, although the node did not emit them. 
+
+To summarize, events are divided into two categories and emitted on their respective endpoints:
 
 - **Node-generated events** - All events coming from connected node(s) are emitted on the `events` endpoint. The default URL to consume these events on a Mainnet or Testnet node is usually `http://HOST:19999/events/`. This URL depends on how the Sidecar was configured on the node.
 - **Sidecar-generated events** - The Sidecar also emits events on the `events/sidecar` endpoint, designated for events originating solely from the Sidecar service. The URL to consume these events using Sidecar on a Mainnet or Testnet node is usually `http://HOST:19999/events/sidecar/`. This URL depends on how the Sidecar was configured on the node.
@@ -38,7 +55,7 @@ Moreover, the [Node's Event Stream](../../operators/setup/node-events.md) page e
 
 ### Listening to the Event Stream
 
-To consume the event stream, set up an event listener in your dApp using the following code. The `NODE_ADDRESS` is the address of the node where the Sidecar is installed. The `PORT` is the address where the Sidecar streams events. By default it is `19999`, but you need to find out how the Sidecar was configured.
+Set up an event listener in your dApp using the following code to consume the event stream. The `NODE_ADDRESS` is the address of the node where the Sidecar was installed. The `PORT` is the address where the Sidecar streams events. It is `19999` by default, but you must find out how the Sidecar was configured.
 
 <Tabs>
 
@@ -94,7 +111,7 @@ The Sidecar streams messages emitted by a contract in a human-readable format. T
 
 ### Reacting to Events
 
-An application may parse each event needed for its use case and respond accordingly. Depending on its use case, the dApp may act on some events and not others, or it may act upon them all. Each event type contains additional data that might help decide whether to take action. For example, `TransactionAccepted` events contain the account's public key that submitted the transaction, the contract address, and more. This information can help determine how to proceed.
+An application may parse each event needed for its use case and respond accordingly. Each event type contains additional data that might help decide whether to take action. For example, `TransactionAccepted` events contain the account's public key that submitted the transaction, the contract address, and more. This information can help determine how to proceed.
 
 <Tabs>
 
@@ -124,7 +141,7 @@ def eventHandler(event):
 
 ### Unsubscribing from Events
 
-In many cases, an application may need to unsubscribe after a certain time or may want to unsubscribe from some events but not others. The Casper SDKs provide this ability with the `unsubscribe` function:
+In many cases, an application may need to unsubscribe after a particular time or may want to unsubscribe from some events but not others. The Casper SDKs provide this ability with the `unsubscribe` function:
 
 <Tabs>
 
@@ -187,13 +204,13 @@ curl -sN http://65.21.235.219:19999/events?start_from=29267508
 The server will replay all the cached events if the ID is 0 or if you specify an event ID already purged from the cache. [This section](../../operators/setup/node-events.md#replaying-the-event-stream) contains more details about the number of events cached.
 
 
-## The Sidecar REST API
+## The REST API
 
 The Sidecar offers a REST API to query stored events. You can discover the specific endpoints of the REST API using [OpenAPI](https://github.com/casper-network/casper-sidecar/tree/feat-2.0?tab=readme-ov-file#openapi-specification) and [Swagger](https://github.com/casper-network/casper-sidecar/tree/feat-2.0?tab=readme-ov-file#swagger-documentation). The [usage instructions](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/USAGE.md) in the repository provide more details.
 
-## The Sidecar RPC API
+## The JSON RPC API
 
-The Sidecar also offers an RPC-JSON API server for clients to interact with a Casper network. It is a JSON bridge between end users and a Casper node's binary port. The RPC API server forwards requests to the Casper node's binary port. For more details on how the RPC JSON API works, see the [RPC README](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/json_rpc/README.md).
+The Sidecar also offers a JSON RPC API server for clients to interact with a Casper network. It is a JSON bridge between end users and a Casper node's binary port, forwarding requests to the Casper node's binary port. For more details on how the JSON RPC API works, see the [RPC README](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/json_rpc/README.md).
 
 ## Troubleshooting Tips
 
