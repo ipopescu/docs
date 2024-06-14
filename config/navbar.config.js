@@ -47,6 +47,10 @@ module.exports = {
             position: "left",
         },
         {
+            href: "https://docs.casper.network/resources/quick-start/",
+            label: "Quickstart",
+        },
+        {
             href: "https://support.casperlabs.io/",
             label: "Support",
         },
