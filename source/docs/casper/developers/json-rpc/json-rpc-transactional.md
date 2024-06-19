@@ -4,19 +4,23 @@
 
 ## account_put_deploy {#account-put-deploy}
 
-This is the only means by which users can send their compiled Wasm (as part of a Deploy) to a node on a Casper network. The request takes in the [Deploy](../../concepts/design/casper-design.md/#execution-semantics-deploys) as a parameter, prior to sending it to a node on a network for execution.
+:::caution
+
+**DEPRECATED**: Use [account_put_transaction](#account-put-transaction) instead.
+
+:::
+
+This endpoint allows sending a deploy to be executed by the network.
 
 |Parameter|Type|Description|
 |---------|----|-----------|
 |[deploy](./types_chain.md#deploy)|Object|A Deploy consists of an item containing a smart contract along with the requester's signature(s).|
 
-> **Note**: You can find a list of [trusted peers](../../operators/setup/joining.md/#known-addresses) in the network's configuration file, `config.toml`. Here is an [example config.toml](https://github.com/casper-network/casper-node/blob/dev/resources/production/config-example.toml#L131). You may send deploys to one of the trusted nodes or use them to query other online nodes.
-
 <details>
 
 <summary>Example account_put_deploy request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -24,58 +28,56 @@ This is the only means by which users can send their compiled Wasm (as part of a
   "method": "account_put_deploy",
   "params": [
     {
-      "approvals": [
-        {
-          "signer": "01f8b29f39c38600ecb3bbb082951e04ab63a4ad4f7c9048a5057e461a5a8d58a5",
-          "signature": "019d6ef5c62c80ad4e50df343fba6f0fced17dea4c65e7976f66335ffcfcde2a7f02e928c8507cef3c76c3151e0e9cc9c3f7838b9f7a99ac4be5522ca092841100"
-        }
-      ],
-      "hash": "00a8677713222df88b6988926e0b14adeda6c663957f5075003395da4e5c6888",
-      "header": {
-        "account": "01f8b29f39c38600ecb3bbb082951e04ab63a4ad4f7c9048a5057e461a5a8d58a5",
-        "body_hash": "145ae09d6da5bc290051db8cb7132a41a30473d5900eaaf409d92b666325ca00",
-        "chain_name": "casper-net-1",
-        "dependencies": [
-          "0101010101010101010101010101010101010101010101010101010101010101"
-        ],
-        "gas_price": 1,
-        "timestamp": "2023-09-26T14:07:10.024Z",
-        "ttl": "1h"
-      },
-      "payment": {
-        "StoredContractByName": {
-          "args": [
-            [
-              "amount",
-              {
-                "bytes": "0400f90295",
-                "cl_type": "U512"
-              }
-            ]
+      "name": "deploy",
+      "value": {
+        "hash": "5c9b3b099c1378aa8e4a5f07f59ff1fcdc69a83179427c7e67ae0377d94d93fa",
+        "header": {
+          "account": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c",
+          "timestamp": "2020-11-17T00:39:24.072Z",
+          "ttl": "1h",
+          "gas_price": 1,
+          "body_hash": "d53cf72d17278fd47d399013ca389c50d589352f1a12593c0b8e01872a641b50",
+          "dependencies": [
+            "0101010101010101010101010101010101010101010101010101010101010101"
           ],
-          "entry_point": "example-entry-point",
-          "name": "casper-example"
-        }
-      },
-      "session": {
-        "Transfer": {
-          "args": [
-            [
-              "amount",
-              {
-                "cl_type": "U512",
-                "bytes": "0400f90295"
-              }
-            ],
-            [
-              "target",
-              {
-                "cl_type": "URef",
-                "bytes": "09480c3248ef76b603d386f3f4f8a5f87f597d4eaffd475433f861af187ab5db07"
-              }
+          "chain_name": "casper-example"
+        },
+        "payment": {
+          "StoredContractByName": {
+            "name": "casper-example",
+            "entry_point": "example-entry-point",
+            "args": [
+              [
+                "amount",
+                {
+                  "cl_type": "I32",
+                  "bytes": "e8030000",
+                  "parsed": 1000
+                }
+              ]
             ]
-          ]
-        }
+          }
+        },
+        "session": {
+          "Transfer": {
+            "args": [
+              [
+                "amount",
+                {
+                  "cl_type": "I32",
+                  "bytes": "e8030000",
+                  "parsed": 1000
+                }
+              ]
+            ]
+          }
+        },
+        "approvals": [
+          {
+            "signer": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c",
+            "signature": "014c1a89f92e29dd74fc648f741137d9caf4edba97c5f9799ce0c9aa6b0c9b58db368c64098603dbecef645774c05dff057cb1f91f2cf390bbacce78aa6f084007"
+          }
+        ]
       }
     }
   ]
@@ -87,7 +89,7 @@ This is the only means by which users can send their compiled Wasm (as part of a
 
 ### `account_put_deploy_result`
 
-The result contains the [deploy_hash](./types_chain.md#deployhash), which is the primary identifier of a Deploy within a Casper network.
+The result contains the RPC API version and a [deploy_hash](./types_chain.md#deployhash), which is the primary identifier of a Deploy within a Casper network.
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -98,14 +100,17 @@ The result contains the [deploy_hash](./types_chain.md#deployhash), which is the
 
 <summary>Example account_put_deploy result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-    "api_version": "1.4.13",
-    "deploy_hash": "5c9b3b099c1378aa8e4a5f07f59ff1fcdc69a83179427c7e67ae0377d94d93fa"
+    "name": "account_put_deploy_result",
+    "value": {
+      "api_version": "2.0.0",
+      "deploy_hash": "5c9b3b099c1378aa8e4a5f07f59ff1fcdc69a83179427c7e67ae0377d94d93fa"
+    }
   }
 }
 
@@ -115,17 +120,19 @@ The result contains the [deploy_hash](./types_chain.md#deployhash), which is the
 
 ## account_put_transaction {#account-put-transaction}
 
-This endpoint allows sending a transaction to be executed by the network.
+This is the recommended means by which users can send their compiled Wasm (as part of a Transaction) to a node on a Casper network. The request takes in the [transaction](./types_chain.md#transaction) as a parameter, prior to sending it to a node on a network for execution.
 
 |Parameter|Type|Description|
 |---------|----|-----------|
 |[transaction](./types_chain.md#transaction)|Object|A transaction consists of an item containing a Deploy and a [`Transaction`](./types_chain.md#transaction) along with the requester's signature(s).|
 
+> **Note**: You can find a list of [trusted peers](../../operators/setup/joining.md/#known-addresses) in the network's configuration file, `config.toml`. Here is an [example config.toml](https://github.com/casper-network/casper-node/blob/dev/resources/production/config-example.toml#L131). You may send transactions to one of the trusted nodes or use them to query other online nodes.
+
 <details>
 
 <summary>Example account_put_transaction request</summary>
 
-```bash
+```json
 {
   "id": 1,
   "jsonrpc": "2.0",
@@ -135,16 +142,17 @@ This endpoint allows sending a transaction to be executed by the network.
       "name": "transaction",
       "value": {
         "Version1": {
-          "hash": "6aaf4a54499e3757eb4be6967503dcc431e4623bf8bb57a14c1729a114a1aaa2",
+          "hash": "f5582cb81a5abda63ebaa4edb3b05210ecbd63ffb8dd17bfbeb3b867f4014468",
           "header": {
             "chain_name": "casper-example",
             "timestamp": "2020-11-17T00:39:24.072Z",
             "ttl": "1h",
-            "body_hash": "d2433e28993036fbdf7c963cd753893fefe619e7dbb5c0cafa5cb03bcf3ff9db",
+            "body_hash": "aa24833ffbf31d62c8c8c4265349e7c09cd71952fcbce6f7b12daf5e340bf2cc",
             "pricing_mode": {
-              "GasPriceMultiplier": 1
+              "Fixed": {
+                "gas_price_tolerance": 5
+              }
             },
-            "payment_amount": null,
             "initiator_addr": {
               "PublicKey": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c"
             }
@@ -154,8 +162,10 @@ This endpoint allows sending a transaction to be executed by the network.
               [
                 "source",
                 {
-                  "cl_type": "URef",
-                  "bytes": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a07",
+                  "cl_type": {
+                    "Option": "URef"
+                  },
+                  "bytes": "010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a07",
                   "parsed": "uref-0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a-007"
                 }
               ],
@@ -176,18 +186,6 @@ This endpoint allows sending a transaction to be executed by the network.
                 }
               ],
               [
-                "to",
-                {
-                  "cl_type": {
-                    "Option": {
-                      "ByteArray": 32
-                    }
-                  },
-                  "bytes": "012828282828282828282828282828282828282828282828282828282828282828",
-                  "parsed": "2828282828282828282828282828282828282828282828282828282828282828"
-                }
-              ],
-              [
                 "id",
                 {
                   "cl_type": {
@@ -200,12 +198,13 @@ This endpoint allows sending a transaction to be executed by the network.
             ],
             "target": "Native",
             "entry_point": "Transfer",
+            "transaction_kind": 0,
             "scheduling": "Standard"
           },
           "approvals": [
             {
               "signer": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c",
-              "signature": "012152c1eab67f63faa6a482ec4847ecd145c3b2c3e2affe763303ecb4ccf8618a1b2d24de7313fbf8a2ac1b5256471cc6bbf21745af15516331e5fc3d4a2fa201"
+              "signature": "0137d3f468d8f8a6e63f4110d79be29b8c8428e9cd858a92049660e7851ae16a299640d1fc1c930ab6cb424f1a6eec0b194df74bede14f4af1b5133106f1280d0b"
             }
           ]
         }
@@ -220,7 +219,7 @@ This endpoint allows sending a transaction to be executed by the network.
 
 ### `account_put_transaction_result`
 
-The result contains the [transaction_hash](./types_chain.md#transactionhash), which is the primary identifier of a transaction within a Casper network.
+The result contains the RPC API version and the [transaction_hash](./types_chain.md#transactionhash), which is the primary identifier of a transaction within a Casper network.
 
 |Parameter|Type|Description|
 |---------|----|-----------|
@@ -231,19 +230,19 @@ The result contains the [transaction_hash](./types_chain.md#transactionhash), wh
 
 <summary>Example account_put_transaction result</summary>
 
-```bash
+```json
 {
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-            "name": "account_put_transaction_example_result",
-            "value": {
-              "api_version": "1.5.3",
-              "transaction_hash": {
-                "Version1": "6aaf4a54499e3757eb4be6967503dcc431e4623bf8bb57a14c1729a114a1aaa2"
-              }
-            }
-          }
+    "name": "account_put_transaction_result",
+    "value": {
+      "api_version": "2.0.0",
+      "transaction_hash": {
+        "Version1": "f5582cb81a5abda63ebaa4edb3b05210ecbd63ffb8dd17bfbeb3b867f4014468"
+      }
+    }
+  }
 }
 
 ```
@@ -252,26 +251,28 @@ The result contains the [transaction_hash](./types_chain.md#transactionhash), wh
 
 ## speculative_exec {#speculative_exec}
 
-The `speculative_exec` endpoint provides a method to execute a `Deploy` without committing its execution effects to global state. By default, `speculative_exec` is disabled on a node. Sending a request to a node with the endpoint disabled will result in an error message. If enabled, `speculative_exec` operates on a separate port from the primary JSON-RPC, using 7778.
+:::caution
 
-`speculative_exec` executes a Deploy at a specified block. In the case of this endpoint, the execution effects are not committed to global state. As such, it can be used for observing the execution effects of a Deploy without paying for the execution of the Deploy.
+**DEPRECATED**: Use [speculative_exec_txn](#speculative-exec-txn) instead.
+
+:::
+
+The `speculative_exec` endpoint allows executing a `Deploy` without committing its execution effects to global state. By default, `speculative_exec` is turned off on a node. Sending a request to a node with the endpoint unavailable will result in an error message. Find out if this endpoint is available and which port to access. The port is separate from the node's binary port and the default is 7778.
 
 |Parameter|Type|Description|
 |---------|----|-----------|
-|[block_identifier](./types_chain.md#blockidentifier)|Object|The block hash or height on top of which to execute the deploy. If not supplied,the most recent block will be used.|
 |[deploy](./types_chain.md#deploy)|Object|A Deploy consists of an item containing a smart contract along with the requester's signature(s).|
 
 <details>
 
 <summary>Example speculative_exec request</summary>
 
-```bash
+```json
 
 {
   "jsonrpc": "2.0",
   "method": "speculative_exec",
   "params": {
-    "block_identifier": null,
     "deploy": {
       "hash": "b6aa46333fb858deee7f259a5bca581251c6200a5d902aeb1244c3a7169b5971",
       "header": {
@@ -347,302 +348,174 @@ The `speculative_exec` endpoint provides a method to execute a `Deploy` without 
 
 ### `speculative_exec_result`
 
-The result contains the hash of the targeted block and the results of the execution.
+The result contains the RPC API version and the speculative execution result.
 
 |Parameter|Type|Description|
 |---------|----|-----------|
 |api_version|String|The RPC API version.|
-|[block_hash](./types_chain.md#blockhash)|Object|The Block hash on top of which the deploy was executed.|
 |[execution_results](./types_chain.md#executionresult)|Object|The map of Block hash to execution result.|
 
 <details>
 
 <summary>Example speculative_exec result</summary>
 
-```bash
+<!--TODO the latest example from the Sidecar is empty. Test it or work with a dev to get the details. -->
+
+```json
 
 {
   "jsonrpc": "2.0",
   "id": -8801853076373554652,
   "result": {
-    "api_version": "1.5.0",
-    "block_hash": "ff862326b08702a5089d64e32100537b7ff984cac4c0ba6d1c561f7c47125f76",
-    "execution_result": {
-      "Success": {
-        "effect": {
-          "operations": [],
-          "transforms": [
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "account-hash-f466e7f5f9240fb577d1d4c650c4063752553406dff7aa24b4822ba2b72e5b65",
-              "transform": "Identity"
-            },
-            {
-              "key": "account-hash-f466e7f5f9240fb577d1d4c650c4063752553406dff7aa24b4822ba2b72e5b65",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-0a300922655180354a9ee92b808c7b45b08e5b01d9da0bac9a9b3415bcebbf8d",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-59c6451dd58463708fa0b122e97114f07fa5f609229c9d67ac9426935416fbeb",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-7c25ef9382fcae902b922866434f7111a1b34534323e93ff5bf22f1a401c2678",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-ea3c9bdcbe57f067a29609d397981b2d0fb39853a0a9f06e444b06404eadcb1a",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-7c25ef9382fcae902b922866434f7111a1b34534323e93ff5bf22f1a401c2678",
-              "transform": {
-                "WriteCLValue": {
-                  "cl_type": "U512",
-                  "bytes": "05f0e630ed87",
-                  "parsed": "583799990000"
-                }
-              }
-            },
-            {
-              "key": "balance-ea3c9bdcbe57f067a29609d397981b2d0fb39853a0a9f06e444b06404eadcb1a",
-              "transform": {
-                "AddUInt512": "100000000"
-              }
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "account-hash-f466e7f5f9240fb577d1d4c650c4063752553406dff7aa24b4822ba2b72e5b65",
-              "transform": "Identity"
-            },
-            {
-              "key": "account-hash-f466e7f5f9240fb577d1d4c650c4063752553406dff7aa24b4822ba2b72e5b65",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-0a300922655180354a9ee92b808c7b45b08e5b01d9da0bac9a9b3415bcebbf8d",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-59c6451dd58463708fa0b122e97114f07fa5f609229c9d67ac9426935416fbeb",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-7c25ef9382fcae902b922866434f7111a1b34534323e93ff5bf22f1a401c2678",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-ea3c9bdcbe57f067a29609d397981b2d0fb39853a0a9f06e444b06404eadcb1a",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-7c25ef9382fcae902b922866434f7111a1b34534323e93ff5bf22f1a401c2678",
-              "transform": {
-                "WriteCLValue": {
-                  "cl_type": "U512",
-                  "bytes": "05f0e630ed87",
-                  "parsed": "583799990000"
-                }
-              }
-            },
-            {
-              "key": "balance-ea3c9bdcbe57f067a29609d397981b2d0fb39853a0a9f06e444b06404eadcb1a",
-              "transform": {
-                "AddUInt512": "100000000"
-              }
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-59c6451dd58463708fa0b122e97114f07fa5f609229c9d67ac9426935416fbeb",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-7c25ef9382fcae902b922866434f7111a1b34534323e93ff5bf22f1a401c2678",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-92ec6dfbdf151e20b55c89e0a327959cf6e5b091c5f2b39201c1858e2943f3bd",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-7c25ef9382fcae902b922866434f7111a1b34534323e93ff5bf22f1a401c2678",
-              "transform": {
-                "WriteCLValue": {
-                  "cl_type": "U512",
-                  "bytes": "05f0ed2d5887",
-                  "parsed": "581299990000"
-                }
-              }
-            },
-            {
-              "key": "balance-92ec6dfbdf151e20b55c89e0a327959cf6e5b091c5f2b39201c1858e2943f3bd",
-              "transform": {
-                "AddUInt512": "2500000000"
-              }
-            },
-            {
-              "key": "transfer-97426c848475dae98446f2c2fd00ec7901cd8ddfe250171ff4ed25d78412a612",
-              "transform": {
-                "WriteTransfer": {
-                  "deploy_hash": "d898910011b1f2f8797a442740e69cd5de41b9f796e658e962a24663e6199e5a",
-                  "from": "account-hash-0a9b33af5108c5a6e1067b0ddec6853ce1745d591375d767ac5db680d21845e7",
-                  "to": "account-hash-f466e7f5f9240fb577d1d4c650c4063752553406dff7aa24b4822ba2b72e5b65",
-                  "source": "uref-7c25ef9382fcae902b922866434f7111a1b34534323e93ff5bf22f1a401c2678-007",
-                  "target": "uref-92ec6dfbdf151e20b55c89e0a327959cf6e5b091c5f2b39201c1858e2943f3bd-004",
-                  "amount": "2500000000",
-                  "gas": "0",
-                  "id": 0
-                }
-              }
-            },
-            {
-              "key": "deploy-d898910011b1f2f8797a442740e69cd5de41b9f796e658e962a24663e6199e5a",
-              "transform": {
-                "WriteDeployInfo": {
-                  "deploy_hash": "d898910011b1f2f8797a442740e69cd5de41b9f796e658e962a24663e6199e5a",
-                  "transfers": [
-                    "transfer-97426c848475dae98446f2c2fd00ec7901cd8ddfe250171ff4ed25d78412a612"
-                  ],
-                  "from": "account-hash-0a9b33af5108c5a6e1067b0ddec6853ce1745d591375d767ac5db680d21845e7",
-                  "source": "uref-7c25ef9382fcae902b922866434f7111a1b34534323e93ff5bf22f1a401c2678-007",
-                  "gas": "100000000"
-                }
-              }
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-0a300922655180354a9ee92b808c7b45b08e5b01d9da0bac9a9b3415bcebbf8d",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-ea3c9bdcbe57f067a29609d397981b2d0fb39853a0a9f06e444b06404eadcb1a",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-d2dfc9409965993f9e186db762b585274dcafe439fa1321cfca08017262c8e46",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-59c6451dd58463708fa0b122e97114f07fa5f609229c9d67ac9426935416fbeb",
-              "transform": "Identity"
-            },
-            {
-              "key": "hash-f8df015ba26860a7ec8cab4ee99f079325b0bbb9ef0e7810b63d85df39da95fe",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-ea3c9bdcbe57f067a29609d397981b2d0fb39853a0a9f06e444b06404eadcb1a",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-ecc530e74cf2185936a334aa1e0f07539aa3b33c4b547e71fc4109151755652f",
-              "transform": "Identity"
-            },
-            {
-              "key": "balance-ea3c9bdcbe57f067a29609d397981b2d0fb39853a0a9f06e444b06404eadcb1a",
-              "transform": {
-                "WriteCLValue": {
-                  "cl_type": "U512",
-                  "bytes": "00",
-                  "parsed": "0"
-                }
-              }
-            },
-            {
-              "key": "balance-ecc530e74cf2185936a334aa1e0f07539aa3b33c4b547e71fc4109151755652f",
-              "transform": {
-                "AddUInt512": "100000000"
-              }
+    "name": "speculative_exec_result",
+    "value": {
+      "api_version": "2.0.0",
+      "execution_result": {
+        "block_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "transfers": [],
+        "limit": "0",
+        "consumed": "0",
+        "effects": [],
+        "messages": [],
+        "error": null
+      }
+    }
+  }
+}
+
+```
+
+
+</details>
+
+
+## speculative_exec_txn {speculative-exec-txn}
+
+The `speculative_exec_txn` endpoint allows executing a `Transaction` without committing its execution effects to global state. By default, `speculative_exec_txn` is turned off on a node. Sending a request to a node with the endpoint unavailable will result in an error message. Find out if this endpoint is available and which port to access. The port is separate from the node's binary port and the default is 7778.
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|[transaction](./types_chain.md#transaction-transaction)|Object|A Transaction is a versioned wrapper for a transaction or deploy.|
+
+<details>
+
+<summary>Example speculative_exec_txn request</summary>
+
+```json
+
+{
+  "jsonrpc": "2.0",
+  "method": "speculative_exec_txn",
+  "params": {
+    "transaction": {
+      "Version1": {
+        "hash": "f5582cb81a5abda63ebaa4edb3b05210ecbd63ffb8dd17bfbeb3b867f4014468",
+        "header": {
+          "chain_name": "casper-example",
+          "timestamp": "2020-11-17T00:39:24.072Z",
+          "ttl": "1h",
+          "body_hash": "aa24833ffbf31d62c8c8c4265349e7c09cd71952fcbce6f7b12daf5e340bf2cc",
+          "pricing_mode": {
+            "Fixed": {
+              "gas_price_tolerance": 5
             }
-          ]
+          },
+          "initiator_addr": {
+            "PublicKey": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c"
+          }
         },
-        "transfers": [
-          "transfer-97426c848475dae98446f2c2fd00ec7901cd8ddfe250171ff4ed25d78412a612"
-        ],
-        "cost": "100000000"
+        "body": {
+          "args": [
+            [
+              "source",
+              {
+                "cl_type": {
+                  "Option": "URef"
+                },
+                "bytes": "010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a07",
+                "parsed": "uref-0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a-007"
+              }
+            ],
+            [
+              "target",
+              {
+                "cl_type": "URef",
+                "bytes": "1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b00",
+                "parsed": "uref-1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b-000"
+              }
+            ],
+            [
+              "amount",
+              {
+                "cl_type": "U512",
+                "bytes": "0500ac23fc06",
+                "parsed": "30000000000"
+              }
+            ],
+            [
+              "id",
+              {
+                "cl_type": {
+                  "Option": "U64"
+                },
+                "bytes": "01e703000000000000",
+                "parsed": 999
+              }
+            ]
+          ],
+          "target": "Native",
+          "entry_point": "Transfer",
+          "transaction_kind": 0,
+          "scheduling": "Standard"
+        },
+        "approvals": [
+          {
+            "signer": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c",
+            "signature": "0137d3f468d8f8a6e63f4110d79be29b8c8428e9cd858a92049660e7851ae16a299640d1fc1c930ab6cb424f1a6eec0b194df74bede14f4af1b5133106f1280d0b"
+          }
+        ]
+      }
+    }
+  },
+  "id": 6889533540839698701
+}
+
+```
+
+</details>
+
+### `speculative_exec_txn_result`
+
+The result contains the RPC API version and the speculative execution result.
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|api_version|String|The RPC API version.|
+|[execution_result](./types_chain.md#executionresult)|Object|Result of the speculative execution.|
+
+<details>
+
+<!--TODO the latest example from the Sidecar is empty. Test it or work with a dev to get the details. -->
+
+<summary>Example speculative_exec_txn result</summary>
+
+```json
+
+{
+  "jsonrpc": "2.0",
+  "id": -8801853076373554652,
+  "result": {
+    "name": "speculative_exec_txn_result",
+    "value": {
+      "api_version": "2.0.0",
+      "execution_result": {
+        "block_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "transfers": [],
+        "limit": "0",
+        "consumed": "0",
+        "effects": [],
+        "messages": [],
+        "error": null
       }
     }
   }
