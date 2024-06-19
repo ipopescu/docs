@@ -17,7 +17,7 @@ This method returns the JSON representation of a [Block](../../concepts/design/c
 
 <summary>Example chain_get_block request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -47,7 +47,7 @@ The result from `chain_get_block` depends on block availability from a given nod
 
 <summary>Example chain_get_block result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -130,7 +130,7 @@ This method returns all **successful** native transfers within a given [Block](.
 
 <summary>Example chain_get_block_transfers request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -158,7 +158,7 @@ This method returns all **successful** native transfers within a given [Block](.
 
 <summary>Example chain_get_block_transfers result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -197,7 +197,7 @@ This method returns the era summary at a given [Block](../../concepts/design/cas
 
 <summary>Example chain_get_era_summary request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -225,7 +225,7 @@ This method returns the era summary at a given [Block](../../concepts/design/cas
 
 <summary>Example chain_get_era_summary result</summary>
 
-```bash
+```json
 
 {
   "jsonrpc": "2.0",
@@ -328,7 +328,7 @@ This method returns a state root hash at a given [Block](../../concepts/design/c
 
 <summary>Example chain_get_state_root_hash request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -356,7 +356,7 @@ This method returns a state root hash at a given [Block](../../concepts/design/c
 
 <summary>Example chain_get_state_root_hash result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -379,7 +379,7 @@ This method returns raw bytes for chainspec files.
 
 <summary>Example info_get_chainspec request</summary>
 
-```bash
+```json
 
 {
   "jsonrpc": "2.0",
@@ -404,7 +404,7 @@ This method returns raw bytes for chainspec files.
 
 Please note that adding a `--vv` flag will return the full chainspec bytes.
 
-```bash
+```json
 
 {
   "jsonrpc": "2.0",
@@ -425,6 +425,12 @@ Please note that adding a `--vv` flag will return the full chainspec bytes.
 
 ## info_get_deploy {#info-get-deploy}
 
+:::caution
+
+**DEPRECATED**: Use [info_get_transaction](#info_get_transaction-info-get-transaction) instead.
+
+:::
+
 This method retrieves a [Deploy](../../concepts/design/casper-design.md#execution-semantics-deploys) from a network. It requires a `deploy_hash` to query the Deploy.
 
 |Parameter|Type|Description|
@@ -436,15 +442,21 @@ This method retrieves a [Deploy](../../concepts/design/casper-design.md#executio
 
 <summary>Example info_get_deploy request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
   "jsonrpc": "2.0",
   "method": "info_get_deploy",
   "params": [
-    "5c9b3b099c1378aa8e4a5f07f59ff1fcdc69a83179427c7e67ae0377d94d93fa",
-    true
+    {
+      "name": "deploy_hash",
+      "value": "5c9b3b099c1378aa8e4a5f07f59ff1fcdc69a83179427c7e67ae0377d94d93fa"
+    },
+    {
+      "name": "finalized_approvals",
+      "value": true
+    }
   ]
 }
 
@@ -461,8 +473,6 @@ If the `execution_results` field is empty, it means that the network processed t
 |Parameter|Type|Description|
 |---------|----|-----------|    
 |api_version|String|The RPC API version.|
-|[block_hash](./types_chain.md#blockhash)|Object|The Block hash, if found.|
-|block_height|Integer|The height of the Block.|
 |[deploy](./types_chain.md#deploy)|Object|The Deploy.|
 |[execution_results](./types_chain.md#jsonexecutionresult)|Array|An array of execution results with Block hashes.|
 
@@ -470,14 +480,15 @@ If the `execution_results` field is empty, it means that the network processed t
 
 <summary>Example info_get_deploy result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
+    "name": "info_get_deploy_result",
     "value": {
-      "api_version": "1.5.3",
+      "api_version": "2.0.0",
       "deploy": {
         "hash": "5c9b3b099c1378aa8e4a5f07f59ff1fcdc69a83179427c7e67ae0377d94d93fa",
         "header": {
@@ -528,11 +539,42 @@ If the `execution_results` field is empty, it means that the network processed t
           }
         ]
       },
-      "block_hash": "9ccc716f5f3c7ac238bf7aaad113c2add3586921a7966faffb3a5a253aa1d75e",
-      "block_height": 10,
-      "execution_result": {
-        "Version2": {
-          "Success": {
+      "execution_info": {
+        "block_hash": "0744fcb72af43c5cc372039bc5a8bfee48808a9ce414acc0d6338a628c20eb42",
+        "block_height": 10,
+        "execution_result": {
+          "Version2": {
+            "initiator": {
+              "PublicKey": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c"
+            },
+            "error_message": null,
+            "limit": "123456",
+            "consumed": "100000",
+            "cost": "246912",
+            "payment": [
+              {
+                "source": "uref-0101010101010101010101010101010101010101010101010101010101010101-001"
+              }
+            ],
+            "transfers": [
+              {
+                "Version2": {
+                  "transaction_hash": {
+                    "Version1": "0101010101010101010101010101010101010101010101010101010101010101"
+                  },
+                  "from": {
+                    "AccountHash": "account-hash-0202020202020202020202020202020202020202020202020202020202020202"
+                  },
+                  "to": "account-hash-0303030303030303030303030303030303030303030303030303030303030303",
+                  "source": "uref-0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a-007",
+                  "target": "uref-1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b-000",
+                  "amount": "1000000000000",
+                  "gas": "2500000000",
+                  "id": 999
+                }
+              }
+            ],
+            "size_estimate": 186,
             "effects": [
               {
                 "key": "account-hash-2c4a11c062a8a337bfc97e27fd66291caeb2c65865dcb5d3ef3759c4c97efecb",
@@ -544,12 +586,7 @@ If the `execution_results` field is empty, it means that the network processed t
                 "key": "deploy-af684263911154d26fa05be9963171802801a0b6aff8f199b7391eacb8edc9e1",
                 "kind": "Identity"
               }
-            ],
-            "transfers": [
-              "transfer-5959595959595959595959595959595959595959595959595959595959595959",
-              "transfer-8282828282828282828282828282828282828282828282828282828282828282"
-            ],
-            "cost": "123456"
+            ]
           }
         }
       }
@@ -575,7 +612,7 @@ This method returns the reward for a given era and a validator or delegator.
 
 <summary>Example info_get_reward request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -615,7 +652,7 @@ This method returns the reward for a given era and a validator or delegator.
 
 <summary>Example info_get_reward result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -643,7 +680,7 @@ This method retrieves a transaction from a network. It requires a `transaction_h
 
 <summary>Example info_get_transaction request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -653,7 +690,7 @@ This method retrieves a transaction from a network. It requires a `transaction_h
     {
       "name": "transaction_hash",
       "value": {
-        "Version1": "6aaf4a54499e3757eb4be6967503dcc431e4623bf8bb57a14c1729a114a1aaa2"
+        "Version1": "f5582cb81a5abda63ebaa4edb3b05210ecbd63ffb8dd17bfbeb3b867f4014468"
       }
     },
     {
@@ -669,15 +706,15 @@ This method retrieves a transaction from a network. It requires a `transaction_h
 
 ### `info_get_transaction_result`
 
-The response contains the transaction and the results of executing the associated Deploy.
+<!--TODO decide whether or not to capitalize transaction as we capitalize "Deploy" and "Block". -->
 
-If the `execution_results` field is empty, it means that the network processed the transaction, but has yet to execute it. If the network executed the transaction, it will return the results of the associated Deploy's execution. The execution results contain the Block hash which contains the Deploy.
+The response contains the transaction and the results of executing it on the network.
+
+If the `execution_results` field is empty, it means that the network processed the transaction but has yet to execute it. If the network executed the transaction, it will return the execution results, along with the block hash containing the transaction.
 
 |Parameter|Type|Description|
 |---------|----|-----------|    
 |api_version|String|The RPC API version.|
-|[block_hash](./types_chain.md#blockhash)|Object|The Block hash, if found.|
-|block_height|Integer|The height of the Block.|
 |[transaction](./types_chain.md#transaction)|Object|The transaction.|
 |[execution_results](./types_chain.md#jsonexecutionresult)|Array|An array of execution results with Block hashes.|
 
@@ -685,116 +722,137 @@ If the `execution_results` field is empty, it means that the network processed t
 
 <summary>Example info_get_transaction result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
   "jsonrpc": "2.0",
-  "value": {
-    "api_version": "1.5.3",
-    "transaction": {
-      "Version1": {
-        "hash": "6aaf4a54499e3757eb4be6967503dcc431e4623bf8bb57a14c1729a114a1aaa2",
-        "header": {
-          "chain_name": "casper-example",
-          "timestamp": "2020-11-17T00:39:24.072Z",
-          "ttl": "1h",
-          "body_hash": "d2433e28993036fbdf7c963cd753893fefe619e7dbb5c0cafa5cb03bcf3ff9db",
-          "pricing_mode": {
-            "GasPriceMultiplier": 1
-          },
-          "payment_amount": null,
-          "initiator_addr": {
-            "PublicKey": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c"
-          }
-        },
-        "body": {
-          "args": [
-            [
-              "source",
-              {
-                "cl_type": "URef",
-                "bytes": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a07",
-                "parsed": "uref-0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a-007"
-              }
-            ],
-            [
-              "target",
-              {
-                "cl_type": "URef",
-                "bytes": "1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b00",
-                "parsed": "uref-1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b-000"
-              }
-            ],
-            [
-              "amount",
-              {
-                "cl_type": "U512",
-                "bytes": "0500ac23fc06",
-                "parsed": "30000000000"
-              }
-            ],
-            [
-              "to",
-              {
-                "cl_type": {
-                  "Option": {
-                    "ByteArray": 32
-                  }
-                },
-                "bytes": "012828282828282828282828282828282828282828282828282828282828282828",
-                "parsed": "2828282828282828282828282828282828282828282828282828282828282828"
-              }
-            ],
-            [
-              "id",
-              {
-                "cl_type": {
-                  "Option": "U64"
-                },
-                "bytes": "01e703000000000000",
-                "parsed": 999
-              }
-            ]
-          ],
-          "target": "Native",
-          "entry_point": "Transfer",
-          "scheduling": "Standard"
-        },
-        "approvals": [
-          {
-            "signer": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c",
-            "signature": "012152c1eab67f63faa6a482ec4847ecd145c3b2c3e2affe763303ecb4ccf8618a1b2d24de7313fbf8a2ac1b5256471cc6bbf21745af15516331e5fc3d4a2fa201"
-          }
-        ]
-      }
-    },
-    "block_hash": "9ccc716f5f3c7ac238bf7aaad113c2add3586921a7966faffb3a5a253aa1d75e",
-    "block_height": 10,
-    "execution_result": {
-      "Version2": {
-        "Success": {
-          "effects": [
-            {
-              "key": "account-hash-2c4a11c062a8a337bfc97e27fd66291caeb2c65865dcb5d3ef3759c4c97efecb",
-              "kind": {
-                "AddUInt64": 8
+  "result": {
+    "name": "info_get_transaction_result",
+    "value": {
+      "api_version": "2.0.0",
+      "transaction": {
+        "Version1": {
+          "hash": "f5582cb81a5abda63ebaa4edb3b05210ecbd63ffb8dd17bfbeb3b867f4014468",
+          "header": {
+            "chain_name": "casper-example",
+            "timestamp": "2020-11-17T00:39:24.072Z",
+            "ttl": "1h",
+            "body_hash": "aa24833ffbf31d62c8c8c4265349e7c09cd71952fcbce6f7b12daf5e340bf2cc",
+            "pricing_mode": {
+              "Fixed": {
+                "gas_price_tolerance": 5
               }
             },
-            {
-              "key": "deploy-af684263911154d26fa05be9963171802801a0b6aff8f199b7391eacb8edc9e1",
-              "kind": "Identity"
+            "initiator_addr": {
+              "PublicKey": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c"
             }
-          ],
-          "transfers": [
-            "transfer-5959595959595959595959595959595959595959595959595959595959595959",
-            "transfer-8282828282828282828282828282828282828282828282828282828282828282"
-          ],
-          "cost": "123456"
+          },
+          "body": {
+            "args": [
+              [
+                "source",
+                {
+                  "cl_type": {
+                    "Option": "URef"
+                  },
+                  "bytes": "010a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a07",
+                  "parsed": "uref-0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a-007"
+                }
+              ],
+              [
+                "target",
+                {
+                  "cl_type": "URef",
+                  "bytes": "1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b00",
+                  "parsed": "uref-1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b-000"
+                }
+              ],
+              [
+                "amount",
+                {
+                  "cl_type": "U512",
+                  "bytes": "0500ac23fc06",
+                  "parsed": "30000000000"
+                }
+              ],
+              [
+                "id",
+                {
+                  "cl_type": {
+                    "Option": "U64"
+                  },
+                  "bytes": "01e703000000000000",
+                  "parsed": 999
+                }
+              ]
+            ],
+            "target": "Native",
+            "entry_point": "Transfer",
+            "transaction_kind": 0,
+            "scheduling": "Standard"
+          },
+          "approvals": [
+            {
+              "signer": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c",
+              "signature": "0137d3f468d8f8a6e63f4110d79be29b8c8428e9cd858a92049660e7851ae16a299640d1fc1c930ab6cb424f1a6eec0b194df74bede14f4af1b5133106f1280d0b"
+            }
+          ]
+        }
+      },
+      "execution_info": {
+        "block_hash": "0744fcb72af43c5cc372039bc5a8bfee48808a9ce414acc0d6338a628c20eb42",
+        "block_height": 10,
+        "execution_result": {
+          "Version2": {
+            "initiator": {
+              "PublicKey": "01d9bf2148748a85c89da5aad8ee0b0fc2d105fd39d41a4c796536354f0ae2900c"
+            },
+            "error_message": null,
+            "limit": "123456",
+            "consumed": "100000",
+            "cost": "246912",
+            "payment": [
+              {
+                "source": "uref-0101010101010101010101010101010101010101010101010101010101010101-001"
+              }
+            ],
+            "transfers": [
+              {
+                "Version2": {
+                  "transaction_hash": {
+                    "Version1": "0101010101010101010101010101010101010101010101010101010101010101"
+                  },
+                  "from": {
+                    "AccountHash": "account-hash-0202020202020202020202020202020202020202020202020202020202020202"
+                  },
+                  "to": "account-hash-0303030303030303030303030303030303030303030303030303030303030303",
+                  "source": "uref-0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a-007",
+                  "target": "uref-1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b1b-000",
+                  "amount": "1000000000000",
+                  "gas": "2500000000",
+                  "id": 999
+                }
+              }
+            ],
+            "size_estimate": 186,
+            "effects": [
+              {
+                "key": "account-hash-2c4a11c062a8a337bfc97e27fd66291caeb2c65865dcb5d3ef3759c4c97efecb",
+                "kind": {
+                  "AddUInt64": 8
+                }
+              },
+              {
+                "key": "deploy-af684263911154d26fa05be9963171802801a0b6aff8f199b7391eacb8edc9e1",
+                "kind": "Identity"
+              }
+            ]
+          }
         }
       }
     }
-  }
+  }  
 }
 
 ```
@@ -814,7 +872,7 @@ This method allows you to query for the balance of a purse using a `PurseIdentif
 
 <summary>Example query_balance request</summary>
 
-```bash
+```json
 {
   "id": 1,
   "jsonrpc": "2.0",
@@ -851,7 +909,7 @@ This method allows you to query for the balance of a purse using a `PurseIdentif
 
 <summary>Example query_balance result</summary>
 
-```bash
+```json
 
 {
   "jsonrpc": "2.0",
@@ -882,7 +940,7 @@ This method allows for you to query for a value stored under certain keys in glo
 
 <summary>Example query_global_state request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -914,7 +972,7 @@ This method allows for you to query for a value stored under certain keys in glo
 
 <summary>Example query_global_state result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -989,18 +1047,18 @@ This method allows for you to query for a value stored under certain keys in glo
 
 ## state_get_account_info {#state-get-account-info}
 
-This method returns a JSON representation of an [Account](../../concepts/design/casper-design.md#accounts-head) from the network. The `block_identifier` must refer to a Block after the Account's creation, or the method will return an empty response.
+This method returns a JSON representation of an [Account](../../concepts/design/casper-design.md#accounts-head) from the network at a given [Block](../../concepts/design/casper-design.md#block-structure-head). If you do not specify a `block_identifier`, you will receive the state of the account at the highest state root hash. The `block_identifier` must refer to a Block after the Account's creation, or the method will return an empty response.
 
 |Parameter|Type|Description|
 |---------|----|-----------|
 |[account_identifier](types_chain.md#AccountIdentifier)|String|The public key or account hash of the Account.|
-|[block_identifier](types_chain.md#blockidentifier)|Object|The Block identifier.|
+|[block_identifier](types_chain.md#blockidentifier)|Object|The Block hash. (Optional)|
 
 <details>
 
 <summary>Example state_get_account_info request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -1036,14 +1094,15 @@ This method returns a JSON representation of an [Account](../../concepts/design/
 
 <summary>Example state_get_account_info result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
+    "name": "state_get_account_info_result",
     "value": {
-      "api_version": "1.5.3",
+      "api_version": "2.0.0",
       "account": {
         "account_hash": "account-hash-e94daaff79c2ab8d9c31d9c3058d7d0a0dd31204a5638dc1451fa67b2e3fb88c",
         "named_keys": [
@@ -1088,7 +1147,7 @@ You may query a stored value directly using the dictionary address.
 
 <summary>Example state_get_dictionary_item request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -1096,12 +1155,18 @@ You may query a stored value directly using the dictionary address.
   "method": "state_get_dictionary_item",
   "params": [
     {
-      "URef": {
-        "dictionary_item_key": "a_unique_entry_identifier",
-        "seed_uref": "uref-09480c3248ef76b603d386f3f4f8a5f87f597d4eaffd475433f861af187ab5db-007"
-      }
+      "name": "state_root_hash",
+      "value": "0808080808080808080808080808080808080808080808080808080808080808"
     },
-    "0808080808080808080808080808080808080808080808080808080808080808"
+    {
+      "name": "dictionary_identifier",
+      "value": {
+        "URef": {
+          "seed_uref": "uref-09480c3248ef76b603d386f3f4f8a5f87f597d4eaffd475433f861af187ab5db-007",
+          "dictionary_item_key": "a_unique_entry_identifier"
+        }
+      }
+    }
   ]
 }
 
@@ -1122,21 +1187,24 @@ You may query a stored value directly using the dictionary address.
 
 <summary>Example state_get_dictionary_item result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-    "api_version": "1.4.13",
-    "dictionary_key": "dictionary-67518854aa916c97d4e53df8570c8217ccc259da2721b692102d76acd0ee8d1f",
-    "merkle_proof": "01000000006ef2e0949ac76e55812421f755abe129b6244fe7168b77f47a72536147614625016ef2e0949ac76e55812421f755abe129b6244fe7168b77f47a72536147614625000000003529cde5c621f857f75f3810611eb4af3f998caaa9d4a3413cf799f99c67db0307010000006ef2e0949ac76e55812421f755abe129b6244fe7168b77f47a7253614761462501010102000000006e06000000000074769d28aac597a36a03a932d4b43e4f10bf0403ee5c41dd035102553f5773631200b9e173e8f05361b681513c14e25e3138639eb03232581db7557c9e8dbbc83ce94500226a9a7fe4f2b7b88d5103a4fc7400f02bf89c860c9ccdd56951a2afe9be0e0267006d820fb5676eb2960e15722f7725f3f8f41030078f8b2e44bf0dc03f71b176d6e800dc5ae9805068c5be6da1a90b2528ee85db0609cc0fb4bd60bbd559f497a98b67f500e1e3e846592f4918234647fca39830b7e1e6ad6f5b7a99b39af823d82ba1873d000003000000010186ff500f287e9b53f823ae1582b1fa429dfede28015125fd233a31ca04d5012002015cc42669a55467a1fdf49750772bfc1aed59b9b085558eb81510e9b015a7c83b0301e3cf4a34b1db6bfa58808b686cb8fe21ebe0c1bcbcee522649d2b135fe510fe3",
-    "stored_value": {
-      "CLValue": {
-        "bytes": "0100000000000000",
-        "cl_type": "U64",
-        "parsed": 1
-      }
+    "name": "state_get_dictionary_item_result",
+    "value": {
+      "api_version": "2.0.0",
+      "dictionary_key": "dictionary-67518854aa916c97d4e53df8570c8217ccc259da2721b692102d76acd0ee8d1f",
+      "stored_value": {
+        "CLValue": {
+          "cl_type": "U64",
+          "bytes": "0100000000000000",
+          "parsed": 1
+        }
+      },
+      "merkle_proof": "01000000006ef2e0949ac76e55812421f755abe129b6244fe7168b77f47a72536147614625016ef2e0949ac76e55812421f755abe129b6244fe7168b77f47a72536147614625000000003529cde5c621f857f75f3810611eb4af3f998caaa9d4a3413cf799f99c67db0307010000006ef2e0949ac76e55812421f755abe129b6244fe7168b77f47a7253614761462501010102000000006e06000000000074769d28aac597a36a03a932d4b43e4f10bf0403ee5c41dd035102553f5773631200b9e173e8f05361b681513c14e25e3138639eb03232581db7557c9e8dbbc83ce94500226a9a7fe4f2b7b88d5103a4fc7400f02bf89c860c9ccdd56951a2afe9be0e0267006d820fb5676eb2960e15722f7725f3f8f41030078f8b2e44bf0dc03f71b176d6e800dc5ae9805068c5be6da1a90b2528ee85db0609cc0fb4bd60bbd559f497a98b67f500e1e3e846592f4918234647fca39830b7e1e6ad6f5b7a99b39af823d82ba1873d000003000000010186ff500f287e9b53f823ae1582b1fa429dfede28015125fd233a31ca04d5012002015cc42669a55467a1fdf49750772bfc1aed59b9b085558eb81510e9b015a7c83b0301e3cf4a34b1db6bfa58808b686cb8fe21ebe0c1bcbcee522649d2b135fe510fe3"
     }
   }
 }
@@ -1144,6 +1212,124 @@ You may query a stored value directly using the dictionary address.
 ```
 
 </details>
+
+## state_get_entity {#state-get-entity}
+
+This method returns a JSON representation of an [AddressableEntity](types_chain.md#addressablentity) from the network at a given [Block](../../concepts/design/casper-design.md#block-structure-head). If you do not specify a `block_identifier`, you will receive the state of the entity at the highest state root hash. The `block_identifier` must refer to a Block after the entity's creation, or the method will return an empty response.
+
+|Parameter|Type|Description|
+|---------|----|-----------|
+|[entity_identifier](types_chain.md#entityidentifier)|String|Identifier of an addressable entity.|
+|[block_identifier](types_chain.md#blockidentifier)|Object|The Block hash. (Optional)|
+
+<details>
+
+<summary>Example state_get_entity request</summary>
+
+```json
+
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "method": "state_get_entity",
+  "params": [
+    {
+      "name": "entity_identifier",
+      "value": {
+        "EntityAddr": "entity-account-0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    {
+      "name": "block_identifier",
+      "value": {
+        "Hash": "0707070707070707070707070707070707070707070707070707070707070707"
+      }
+    }
+  ]
+}
+
+```
+
+</details>
+    
+### `state_get_entity_result`
+
+|Parameter|Type|Description|
+|---------|----|-----------|    
+|api_version|String|The RPC API version.|
+|[entity](types_chain.md##addressableentity)|Object|A JSON representation of the AddressableEntity.| 
+|[merkle_proof](types_chain.md#merkleproof)|String|The merkle proof.|
+
+<details>
+
+<summary>Example state_get_entity result</summary>
+
+```json
+
+{
+  "id": 1,
+  "jsonrpc": "2.0",
+  "result": {
+    "name": "state_get_entity_result",
+    "value": {
+      "api_version": "2.0.0",
+      "entity": {
+        "AddressableEntity": {
+          "entity": {
+            "protocol_version": "2.0.0",
+            "entity_kind": {
+              "Account": "account-hash-e94daaff79c2ab8d9c31d9c3058d7d0a0dd31204a5638dc1451fa67b2e3fb88c"
+            },
+            "package_hash": "package-0000000000000000000000000000000000000000000000000000000000000000",
+            "byte_code_hash": "byte-code-0000000000000000000000000000000000000000000000000000000000000000",
+            "main_purse": "uref-09480c3248ef76b603d386f3f4f8a5f87f597d4eaffd475433f861af187ab5db-007",
+            "associated_keys": [
+              {
+                "account_hash": "account-hash-e94daaff79c2ab8d9c31d9c3058d7d0a0dd31204a5638dc1451fa67b2e3fb88c",
+                "weight": 1
+              }
+            ],
+            "action_thresholds": {
+              "deployment": 1,
+              "upgrade_management": 1,
+              "key_management": 1
+            },
+            "message_topics": [
+              {
+                "topic_name": "topic",
+                "topic_name_hash": "0000000000000000000000000000000000000000000000000000000000000000"
+              }
+            ]
+          },
+          "named_keys": [
+            {
+              "name": "key",
+              "key": "hash-0000000000000000000000000000000000000000000000000000000000000000"
+            }
+          ],
+          "entry_points": [
+            {
+              "V1CasperVm": {
+                "name": "entry_point",
+                "args": [],
+                "ret": "Unit",
+                "access": "Public",
+                "entry_point_type": "Caller",
+                "entry_point_payment": "Caller"
+              }
+            }
+          ]
+        }
+      },
+      "merkle_proof": "01000000006ef2e0949ac76e55812421f755abe129b6244fe7168b77f47a72536147614625016ef2e0949ac76e55812421f755abe129b6244fe7168b77f47a72536147614625000000003529cde5c621f857f75f3810611eb4af3f998caaa9d4a3413cf799f99c67db0307010000006ef2e0949ac76e55812421f755abe129b6244fe7168b77f47a7253614761462501010102000000006e06000000000074769d28aac597a36a03a932d4b43e4f10bf0403ee5c41dd035102553f5773631200b9e173e8f05361b681513c14e25e3138639eb03232581db7557c9e8dbbc83ce94500226a9a7fe4f2b7b88d5103a4fc7400f02bf89c860c9ccdd56951a2afe9be0e0267006d820fb5676eb2960e15722f7725f3f8f41030078f8b2e44bf0dc03f71b176d6e800dc5ae9805068c5be6da1a90b2528ee85db0609cc0fb4bd60bbd559f497a98b67f500e1e3e846592f4918234647fca39830b7e1e6ad6f5b7a99b39af823d82ba1873d000003000000010186ff500f287e9b53f823ae1582b1fa429dfede28015125fd233a31ca04d5012002015cc42669a55467a1fdf49750772bfc1aed59b9b085558eb81510e9b015a7c83b0301e3cf4a34b1db6bfa58808b686cb8fe21ebe0c1bcbcee522649d2b135fe510fe3"
+    }
+  }
+}
+
+```
+
+</details>
+
 
 ------
 
@@ -1162,7 +1348,7 @@ This method returns a list of peers connected to the node.
 
 <summary>Example info_get_peers request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -1186,7 +1372,7 @@ This method returns a list of peers connected to the node.
 
 <summary>Example info_get_peers result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -1214,7 +1400,7 @@ This method returns the current status of a node.
 
 <summary>Example info_get_status request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -1251,13 +1437,13 @@ This method returns the current status of a node.
 
 <summary>Example info_get_status result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-      "name": "info_get_status_example_result",
+      "name": "info_get_status_result",
       "value": {
         "api_version": "2.0.0",
         "peers": [
