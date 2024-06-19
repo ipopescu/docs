@@ -16,7 +16,7 @@ This method returns the [bids](../../concepts/economics/consensus.md#bids) and [
 
 <summary>Example state_get_auction_info request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -44,7 +44,7 @@ This method returns the [bids](../../concepts/economics/consensus.md#bids) and [
 
 <summary>Example state_get_auction_info result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -104,7 +104,7 @@ Potential change types:
 
 <summary>Example info_get_validator_changes request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -130,7 +130,7 @@ If no changes occurred in the current era, `info_get_validator_changes` will ret
 
 <summary>Example info_get_validator_changes result</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -167,7 +167,7 @@ This method returns an EraInfo from the network. Only the last Block in an `era`
 
 <summary>Example chain_get_era_info_by_switch_block request</summary>
 
-```bash
+```json
 
 {
   "id": 1,
@@ -195,7 +195,7 @@ This method returns an EraInfo from the network. Only the last Block in an `era`
 
 <summary>Example chain_get_era_info_by_switch_block</summary>
 
-```bash
+```json
 
 {
   "id": 1,
