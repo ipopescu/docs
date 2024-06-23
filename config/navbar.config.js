@@ -17,6 +17,11 @@ module.exports = {
         //     position: "left",
         // },
         {
+            to: `${routePrefix}/resources/quick-start`,
+            label: "Quickstart",
+            position: "left",
+        },
+        {
             to: `${routePrefix}/concepts`,
             activeBasePath: `${routePrefix}/concepts`,
             label: "Concepts",
@@ -45,10 +50,6 @@ module.exports = {
             activeBasePath: `${routePrefix}/resources`,
             label: "Resources",
             position: "left",
-        },
-        {
-            href: "https://docs.casper.network/resources/quick-start/",
-            label: "Quickstart",
         },
         {
             href: "https://support.casperlabs.io/",
