@@ -469,13 +469,13 @@ This method retrieves a [Deploy](../../concepts/design/casper-design.md#executio
 
 The response contains the Deploy and the results of executing the Deploy.
 
-If the `execution_results` field is empty, it means that the network processed the `Deploy`, but has yet to execute it. If the network executed the `Deploy`, it will return the results of the execution. The execution results contain the Block hash which contains the Deploy.
+If the `execution_info` field is empty, it means that the network processed the `Deploy`, but has yet to execute it. If the network executed the `Deploy`, it will return the results of the execution. The execution results contain the Block hash which contains the Deploy.
 
 |Parameter|Type|Description|
 |---------|----|-----------|    
 |api_version|String|The RPC API version.|
 |[deploy](./types_chain.md#deploy)|Object|The Deploy.|
-|[execution_results](./types_chain.md#jsonexecutionresult)|Array|An array of execution results with Block hashes.|
+|[execution_info](./types_chain.md#executioninfo)|Array|An array of execution results with Block hashes, if found. (Optional)|
 
 <details>
 
@@ -710,17 +710,15 @@ This method retrieves a transaction from a network. It requires a `transaction_h
 
 ### `info_get_transaction_result`
 
-<!--TODO decide whether or not to capitalize transaction as we capitalize "Deploy" and "Block". -->
-
 The response contains the transaction and the results of executing it on the network.
 
-If the `execution_results` field is empty, it means that the network processed the transaction but has yet to execute it. If the network executed the transaction, it will return the execution results, along with the block hash containing the transaction.
+If the `execution_info` field is empty, it means that the network processed the transaction but has yet to execute it. If the network executed the transaction, it will return the execution information, along with the block hash containing the transaction.
 
 |Parameter|Type|Description|
 |---------|----|-----------|    
 |api_version|String|The RPC API version.|
 |[transaction](./types_chain.md#transaction)|Object|The transaction.|
-|[execution_results](./types_chain.md#jsonexecutionresult)|Array|An array of execution results with Block hashes.|
+|[execution_info](./types_chain.md#executioninfo)|Array|An array of execution results with Block hashes, if found. (Optional)|
 
 <details>
 

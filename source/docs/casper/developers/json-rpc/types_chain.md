@@ -977,6 +977,8 @@ Required Parameters:
 
 * `block_height` The height of the block in which the deploy was executed.
 
+Optional Parameters:
+
 * [`execution_result`](#executionresult) The execution result if known.
 
 ## `ModuleBytes`
