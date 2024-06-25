@@ -116,10 +116,6 @@ An array of [MessageTopics](#messagetopic).
 
 An array of [named entry points](#namedentrypoint).
 
-## Array_of_NamedKey
-
-An array of [NamedKeys](#namedkey).
-
 ## Array_of_NamedUserGroup
 
 An array of [NamedUserGroups](#namedusergroup).
@@ -581,16 +577,6 @@ Required properties:
 
 * [`session`](#executabledeployitem-executabledeployitem)
 
-## DeployApproval
-
-A struct containing a signature of a deploy hash and the public key of the signer.
-
-Required parameters:
-
-* [`signature`](#signature)
-
-* [`signer`](#publickey)
-
 ## DeployHash
 
 Hex-encoded Deploy hash.
@@ -678,14 +664,6 @@ Options for dictionary item lookups.
 ## Digest
 
 Hex-encoded hash digest.
-
-## DisabledVersions
-
-Required Parameters:
-
-* `contract_version`
-
-* `protocol_version_major`
 
 ## Effects
 
@@ -971,132 +949,6 @@ Optional Parameters:
 
 * [`execution_result`](#executionresult) The execution result if known.
 
-## `ModuleBytes`
-
-Executable specified as raw bytes that represent Wasm code and an instance of `RuntimeArgs`.
-
-Required Parameters:
-
-* `module_bytes` Hex-encoded raw Wasm bytes. There are some special cases around passing `module_bytes` for payment code.
-
-Additional Parameters:
-
-* [`args`](#runtimeargs-runtimeargs) Runtime arguments.
-
-## `StoredContractByHash`
-
-Stored contract referenced by its `ContractHash`, entry point and an instance of `RuntimeArgs`.
-
-Required Parameters:
-
-* [`args`](#runtimeargs) Runtime arguments.
-
-* `entry_point` The name of an entry point.
-
-* `hash` A hex-encoded hash.
-
-## `StoredContractByName`
-
-Stored contract referenced by a named key existing in the signer's Account context, entry point and an instance of `RuntimeArgs`.
-
-Required Parameters:
-
-* [`args`](#runtimeargs) Runtime arguments.
-
-* `entry_point` The name of an entry point.
-
-* `name` A named key.
-
-## `StoredVersionContractByHash`
-
-Stored versioned contract referenced by its `ContractPackageHash`, entry point and an instance of `RuntimeArgs`.
-
-Required Parameters:
-
-* [`args`](#runtimeargs) Runtime arguments.
-
-* `entry_point` The name of an entry point.
-
-* `hash` A hex-encoded hash.
-
-Additional Parameters:
-
-* `version` An optional version of the contract to call. It will default to the highest enabled version if no value is specified.
-
-## `StoredVersionContractByName`
-
-Stored versioned contract referenced by a named key existing in the signer's Account context, entry point and an instance of `RuntimeArgs`.
-
-Required Parameters:
-
-* [`args`](#runtimeargs) Runtime arguments.
-
-* `entry_point` The name of an entry point.
-
-* `name` A named key.
-
-Additional Parameters:
-
-* `version` An optional version of the contract to call. It will default to the highest enabled version if no value is specified.
-
-## Transfer
-
-A versioned wrapper for a transfer.
-
-One of:
-
-* [`Version1`](#transferv1) A version 1 transfer.
-
-* [`Version2`](#transferv2) A version 2 transfer.
-
-## TransferV1
-
-Represents a transfer from one purse to another.
-
-Required Parameters:
-
-* [`amount`](#u512) Transfer amount.
-
-* [`deploy_hash`](#deployhash) Deploy that created the transfer.
-
-* [`from`](#accounthash) Account from which transfer was executed.
-
-* [`gas`](#gas)
-
-* [`source`](#uref) Source purse.
-
-* [`target`](#uref) Target purse.
-
-Optional Parameters:
-
-* `id` User-defined ID.
-
-* [`to`](#accounthash) Account to which funds are transferred.
-
-## TransferV2
-
-Represents a version 2 transfer from one purse to another.
-
-Required Parameters:
-
-* [`amount`](#u512) Transfer amount.
-
-* [`transaction_hash`](#transactionhash) Transaction that created the transfer.
-
-* [`from`](#initiatoraddr) Entity from which transfer was executed.
-
-* [`gas`](#gas)
-
-* [`source`](#uref) Source purse.
-
-* [`target`](#uref) Target purse.
-
-Optional Parameters:
-
-* `id` User-defined ID.
-
-* [`to`](#accounthash) Account to which funds are transferred.
-
 ## ExecutionEffect
 
 The journal of execution transforms from a single Deploy.
@@ -1171,10 +1023,6 @@ Optional Parameters:
 
 * `error_message` If there is no error message, this execution was processed successfully. If there is an error message, this execution failed to fully process for the stated reason.
 
-## FinalizedApprovals
-
-A boolean value that determines whether to return the deploy with the finalized approvals substituted. If `false` or omitted, returns the deploy with the approvals that were originally received by the node.
-
 ## Gas
 
 The `Gas` struct represents a `U512` amount of gas.
@@ -1193,14 +1041,6 @@ Identifier for possible ways to query global state.
 
 A (labelled) "user group". Each entry point of a versioned contract may be associated with one or more user groups which are allowed to call it.
 
-### Groups
-
-Required Parameters:
-
-* `group`
-
-* [`keys`](#uref)
-
 ## InitiatorAddr
 
 The address of the initiator of a transaction
@@ -1210,84 +1050,6 @@ Contains one of:
 * [`publickey`](#publickey) The public key of the initiator.
 
 * [`accounthash`](#accounthash) The account hash derived from the public key of the initiator.
-
-## JsonBid
-
-An entry in a founding validator map representing a bid.
-
-Required Parameters:
-
-* [`bonding_purse`](#uref) The purse that was used for bonding.
-
-* `delegation_rate` The delegation rate.
-
-* [`delegators`](#jsondelegator) The delegators.
-
-* `inactive` Is this an inactive validator.
-
-* [`staked_amount`](#u512) The amount of tokens staked by a validator (not including delegators).
-
-## JsonBids
-
-A Json representation of a single bid.
-
-Required Parameters:
-
-* [`bid`](#jsonbid)
-
-* [`public_key`](#publickey)
-
-## JsonBlock
-
-A JSON-friendly representation of `Block`.
-
-Required Parameters:
-
-* [`body`](#jsonblockbody) JSON-friendly Block body.
-
-* [`hash`](#blockhash) BlockHash.
-
-* [`header`](#jsonblockheader) JSON-friendly Block header.
-
-* [`proofs`](#jsonproof) JSON-friendly list of proofs for this Block.
-
-## JsonBlockBody
-
-A JSON-friendly representation of `Body`.
-
-Required Parameters:
-
-* [`deploy_hashes`](#deployhash)
-
-* [`proposer`](#publickey)
-
-* [`transfer_hashes`](#deployhash)
-
-## JsonBlockHeader
-
-JSON representation of a Block header.
-
-* [`accumulated_seed`](#digest) Accumulated seed.
-
-* [`body_hash`](#digest) The body hash.
-
-* [`era_id`](#eraid) The Block era id.
-
-* `height` The Block height.
-
-* [`parent_hash`](#blockhash) The parent hash.
-
-* [`protocol_version`](#protocolversion) The protocol version.
-
-* `random_bit` Randomness bit.
-
-* [`state_root_hash`](#digest) The state root hash.
-
-* [`timestamp`](#timestamp) The Block timestamp.
-
-Additional Parameters:
-
-* [`era_end`](#jsoneraend) The era end.
 
 ## JsonBlockWithSignatures
 
@@ -1299,40 +1061,6 @@ Required Parameters:
 
 * [`proofs`](#array-of-blockproof) The proofs of the block, i.e. a collection of validators' signatures of the block hash.
 
-## JsonDelegator
-
-A delegator associated with the given validator.
-
-Required Parameters:
-
-* [`bonding_purse`](#uref)
-
-* [`delegatee`](#publickey)
-
-* [`public_key`](#publickey)
-
-* [`staked_amount`](#u512)
-
-## JsonEraEnd
-
-Required Parameters:
-
-* [`era_report](#jsonerareport)
-
-* [`next_era_validator_weight`](#validatorweight)
-
-## JsonEraReport
-
-Equivocation and reward information to be included in the terminal Block.
-
-Required Parameters:
-
-* [`equivocators`](#publickey)
-
-* [`inactive_validators`](#publickey)
-
-* [`rewards`](#reward)
-
 ## JsonEraValidators
 
 The validators for the given era.
@@ -1342,24 +1070,6 @@ Required Parameters:
 * [`era_id`](#eraid)
 
 * [`validator_weights`](#jsonvalidatorsweights)
-
-## JsonExecutionResult
-
-The execution result of a single Deploy.
-
-* [`block_hash`](#blockhash)
-
-* [`result`](#executionresult)
-
-## JsonProof
-
-A JSON-friendly representation of a proof, i.e. a Block's finality signature.
-
-Required Parameters:
-
-* [`public_key`](#publickey)
-
-* [`signature`](#signature)
 
 ## JsonValidatorChanges
 
@@ -1394,10 +1104,6 @@ Required Parameters:
 ## Key
 
 The key as a formatted string, under which data can be stored in global state.
-
-## Merkle_Proof
-
-A Merkle proof is a construction created using a Merkle trie that allows verification of the associated hashes.
 
 ## MessageChecksum
 
@@ -1499,10 +1205,6 @@ Required Parameters:
 
 * [`protocol_version`](#protocolversion)
 
-## NewValidator
-
-The public key for the new validator in a redelegation using [UnbondingPurse](#unbondingpurse).
-
 ## Operation
 
 An operation performed while executing a Deploy.
@@ -1556,18 +1258,6 @@ Required Parameters:
 ## PackageHash
 
 The hex-encoded address of a package associated with an [`AddressableEntity`](#addressableentity).
-
-## PackageKind
-
-The type of `Package`.
-
-One of:
-
-* `System` Package associated with a native contract implementation.
-
-* `Account` Package associated with an Account hash.
-
-* `SmartContract` Packages associated with Wasm stored on chain.
 
 ## PackageStatus
 
@@ -1655,22 +1345,6 @@ One of:
 
 * `purse_uref` A specific purse identified by the associated [`URef`](./types_chain.md#uref).
 
-## ReactorState
-
-The state of the reactor, which will return one of the following:
-
-* `Initialize` Get all components and reactor state set up on start.
-
-* `CatchUp` Orient to the network and attempt to catch up to tip.
-
-* `Upgrading` Running commit upgrade and creating immediate switch block.
-
-* `KeepUp` Stay caught up with tip.
-
-* `Validate` Node is currently caught up and is an active validator.
-
-* `ShutdownForUpgrade` Node should be shut down for upgrade.
-
 ## ReservationKind
 
 Container for bytes recording location, type and data for a gas reservation.
@@ -1682,14 +1356,6 @@ Required Parameters:
 * [`reservation_data`](#bytes) Hex-encoded bytes.
 
 * `reservation_kind` A `uint8` integer.
-
-## Reward
-
-Required Parameters:
-
-* `amount`
-
-* [`validator`](#publickey)
 
 ## RewardedSignatures
 
@@ -1982,9 +1648,67 @@ Required Parameters:
 
 * [`ttl`](#timediff)
 
+## Transfer
+
+A versioned wrapper for a transfer.
+
+One of:
+
+* [`Version1`](#transferv1) A version 1 transfer.
+
+* [`Version2`](#transferv2) A version 2 transfer.
+
 ## TransferAddr
 
 Hex-encoded version 1 transfer address.
+
+## TransferV1
+
+Represents a transfer from one purse to another.
+
+Required Parameters:
+
+* [`amount`](#u512) Transfer amount.
+
+* [`deploy_hash`](#deployhash) Deploy that created the transfer.
+
+* [`from`](#accounthash) Account from which transfer was executed.
+
+* [`gas`](#gas)
+
+* [`source`](#uref) Source purse.
+
+* [`target`](#uref) Target purse.
+
+Optional Parameters:
+
+* `id` User-defined ID.
+
+* [`to`](#accounthash) Account to which funds are transferred.
+
+## TransferV2
+
+Represents a version 2 transfer from one purse to another.
+
+Required Parameters:
+
+* [`amount`](#u512) Transfer amount.
+
+* [`transaction_hash`](#transactionhash) Transaction that created the transfer.
+
+* [`from`](#initiatoraddr) Entity from which transfer was executed.
+
+* [`gas`](#gas)
+
+* [`source`](#uref) Source purse.
+
+* [`target`](#uref) Target purse.
+
+Optional Parameters:
+
+* `id` User-defined ID.
+
+* [`to`](#accounthash) Account to which funds are transferred.
 
 ## TransformError
 
@@ -2211,10 +1935,6 @@ Required Parameters:
 Optional Parameters:
 
 * [`locked_amounts`](#u512) The amount of locked motes.
-
-## Weight
-
-The weight associated with public keys in an account's associated keys.
 
 ## WithdrawPurse
 
