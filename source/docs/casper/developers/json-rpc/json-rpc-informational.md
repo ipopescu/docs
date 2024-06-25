@@ -56,7 +56,7 @@ The result from `chain_get_block` depends on block availability from a given nod
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-    "name": "chain_get_block_example_result",
+    "name": "chain_get_block_result",
     "value": {
       "api_version": "2.0.0",
       "block_with_signatures": {
@@ -271,7 +271,7 @@ This method returns the era summary at a given [Block](../../concepts/design/cas
   "jsonrpc": "2.0",
   "id": 1,
   "result": {
-    "name": "chain_get_era_summary_example_result",
+    "name": "chain_get_era_summary_result",
     "value": {
       "api_version": "2.0.0",
       "era_summary": {

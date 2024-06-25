@@ -53,7 +53,7 @@ This method returns the [bids](../../concepts/economics/consensus.md#bids) and [
   "id": 1,
   "jsonrpc": "2.0",
   "result": {
-    "name": "state_get_auction_info_example_result",
+    "name": "state_get_auction_info_result",
     "value": {
       "api_version": "2.0.0",
       "auction_state": {
