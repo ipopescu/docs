@@ -10,7 +10,7 @@ Required Parameters:
 
 * [`account_hash`](#accounthash)
 
-* [`action_thresholds`](#actionthresholds)
+* [`action_thresholds`](#accountactionthresholds)
 
 * [`associated_keys`](#associatedkey)
 
@@ -49,16 +49,6 @@ Contains one of:
 * [`PublicKey`](#publickey)
 
 * [`AccountHash`](#accounthash)
-
-## ActionThresholds
-
-Thresholds that have to be met when executing an action of a certain type.
-
-Required Parameters:
-
-* [`deployment`](#accountassociatedkeyweight) Threshold for deploy execution.
-
-* [`key_management`](#accountassociatedkeyweight) Threshold for managing account keys.
 
 ## ActivationPoint
 
