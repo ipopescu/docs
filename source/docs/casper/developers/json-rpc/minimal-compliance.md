@@ -20,7 +20,7 @@ The methods included in this document represent the most basic, fundamental endp
 
 :::note
 
-The deprecated method `state_get_balance` should not be used.
+The deprecated methods `state_get_balance` and `state_get_item` should not be used.
 
 :::
 
