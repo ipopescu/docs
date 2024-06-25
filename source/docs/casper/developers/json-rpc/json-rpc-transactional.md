@@ -1,8 +1,8 @@
-# Transactional JSON-RPC Methods {#transactional}
+# Transactional JSON-RPC Methods
 
 ---
 
-## account_put_deploy {#account-put-deploy}
+## account_put_deploy
 
 :::caution
 
@@ -118,7 +118,7 @@ The result contains the RPC API version and a [deploy_hash](./types_chain.md#dep
 
 </details>
 
-## account_put_transaction {#account-put-transaction}
+## account_put_transaction
 
 This is the recommended means by which users can send their compiled Wasm (as part of a Transaction) to a node on a Casper network. The request takes in the [transaction](./types_chain.md#transaction) as a parameter, prior to sending it to a node on a network for execution.
 
@@ -249,7 +249,7 @@ The result contains the RPC API version and the [transaction_hash](./types_chain
 
 </details>
 
-## speculative_exec {#speculative_exec}
+## speculative_exec
 
 :::caution
 
@@ -389,13 +389,13 @@ The result contains the RPC API version and the speculative execution result.
 </details>
 
 
-## speculative_exec_txn {speculative-exec-txn}
+## speculative_exec_txn
 
 The `speculative_exec_txn` endpoint allows executing a `Transaction` without committing its execution effects to global state. By default, `speculative_exec_txn` is turned off on a node. Sending a request to a node with the endpoint unavailable will result in an error message. Find out if this endpoint is available and which port to access. The port is separate from the node's binary port and the default is 7778.
 
 |Parameter|Type|Description|
 |---------|----|-----------|
-|[transaction](./types_chain.md#transaction-transaction)|Object|A Transaction is a versioned wrapper for a transaction or deploy.|
+|[transaction](./types_chain.md#transaction)|Object|A Transaction is a versioned wrapper for a transaction or deploy.|
 
 <details>
 

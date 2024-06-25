@@ -1,11 +1,11 @@
-# Informational JSON-RPC Methods {#informational}
+# Informational JSON-RPC Methods
 
 
 The following methods return information from a node on a Casper network. The response should be identical, regardless of the node queried, as the information in question is objective and common to all nodes within a network.
 
 ---
 
-## chain_get_block {#chain-get-block}
+## chain_get_block
 
 This method returns the JSON representation of a [Block](../../concepts/design/casper-design.md#block-structure-head) from the network. If you do not specify a `block_identifier`, you will receive the most recent block.
 
@@ -143,7 +143,7 @@ The result from `chain_get_block` depends on block availability from a given nod
 
 </details>
 
-## chain_get_block_transfers {#chain-get-block-transfers}
+## chain_get_block_transfers
 
 This method returns all **successful** native transfers within a given [Block](../../concepts/design/casper-design.md#block-structure-head) from a network.  If you do not specify a `block_identifier`, you will receive the transfers from the most recent block.
 
@@ -222,7 +222,7 @@ This method returns all **successful** native transfers within a given [Block](.
 
 </details>
 
-## chain_get_era_summary {#chain-get-era-summary}
+## chain_get_era_summary
 
 This method returns the era summary at a given [Block](../../concepts/design/casper-design.md#block-structure-head). If you do not specify a `block_identifier`, you will receive the era summary at the highest state root hash.
 
@@ -307,7 +307,7 @@ This method returns the era summary at a given [Block](../../concepts/design/cas
 
 </details>
 
-## chain_get_state_root_hash {#chain-get-state-root-hash} 
+## chain_get_state_root_hash
 
 This method returns a state root hash at a given [Block](../../concepts/design/casper-design.md#block-structure-head). If you do not specify a `block_identifier`, you will receive the highest state root hash.
 
@@ -368,7 +368,7 @@ This method returns a state root hash at a given [Block](../../concepts/design/c
 
 </details>
 
-## info_get_chainspec {#info-get-chainspec}
+## info_get_chainspec
 
 This method returns the raw bytes of the chainspec.toml, genesis accounts.toml, and global_state.toml files.
 
@@ -424,7 +424,7 @@ Please note that adding a `--vv` flag will return the full chainspec bytes.
 
 </details>
 
-## info_get_deploy {#info-get-deploy}
+## info_get_deploy
 
 :::caution
 
@@ -599,7 +599,7 @@ If the `execution_results` field is empty, it means that the network processed t
 
 </details>
 
-## info_get_reward {#info-get-reward}
+## info_get_reward
 
 This method returns the reward for a given era and a validator or delegator.
 
@@ -671,7 +671,7 @@ This method returns the reward for a given era and a validator or delegator.
 
 </details>
 
-## info_get_transaction {#info-get-transaction}
+## info_get_transaction
 
 This method retrieves a transaction from a network. It requires a `transaction_hash` to query the Deploy.
 
@@ -863,7 +863,7 @@ If the `execution_results` field is empty, it means that the network processed t
 
 </details>
 
-## query_balance {#query-balance}
+## query_balance
 
 This method allows you to query for the balance of a purse using a `PurseIdentifier` and `StateIdentifier`.
 
@@ -937,7 +937,7 @@ This method allows you to query for the balance of a purse using a `PurseIdentif
 
 </details>
 
-## query_global_state {#query-global-state}
+## query_global_state
 
 This method allows for you to query for a value stored under certain keys in global state. You may query using either a [Block hash](../../concepts/design/casper-design.md#block_hash) or state root hash.
 
@@ -1071,7 +1071,7 @@ This method allows for you to query for a value stored under certain keys in glo
 
 </details>
 
-## state_get_account_info {#state-get-account-info}
+## state_get_account_info
 
 This method returns a JSON representation of an [Account](../../concepts/design/casper-design.md#accounts-head) from the network at a given [Block](../../concepts/design/casper-design.md#block-structure-head). If you do not specify a `block_identifier`, you will receive the state of the account at the highest state root hash. The `block_identifier` must refer to a Block after the Account's creation, or the method will return an empty response.
 
@@ -1158,7 +1158,7 @@ This method returns a JSON representation of an [Account](../../concepts/design/
 
 </details>
 
-## state_get_dictionary_item {#state-get-dictionary-item}
+## state_get_dictionary_item
 
 This method returns an item from a Dictionary. Every dictionary has a seed URef, findable by using a `dictionary_identifier`. The address of a stored value is the blake2b hash of the seed URef and the byte representation of the dictionary key.
 
@@ -1239,7 +1239,7 @@ You may query a stored value directly using the dictionary address.
 
 </details>
 
-## state_get_entity {#state-get-entity}
+## state_get_entity
 
 This method returns a JSON representation of an [AddressableEntity](types_chain.md#addressablentity) from the network at a given [Block](../../concepts/design/casper-design.md#block-structure-head). If you do not specify a `block_identifier`, you will receive the state of the entity at the highest state root hash. The `block_identifier` must refer to a Block after the entity's creation, or the method will return an empty response.
 
@@ -1358,13 +1358,13 @@ This method returns a JSON representation of an [AddressableEntity](types_chain.
 
 ------
 
-# Node Informational JSON-RPC Methods {#node-informational}
+# Node Informational JSON-RPC Methods
 
 The following methods return information from a node on a Casper network. The responses return information specific to the queried node, and as such, will vary.
 
 ---
 
-## info_get_peers {#info-get-peers}
+## info_get_peers
 
 This method returns a list of peers connected to the node.
 
@@ -1419,7 +1419,7 @@ This method returns a list of peers connected to the node.
 
 </details>
 
-## info_get_status {#info-get-status}
+## info_get_status
 
 This method returns the current status of a node.
 

@@ -1,10 +1,10 @@
-# Proof-of-Stake JSON-RPC Methods {#proof-of-stake}
+# Proof-of-Stake JSON-RPC Methods
 
 The following methods pertain to the Proof-of-Stake functionality of a Casper network. They return information related to auctions, bids and validators. This information is necessary for users involved with node operations and validation.
 
 ---
 
-## state_get_auction_info {#state-get-auction-info}
+## state_get_auction_info
 
 This method returns the [bids](../../concepts/economics/consensus.md#bids) and [validators](../../concepts/glossary/V.md#validator) from a specific Block (by height or hash). If you do not provide a  `block_identifier`, `state_get_auction_info` will return information from the most recent Block.
 
@@ -105,7 +105,7 @@ This method returns the [bids](../../concepts/economics/consensus.md#bids) and [
 </details>
 
 
-## info_get_validator_changes {#info-get-validator-changes}
+## info_get_validator_changes
 
 This method returns status changes of active validators. Listed changes occurred during the `EraId` contained within the response itself. A validator may show more than one change in a single era.
 
