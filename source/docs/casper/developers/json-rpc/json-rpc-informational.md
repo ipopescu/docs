@@ -1017,7 +1017,7 @@ This method allows for you to query for a value stored under certain keys in glo
 
 |Parameter|Type|Description|
 |---------|----|-----------|   
-|key|String|`casper_types::Key` as a formatted string.|
+|[key](types_chain.md#key)|String|The key as a formatted string, under which data can be stored in global state.|
 |[state_identifier](types_chain.md#globalstateidentifier)|Object|The identifier used for the query. If not provided, the tip of the chain will be used. (Optional)|
 |path|Array|The path components starting from the key as base. (Optional)|
 
