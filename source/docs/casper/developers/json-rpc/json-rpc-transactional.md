@@ -198,7 +198,7 @@ This is the recommended means by which users can send their compiled Wasm (as pa
             ],
             "target": "Native",
             "entry_point": "Transfer",
-            "transaction_kind": 0,
+            "transaction_category": 0,
             "scheduling": "Standard"
           },
           "approvals": [
@@ -465,7 +465,7 @@ The `speculative_exec_txn` endpoint allows executing a `Transaction` without com
           ],
           "target": "Native",
           "entry_point": "Transfer",
-          "transaction_kind": 0,
+          "transaction_category": 0,
           "scheduling": "Standard"
         },
         "approvals": [

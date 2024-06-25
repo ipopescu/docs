@@ -793,7 +793,7 @@ If the `execution_results` field is empty, it means that the network processed t
             ],
             "target": "Native",
             "entry_point": "Transfer",
-            "transaction_kind": 0,
+            "transaction_category": 0,
             "scheduling": "Standard"
           },
           "approvals": [
