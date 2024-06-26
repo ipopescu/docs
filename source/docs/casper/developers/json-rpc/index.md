@@ -4,21 +4,21 @@ title: Overview
 
 # Interacting with the Casper JSON-RPC API
 
-Casper uses a custom JSON-RPC implementation known as `casper-json-rpc` that is compliant with the [JSON-RPC 2.0 specification](https://www.jsonrpc.org/specification). If you are on this page, you are an advanced user wishing to interact directly with a Casper node's JSON-RPC API. You may use [Postman](https://www.postman.com/) or write code to interact with the Casper JSON-RPC API, which is fully compatible with the JSON-RPC 2.0 Specification.
+Casper uses a custom JSON-RPC implementation called `casper-json-rpc` that complies with the [JSON-RPC 2.0 specification](https://www.jsonrpc.org/specification).
 
-Casper nodes provide the RPC schema on port `8888`, followed by `rpc-schema`:  
+The [Casper Sidecar](../../operators/setup/casper-sidecar.md) service offers a JSON-RPC API server for clients to interact with a Casper node. The Sidecar acts as a JSON bridge between subscribers and a Casper node's binary port, producing faster responses and reducing the load placed on the node. For more details on how the JSON-RPC API works, see the [JSON-RPC README](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/json_rpc/README.md) in the Sidecar repository. The Sidecar usually runs on the same machine as the node process, and you need to find the port on which to access the Sidecar.
 
-```sh
-<HOST:8888>/rpc-schema 
-```
+You can find the latest RPC schema in the Sidecar's [GitHub repository](https://github.com/casper-network/casper-sidecar/blob/feat-2.0/resources/test/rpc_schema.json). <!--TODO when feat-2.0 merges to dev, update this link.-->
 
-To see an example, navigate to a node's RPC schema using a browser.
-
-The Casper client subcommand `list-rpcs` provides all currently supported RPCs. Here is an example of running the Casper client to list RPCs:
+The Casper client subcommand `list-rpcs` also provides all currently supported RPCs. Here is an example of running the Casper client to list RPCs:
 
 ```sh
 casper-client list-rpcs --node-address <HOST:PORT>
 ```
+
+You may use [Postman](https://www.postman.com/) or write code to interact with the Casper JSON-RPC API, which is fully compatible with the JSON-RPC 2.0 Specification.
+
+
 
 ## Table of Contents
 

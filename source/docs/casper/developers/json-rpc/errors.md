@@ -2,7 +2,7 @@
 
 The following document expands on custom error codes provided by `casper-json-rpc` crate.
 
-## Error Codes {#codes}
+## Error Codes
 
 |Code    |Error                        |Description                                            |
 |--------|-----------------------------|-------------------------------------------------------|
@@ -25,7 +25,7 @@ The following document expands on custom error codes provided by `casper-json-rp
 | -32603 | InternalError               | Internal JSON-RPC error.                              |
 | -32700 | ParseError                  | Invalid JSON was received by the server.              |
 
-## Invalid `Params` {#invalid-params}
+## Invalid `Params`
 
 The `casper-json-rpc` no longer ignores invalid `params` fields. `Params` fields to be omitted should be an empty Array '[]', an empty Object '{}' or absent.
 

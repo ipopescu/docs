@@ -169,7 +169,7 @@ casper-client transfer -v \
 A transfer on a Casper network is only executed after it has been included in a finalized block.
 
 ```bash
-casper-client get-deploy 
+casper-client get-deploy \
 --node-address [NODE_SERVER_ADDRESS] [DEPLOY_HASH]
 ```
 
@@ -187,7 +187,7 @@ Transfer addresses use a `transfer-` string prefix.
 **Example Query:**
 
 ```bash
-casper-client get-deploy 
+casper-client get-deploy \
 --node-address https://rpc.testnet.casperlabs.io 
 1f17a0bdeaaf71abd03492c854cdf97f746432751721ce555e95b9cefe641e3c
 ```

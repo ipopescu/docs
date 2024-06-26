@@ -1,8 +1,8 @@
-# Types {#types}
+# Types
 
 The following definitions expand on parameters seen elsewhere within the SDK standard and are provided for clarity and completeness.
 
-## Account {#account}
+## Account
 
 Structure representing a user's Account, stored in global state.
 
@@ -10,7 +10,7 @@ Required Parameters:
 
 * [`account_hash`](#accounthash)
 
-* [`action_thresholds`](#actionthresholds)
+* [`action_thresholds`](#accountactionthresholds)
 
 * [`associated_keys`](#associatedkey)
 
@@ -18,11 +18,29 @@ Required Parameters:
 
 * [`named_keys`](#namedkey)
 
-## AccountHash {#accounthash}
+## AccountActionThresholds
+
+Thresholds that have to be met when executing an action of a certain type.
+
+Required Parameters:
+
+* [`deployment`](#accountassociatedkeyweight) Threshold for deploy execution.
+
+* [`key_management`](#accountassociatedkeyweight) Threshold for managing account keys.
+
+## AccountAssociatedKeys
+
+A [collection of weighted public keys](#array-of-associatedkey) (represented as account hashes) associated with an account.
+
+## AccountAssociatedKeyWeight
+
+The weight associated with public keys in an account's associated keys.
+
+## AccountHash
 
 The AccountHash is a 32-byte hash derived from a supported PublicKey. Its role is to standardize keys that can vary in length.
 
-## AccountIdentifier {#accountidentifier}
+## AccountIdentifier
 
 Identifier of an account.
 
@@ -32,37 +50,25 @@ Contains one of:
 
 * [`AccountHash`](#accounthash)
 
-## ActionThresholds {#actionthresholds}
-
-Thresholds that have to be met when executing an action of a certain type.
-
-Required Parameters:
-
-* `deployment`
-
-* `upgrade_management`
-
-* `key_management`
-
-## ActivationPoint {#activationpoint}
+## ActivationPoint
 
 The first era to which the associated protocol version applies.
 
-* [`era_id`](#eraid)
+Any of:
 
-* [`timestamp`](#timestamp)
+* [`era_id`](#eraid) Era ID.
 
-## AddressableEntity {#addressableentity}
+* [`timestamp`](#timestamp) Genesis timestamp.
 
-* [`action_thresholds`](#actionthresholds)
+## AddressableEntity
 
-* [`associated_keys`](#associatedkeys)
+* [`action_thresholds`](#entityactionthresholds)
+
+* [`associated_keys`](#entityassociatedkeys)
 
 * [`byte_code_hash`](#bytecodehash)
 
 * [`entity_kind`](#entitykind)
-
-* [`entry_points`](#array_of_namedentrypoint)
 
 * [`main_purse`](#uref)
 
@@ -72,11 +78,11 @@ The first era to which the associated protocol version applies.
 
 * [`protocol_version`](#protocolversion)
 
-## AddressableEntityHash {#addressableentityhash}
+## AddressableEntityHash
 
 The hex-encoded address of the addressable entity.
 
-## Approval {#approval}
+## Approval
 
 A struct containing a signature and the public key of the signer.
 
@@ -86,51 +92,47 @@ Required Parameters:
 
 * [`signer`](#publickey)
 
-## Array_of_AssociatedKey {#array-of-associatedkey}
+## Array_of_AssociatedKey
 
 An array of [AssociatedKeys](#associatedkey).
 
-## Array_of_BlockProof {#array-of-blockproof}
+## Array_of_BlockProof
 
 An array of [`BlockProofs`](#blockproof).
 
-## Array_of_EntityVersionAndHash {#array-of-entityversionandhash}
+## Array_of_EntityVersionAndHash
 
 An array of [EntityVersionAndHashes](#entityversionandhash).
 
-## Array_of_EraReward {#array-of-erareward}
+## Array_of_EraReward
 
 An array of [EraRewards](#erareward).
 
-## Array_of_MessageTopic {#array-of-messagetopic}
+## Array_of_MessageTopic
 
 An array of [MessageTopics](#messagetopic).
 
-## Array_of_NamedEntryPoint {#array-of-namedentrypoint}
+## Array_of_NamedEntryPoint
 
 An array of [named entry points](#namedentrypoint).
 
-## Array_of_NamedKey {#array-of-namedkey}
-
-An array of [NamedKeys](#namedkey).
-
-## Array_of_NamedUserGroup {#array-of-namedusergroup}
+## Array_of_NamedUserGroup
 
 An array of [NamedUserGroups](#namedusergroup).
 
-## Array_of_PublicKeyAndBid {#array-of-publickeyandbid}
+## Array_of_PublicKeyAndBid
 
 An array of [bids associated with given public keys](#publickeyandbid).
 
-## Array_of_PublicKeyAndDelegator {#array-of-publickeyanddelegator}
+## Array_of_PublicKeyAndDelegator
 
 An array consisting of [PublicKeyAndDelegators](#publickeyanddelegator).
 
-## Array_of_ValidatorWeight {#array-of-validatorweight}
+## Array_of_ValidatorWeight
 
 An array of [`ValidatorWeights`](#validatorweight).
 
-## AssociatedKey {#associatedkey}
+## AssociatedKey
 
 A key granted limited permissions to an Account, for purposes such as multisig.
 
@@ -140,17 +142,13 @@ Required Parameters:
 
 * [`weight`](#weight)
 
-## AssociatedKeys {#associatedkeys}
-
-A [collection of weighted public keys](#array-of-associatedkey) (represented as account hashes) associated with an account.
-
-## AuctionState {#auctionstate}
+## AuctionState
 
 Data structure summarizing auction contract data.
 
 Required Parameters:
 
-* [`bids`](#jsonbids) All bids contained within a vector.
+* [`bids`](#array_of_publickeyandbid) All bids contained within a vector.
 
 * `block_height` Block height.
 
@@ -158,13 +156,29 @@ Required Parameters:
 
 * [`state_root_hash`](#digest) Global state hash.
 
-## AvailableBlockRange {#availableblockrange}
+## AvailableBlockRange
+
+An unbroken, inclusive range of blocks.
+
+Required Parameters:
 
 * `low` The inclusive lower bound of the range.
 
 * `high` The inclusive upper bound of the range.
 
-## Bid {#bid}
+## BalanceHoldWithProof
+
+Hold amount at a given block time.
+
+Required Parameters:
+
+* [`amount`](#u512) The amount in the hold.
+
+* `proof` A string proof that the given value is present in the Merkle trie.
+
+* [`time`](#blocktime) The block time at which the hold was created.
+
+## Bid
 
 An entry in the validator map.
 
@@ -182,11 +196,11 @@ Required Parameters:
 
 * [`validator_public_key`](#publickey) Validator's public key.
 
-Additional Parameters:
+Optional Parameters:
 
 * [`vesting_schedule`](#vestingschedule) Vesting schedule for a genesis validator. `None` if non-genesis validator.
 
-## BidKind {#bidkind}
+## BidKind
 
 Auction bid variants.
 
@@ -198,7 +212,11 @@ One of:
 
 * `Delegator` A bid record containing only delegator data.
 
-## Block {#block}
+* `Bridge` A bridge record pointing to a new `ValidatorBid` after the public key was changed.
+
+* `Credit` Credited amount.
+
+## Block
 
 A block after execution.
 
@@ -208,52 +226,44 @@ One of:
 
 * [`Version2`](#blockv2)
 
-## BlockBodyV1 {#blockbodyv1}
+## BlockBodyV1
 
 The body portion of a block prior to Casper 2.0.
 
 Required Parameters:
 
-* [`deploy_hashes`](#deployhash)
+* [`deploy_hashes`](#deployhash) The deploy hashes of the non-transfer deploys within the block.
 
-* [`proposer`](#publickey)
+* [`proposer`](#publickey) The public key of the validator that proposed the block.
 
-* [`transfer_hashes`](#deployhash)
+* [`transfer_hashes`](#deployhash) The deploy hashes of the transfers within the block.
 
-## BlockBodyV2 {#blockbodyv2}
+## BlockBodyV2
 
 The body portion of a block.
 
 Required Parameters:
 
-* [`auction`](#transactionhash) The hashes of the auction transactions within the block.
+* [`rewarded_signatures`](#rewardedsignatures) List of identifiers for finality signatures for a particular past block.
 
-* [`install_upgrade`](#transactionhash) The hashes of the installer/upgrader transactions within the block.
-
-* [`mint`](#transactionhash) The hashes of the mint transactions within the block.
-
-* [`proposer`](#publickey)
-
-* [`rewarded_signatures`](#rewardedsignatures)
-
-* [`standard`](#transactionhash) The hashes of all other transactions within the block.
+* [`transactions`](#transactionhash) Map of transactions mapping categories to a list of transaction hashes.
 
 
-## BlockHash {#blockhash}
+## BlockHash
 
 A cryptographic hash identifying a `Block`.
 
-## BlockHeader {#blockheader}
+## BlockHeader
 
 The versioned header portion of a block. It encapsulates different variants of the `BlockHeader` struct.
 
 One of:
 
-* [`Version1`](#blockheaderv1)
+* [`Version1`](#blockheaderv1) The legacy, initial version of the header portion of a block.
 
-* [`Version2`](#blockheaderv2)
+* [`Version2`](#blockheaderv2) The version 2 of the header portion of a block.
 
-## BlockHeaderV1 {#blockheaderv1}
+## BlockHeaderV1
 
 The header portion of a block prior to Casper 2.0.
 
@@ -277,39 +287,45 @@ Required Parameters:
 
 * [`timestamp`](#timestamp)
 
-Additional Parameters:
+Optional Parameters:
 
 * [`era_end`](#eraendv1)
 
-## BlockHeaderV2 {#blockheaderv1}
+## BlockHeaderV2
 
 The header portion of a block.
 
 Required Parameters:
 
-* [`accumulated_seed`](#digest)
+* [`accumulated_seed`](#digest) A seed needed for initializing a future era.
 
-* [`body_hash`](#digest)
+* [`body_hash`](#digest) The hash of the block's body.
+
+* `current_gas_price` The gas price of the era.
 
 * [`era_id`](#eraid)
 
 * `height` The height of this block.
 
-* [`parent_hash`](#blockhash)
+* [`parent_hash`](#blockhash) The parent block's hash.
 
-* [`protocol_version`](#protocolversion)
+* [`proposer`](#publickey) The public key of the validator which proposed the block.
+
+* [`protocol_version`](#protocolversion) The protocol version of the network from when this block was created.
 
 * `random_bit` A random bit needed for initializing a future era.
 
-* [`state_root_hash`](#digest)
+* [`state_root_hash`](#digest) The root hash of global state after the deploys in this block have been executed.
 
-* [`timestamp`](#timestamp)
+* [`timestamp`](#timestamp) The timestamp from when the block was proposed.
 
-Additional Parameters:
+Optional Parameters:
 
-* [`era_end`](#eraendv2)
+* [`era_end`](#eraendv2) The `EraEnd` of a block if it is a switch block.
 
-## BlockIdentifier {#blockidentifier}
+* [`last_switch_block_hash`](#blockhash) The most recent switch block hash.
+
+## BlockIdentifier
 
 Identifier for possible ways to retrieve a Block.
 
@@ -317,7 +333,7 @@ Identifier for possible ways to retrieve a Block.
 
 * `Height` Identify and retrieve the Block with its height.
 
-## BlockProof {#blockproof}
+## BlockProof
 
 A validator's public key paired with a corresponding signature of a given block hash.
 
@@ -327,15 +343,17 @@ Required Parameters:
 
 * [`signature`](#signature)
 
-## BlockSynchronizerStatus {#blocksynchronizerstatus}
+## BlockSynchronizerStatus
 
 The status of the block synchronizer.
+
+Optional Parameters:
 
 * [`Historical`](#blocksyncstatus) The status of syncing a historical block, if any.
 
 * [`Forward`](#blocksyncstatus) The status of syncing a forward block, if any.
 
-## BlockSyncStatus {#blocksyncstatus}
+## BlockSyncStatus
 
 The status of syncing an individual block.
 
@@ -343,45 +361,57 @@ Required Parameters:
 
 * `acquisition_state` The state of acquisition of the data associated with the block as a string.
 
-* [`block_hash`](#blockhash)
+* [`block_hash`](#blockhash) The block hash.
 
-Additional Parameters:
+Optional Parameters:
 
 * `block_height` The height of the block, if known.
 
-## BlockTime {#blocktime}
+## BlockTime
 
 A newtype wrapping a `u64`, which represents the block time.
 
-## BlockV1 {#blockv1}
+## BlockV1
 
 A block after execution with the resulting global state root hash prior to Casper 2.0. This is the core component of the Casper linear blockchain.
 
 Required Parameters:
 
-* [`body`](#blockbodyv1)
+* [`body`](#blockbodyv1) The body portion of the block.
 
-* [`hash`](#blockhash)
+* [`hash`](#blockhash) The block hash identifying this block.
 
-* [`header`](#blockheaderv1)
+* [`header`](#blockheaderv1) The header portion of the block.
 
-## BlockV2 {#blockv2}
+## BlockV2
 
 A block after execution, with the resulting global state root hash. This is the core component of the Casper linear blockchain.
 
 Required Parameters:
 
-* [`body`](#blockbodyv2)
+* [`body`](#blockbodyv2) The body portion of the block.
 
-* [`hash`](#blockhash)
+* [`hash`](#blockhash) The block hash identifying this block.
 
-* [`header`](#blockheaderv2)
+* [`header`](#blockheaderv2) The header portion of the block.
 
-## Bytes {#bytes}
+## Bridge
+
+A bridge record pointing to a new `ValidatorBid` after the public key was changed.
+
+Required Parameters:
+
+* [`era_id`](#eraid) Era when bridge record was created.
+
+* [`old_validator_public_key`](#publickey) Previous validator public key associated with the bid.
+
+* [`new_validator_public_key`](#publickey) New validator public key associated with the bid.
+
+## Bytes
 
 Hex-encoded bytes.
 
-## ByteCode {#bytecode}
+## ByteCode
 
 A container for a contract's Wasm bytes.
 
@@ -391,11 +421,11 @@ Required Parameters:
 
 * [`kind`](#ByteCodeKind)
 
-## ByteCodeHash {#bytecodehash}
+## ByteCodeHash
 
-The hex-encoded address of a smart contract [`AddressableEntity`](#addressableentity)
+The hex-encoded address of a smart contract [`AddressableEntity`](#addressableentity).
 
-## ByteCodeKind {#bytecodekind}
+## ByteCodeKind
 
 The type of byte code.
 
@@ -405,7 +435,7 @@ One of:
 
 * `V1CasperWasm` Byte code to be executed with the version 1 Casper execution engine.
 
-## BytesreprError {#bytesreprerror}
+## BytesreprError
 
 Serialization and deserialization errors.
 
@@ -421,37 +451,41 @@ Serialization and deserialization errors.
 
 * `ExceededRecursionDepth` Exceeded a recursion depth limit.
 
-## ChainspecRawBytes {#chainspecrawbytes}
+## ChainspecRawBytes
 
 The raw bytes of the chainspec.toml, genesis accounts.toml, and global_state.toml files.
 
-* `chainspec_bytes` Hex-encoded raw bytes of the current chainspec.toml file.
+Required Parameters:
 
-* `maybe_genesis_accounts_bytes` Hex-encoded raw bytes of the current genesis accounts.toml file.
+* [`chainspec_bytes`](#bytes) Hex-encoded raw bytes of the current chainspec.toml file.
 
-* `maybe_global_state_bytes` Hex-encoded raw bytes of the current global_state.toml file.
+Optional Parameters:
 
-## Contract {#contract} 
+* [`maybe_genesis_accounts_bytes`](#bytes) Hex-encoded raw bytes of the current genesis accounts.toml file.
+
+* [`maybe_global_state_bytes`](#bytes) Hex-encoded raw bytes of the current global_state.toml file.
+
+## Contract
 
 A contract struct that can be serialized as a JSON object.
 
 Required Parameters:
 
-[`contract_package_hash`](#contractpackagehash)
+* [`contract_package_hash`](#contractpackagehash)
 
-[`contract_wasm_hash`](#contractwasmhash)
+* [`contract_wasm_hash`](#contractwasmhash)
 
-[`entry_points`](#entrypoint)
+* [`entry_points`](#entrypoint)
 
-[`named_keys`](#namedkey)
+* [`named_keys`](#namedkey)
 
-`protocol_version`
+* [`protocol_version`](#protocolversion)
 
-## ContractHash {#contracthash}
+## ContractHash
 
 The hash address of the contract.
 
-## ContractPackage {#contractpackge}
+## ContractPackage
 
 Contract definition, metadata and security container.
 
@@ -467,11 +501,11 @@ Required Parameters:
 
 * [`lock_status`](#contractpackagestatus)
 
-## ContractPackageHash {#contractpackagehash}
+## ContractPackageHash
 
 The hash address of the contract package.
 
-## ContractPackageStatus {#contractpackagestatus}
+## ContractPackageStatus
 
 An enum to determine the lock status of the contract package.
 
@@ -481,7 +515,7 @@ One of:
 
 * `Unlocked` The package is unlocked and can be versioned.
 
-## ContractVersion {#contractversion}
+## ContractVersion
 
 The version of the contract.
 
@@ -493,11 +527,11 @@ Required Parameters:
 
 * `protocol_version_major`
 
-## ContractVersionKey {#contractversionkey}
+## ContractVersionKey
 
 Major element of `ProtocolVersion` combined with `ContractVersion`.
 
-## ContractWasm {#contractwasm}
+## ContractWasm
 
 A container for a contract's Wasm bytes.
 
@@ -505,11 +539,11 @@ Required Parameter:
 
 * [`bytes`](#bytes)
 
-## ContractWasmHash {#contractwasmhash}
+## ContractWasmHash
 
 The hash address of the contract Wasm.
 
-## Delegator {#delegator}
+## Delegator
 
 Represents a party delegating their stake to a validator (or "delegatee").
 
@@ -527,7 +561,7 @@ Additional Parameters:
 
 * [`vesting_schedule`](#vestingschedule)
 
-## Deploy {#deploy}
+## Deploy
 
 A Deploy; an item containing a smart contract along with the requester's signature(s).
 
@@ -539,25 +573,15 @@ Required properties:
 
 * [`header`](#deployheader)
 
-* [`payment`](#executabledeployitem)
+* [`payment`](#executabledeployitem-executabledeployitem)
 
-* [`sessions`](#executabledeployitem)
+* [`session`](#executabledeployitem-executabledeployitem)
 
-## DeployApproval {#deployapproval}
-
-A struct containing a signature of a deploy hash and the public key of the signer.
-
-Required parameters:
-
-* [`signature`](#signature)
-
-* [`signer`](#publickey)
-
-## DeployHash {#deployhash}
+## DeployHash
 
 Hex-encoded Deploy hash.
 
-## DeployHeader {#deployheader}
+## DeployHeader
 
 The header portion of a Deploy.
 
@@ -577,7 +601,7 @@ Required Parameters:
 
 * [`ttl`](#timediff)
 
-## DeployInfo {#deployinfo}
+## DeployInfo
 
 Information relating to the given Deploy.
 
@@ -593,7 +617,7 @@ Required Parameters:
 
 * [`transfers`](#transferaddr) Transfers performed by the Deploy.
 
-## DictionaryIdentifier {#dictionaryidentifier}
+## DictionaryIdentifier
 
 Options for dictionary item lookups.
 
@@ -601,79 +625,117 @@ Options for dictionary item lookups.
 
     Required Parameters:
 
-    `key` The Account key as a formatted string whose named keys contain dictionary_name.
+    * `key` The Account key as a formatted string whose named keys contain dictionary_name.
 
-    `dictionary_name` The named key under which the dictionary seed URef is stored.
+    * `dictionary_name` The named key under which the dictionary seed URef is stored.
 
-    `dictionary_item_key` The dictionary item key formatted as a string.
+    * `dictionary_item_key` The dictionary item key formatted as a string.
 
 * `ContractNamedKey` Lookup a dictionary item via a Contract's named keys.
 
-    `key` The contract key as a formatted string whose named keys contains dictionary_name.
+    Required Parameters:
 
-    `dictionary_name` The named key under which the dictionary seed URef is stored.
+    * `key` The contract key as a formatted string whose named keys contains dictionary_name.
 
-    `dictionary_item_key` The dictionary item key formatted as a string.
+    * `dictionary_name` The named key under which the dictionary seed URef is stored.
+
+    * `dictionary_item_key` The dictionary item key formatted as a string.
+
+* `EntityNamedKey`
+
+    Required Parameters:
+
+    * `key` The entity address formatted as a string.
+
+    * `dictionary_name` The named key under which the dictionary seed URef is stored.
+
+    * `dictionary_item_key` The dictionary item key formatted as a string.
 
 * `URef` Lookup a dictionary item via its seed URef.
 
-    `seed_uref` The dictionary's seed URef.
+    Required Parameters:
 
-    `dictionary_item_key` The dictionary item key formatted as a string.
+    * `seed_uref` The dictionary's seed URef.
+
+    * `dictionary_item_key` The dictionary item key formatted as a string.
 
 * `Dictionary` Lookup a dictionary item via its unique key.
 
-## Digest {#digest}
+## Digest
 
 Hex-encoded hash digest.
 
-## DisabledVersions {#disabledversions}
-
-Required Parameters:
-
-* `contract_version`
-
-* `protocol_version_major`
-
-## Effects {#effects}
+## Effects
 
 A log of all [transforms](#tranform) produced during execution.
 
-## EntityIdentifier {#entityidentifier}
+## EntityActionThresholds
+
+Thresholds that have to be met when executing an action of a certain type. 
+
+Required Parameters:
+
+* [`deployment`](#entityassociatedkeyweight) Threshold for deploy execution.
+
+* [`key_management`](#entityassociatedkeyweight) Threshold for managing account keys.
+
+* [`upgrade_management`](#entityassociatedkeyweight) Threshold for upgrading contracts.
+
+## EntityAddr
+
+The address for an AddressableEntity which contains the 32 bytes and tagging information.
+
+Any of:
+
+* The address for a system entity account or contract.
+
+* The address of an entity that corresponds to an Account.
+
+* The address of an entity that corresponds to a user (non-system) smart contract.
+
+## EntityAssociatedKeys
+
+A collection of weighted public keys (represented as account hashes) associated with an account. See [Array_of_AssociatedKey](#array_of_associatedkey).
+
+## EntityAssociatedKeyWeight
+
+The weight associated with public keys in an entity's associated keys.
+
+## EntityIdentifier
 
 Identifier of an addressable entity.
 
-* [`PublicKey`](#publickey)
+One of:
+
+* [`PublicKey`](#publickey-publickey)
 
 * [`AccountHash`](#accounthash)
 
-* [`EntityHashForAccount`](#addressableentityhash)
+* [`EntityAddr`](#entityaddr)
 
-* [`EntityHashForContract`](#addressableentityhash)
-
-## EntityKind {#entitykind}
+## EntityKind
 
 The type of [`Package`](#package).
 
 One of:
 
-* [`System`](#systementitytype)
+* [`System`](#systementitytype) Package associated with a native contract implementation.
 
-* [`Account`](#accounthash)
+* [`Account`](#accounthash) Package associated with an Account hash.
 
-* `SmartContract` Packages associated with Wasm stored on chain.
+* [`SmartContract`](#transactionruntime) Packages associated with Wasm stored on chain.
 
-## EntityOrAccount {#entity-or-account}
+## EntityOrAccount
 
 An addressable entity or a legacy account.
 
 One of:
 
-* [`AddressableEntity`](#addressablentity)
+* [`AddressableEntity`](#addressablentity) An addressable entity.
 
-* [`Account`](#account)
+* [`Account`](#account) A legacy account.
 
-## EntityVersionAndHash {#entityversionandhash}
+## EntityVersionAndHash
 
 An entity version associated with the given hash.
 
@@ -683,17 +745,17 @@ Required Parameters:
 
 * [`entity_version_key`](#entityversionkey)
 
-## EntityVersionKey {#entityversionkey}
+## EntityVersionKey
 
 Major element of `ProtocolVersion` combined with `EntityVersion`.
 
 Required Parameters:
 
-* `entity_version`
+* `entity_version` Automatically incremented value for a contract version within a major `ProtocolVersion`.
 
-* `protocol_version_major`
+* `protocol_version_major` Major element of `ProtocolVersion` with which a `ContractVersion` is compatible.
 
-## EntryPoint {#entrypoint}
+## EntryPoint
 
 Metadata describing a callable entry point and its return value, if any. All required parameters should be declared, whereas all non-required parameters should not be declared. Non-required parameters should not be confused with optional parameters.
 
@@ -709,25 +771,81 @@ Required Parameters:
 
 * [`ret`](#cltype)
 
-## EntryPointAccess {#entrypointaccess}
+## EntryPoint2
+
+Type signature of a method. Order of arguments matters since they can be referenced by index as well as their name.
+
+Required Parameters:
+
+* [`access`](#entrypointaccess)
+
+* [`args`](#parameter)
+
+* [`entry_point_payment`](#entrypointpayment)
+
+* [`entry_point_type`](#entrypointtype)
+
+* `name` The string name of the entrypoint.
+
+* [`ret`](#cltype)
+
+## EntryPointAccess
 
 Enum describing the possible access control options for a contract entry point.
+
+One of:
 
 * `Public` A public entry point is callable by any caller.
 
 * [`Groups`](#group) Only callers from the authorized, listed groups may call this entry point. Note: If this list is empty then this entry point is not callable from outside the contract.
 
-## EntryPointType {#entrypointype}
+* `Template` A string type that can't be accessed directly but is kept in the derived Wasm bytes.
 
-Context of an entry point execution.
+## EntryPointPayment
 
-* `Session` Runs as session code in the context of the caller. Deprecated and retained to allow read back of legacy stored session.
+An enum specifying who pays for the invocation and execution of the entrypoint.
 
-* `AddressableEntity` Runs within the called entity's context.
+One of:
+
+* `Caller` The caller must cover the cost.
+
+* `SelfOnly` The current execution will cover the cost to execute self but not the cost of any subsequently invoked contracts.
+
+* `SelfOnward` The current execution will cover the cost to execute self and the cost of any subsequently invoked contracts.
+
+## EntryPointType
+
+Context of an entry point execution. The most significant bit represents the version. For example, `0b0` represents session and contract entry points up to version 2.0. And, `0b1` is for versions 2.x and later (i.e. installer and utility entry points).
+
+One of:
+
+* `Caller` Runs using the calling entity's context. In v1.x, this was used for both session code that ran using the originating account's context and stored session code that ran in the caller's context. In v2.x, the renamed Caller variant is exclusively used for Wasm running using the initiating account entity's context. Previously installed 1.x stored session code should continue to work as the binary value matches, but we no longer allow such logic to be upgraded, nor do we allow new stored session code to be installed.
+
+* `Called` Runs within the called entity's context.
 
 * `Factory` This entry point is intended to extract a subset of bytecode. Runs within the called entity's context.
 
-## EraEndV1 {#eraendv1}
+## EntryPointValue
+
+The encaspulated representation of entrypoints.
+
+One of:
+
+* [`V1CasperVm`](#entrypoint2) Entrypoints to be executed against the V1 Casper VM.
+
+* [`V2CasperVm`](#entrypointv2) Entrypoints to be executed against the V2 Casper VM.
+
+## EntryPointV2
+
+The entry point for the V2 Casper VM.
+
+Required Parameters:
+
+* `flags` The flags as a uint32 integer.
+
+* `function_index` The selector as a uint32 integer.
+
+## EraEndV1
 
 Information related to the end of an era and validator weights for the following era prior to Casper 2.0.
 
@@ -737,25 +855,27 @@ Required Parameters:
 
 * [`next_era_validator_weights`](#array_of_validatorweight)
 
-## EraEndV2 {#eraendv2}
+## EraEndV2
 
 Information related to the end of an era and validator weights for the following era.
 
 Required Parameters:
 
-* [`equivocators`](#publickey)
+* [`equivocators`](#publickey) The set of equivocators.
 
-* [`inactive_validators`](#publickey)
+* [`inactive_validators`](#publickey) Validators that haven't produced any units during the era.
 
-* [`next_era_validator_weights`](#array-of-validatorweight)
+* `next_era_gas_price` The gas price for the next era as a `uint8` integer. Minimum 0.0 motes.
 
-* [`rewards`](#U512)
+* [`next_era_validator_weights`](#array-of-validatorweight) The validators for the upcoming era and their respective weights.
 
-## EraID {#eraid}
+* [`rewards`](#U512) The rewards distributed to the validators.
+
+## EraID
 
 Era ID newtype.
 
-## EraIdentifier {#eraidentifier}
+## EraIdentifier
 
 Identifier for an era.
 
@@ -765,37 +885,37 @@ One of:
 
 * [`Block`](#blockidentifier)
 
-## EraInfo {#erainfo}
+## EraInfo
 
 Auction metadata. Intended to be recorded at each era.
 
 Required Parameters:
 
-* [`seigniorage_allocation`](#seigniorageallocation-seigniorageallocation) Information about a seigniorage allocation.
+* [`seigniorage_allocation`](#seigniorageallocation) Information about a seigniorage allocation.
 
-## EraReport_for_PublicKey {#erareport-for-publickey}
+## EraReport_for_PublicKey
 
 Equivocation, reward and validator inactivity information.
 
 Required Parameters:
 
-* [`equivocators`](#publickey)
+* [`equivocators`](#publickey) The set of equivocators.
 
-* [`rewards`](#array_of_erareward)
+* [`rewards`](#array_of_erareward) Rewards for finalization of earlier blocks.
 
-* [`inactive_validators`](#publickey)
+* [`inactive_validators`](#publickey) Validators that haven't produced any unit during the era.
 
-## EraReward {#erareward}
+## EraReward
 
 A validator's public key paired with a measure of the value of its contribution to consensus, as a fraction of the configured maximum block reward.
 
 Required Parameters:
 
-* `amount`
+* `amount` The reward amount.
 
-* [`validator`](#publickey)
+* [`validator`](#publickey) The validator's public key.
 
-## EraSummary {#erasummary}
+## EraSummary
 
 The summary of an era.
 
@@ -811,97 +931,35 @@ Required Parameters:
 
 * [`stored_value`](#storedvalue) The StoredValue containing era information.
 
-## ExecutableDeployItem {#executabledeployitem}
+## ExecutableDeployItem
 
 Represents possible variants of an executable Deploy.
 
-### `ModuleBytes` {#modulebytes}
+## ExecutionInfo
 
-Executable specified as raw bytes that represent Wasm code and an instance of `RuntimeArgs`.
-
-Required Parameters:
-
-* `module_bytes` Hex-encoded raw Wasm bytes. There are some special cases around passing `module_bytes` for payment code.
-
-Additional Parameters:
-
-* [`args`](#runtimeargs) Runtime arguments.
-
-### `StoredContractByHash` {#storedcontractbyhash}
-
-Stored contract referenced by its `ContractHash`, entry point and an instance of `RuntimeArgs`.
+The block hash and height in which a given deploy was executed, along with the execution result if known.
 
 Required Parameters:
 
-* [`args`](#runtimeargs) Runtime arguments.
+* [`block_hash`](#blockhash) The hash of the block in which the deploy was executed.
 
-* `entry_point` The name of an entry point.
+* `block_height` The height of the block in which the deploy was executed.
 
-* `hash` A hex-encoded hash.
+Optional Parameters:
 
-### `StoredContractByName` {#storedcontractbyname}
+* [`execution_result`](#executionresult) The execution result if known.
 
-Stored contract referenced by a named key existing in the signer's Account context, entry point and an instance of `RuntimeArgs`.
-
-Required Parameters:
-
-* [`args`](#runtimeargs) Runtime arguments.
-
-* `entry_point` The name of an entry point.
-
-* `name` A named key.
-
-### `StoredVersionContractByHash` {#storedversioncontractbyhash}
-
-Stored versioned contract referenced by its `ContractPackageHash`, entry point and an instance of `RuntimeArgs`.
-
-Required Parameters:
-
-* [`args`](#runtimeargs) Runtime arguments.
-
-* `entry_point` The name of an entry point.
-
-* `hash` A hex-encoded hash.
-
-Additional Parameters:
-
-* `version` An optional version of the contract to call. It will default to the highest enabled version if no value is specified.
-
-### `StoredVersionContractByName` {#storedversioncontractbyname}
-
-Stored versioned contract referenced by a named key existing in the signer's Account context, entry point and an instance of `RuntimeArgs`.
-
-Required Parameters:
-
-* [`args`](#runtimeargs) Runtime arguments.
-
-* `entry_point` The name of an entry point.
-
-* `name` A named key.
-
-Additional Parameters:
-
-* `version` An optional version of the contract to call. It will default to the highest enabled version if no value is specified.
-
-### `Transfer` {#transfer}
-
-A native transfer which does not contain or reference a Wasm code.
-
-Required Parameters:
-
-* [`args`](#runtimeargs)
-
-## ExecutionEffect {#executioneffect}
+## ExecutionEffect
 
 The journal of execution transforms from a single Deploy.
 
 Required Parameters:
 
-* [`operations`](#oepration)
+* [`operations`](#operation)
 
 * [`transforms`](#transformentry)
 
-## ExecutionResult {#executionresult}
+## ExecutionResult
 
 The versioned result of executing a single Deploy.
 
@@ -911,7 +969,7 @@ One of:
 
 * [`Version2`](#executionresultv2) Version 2 of execution result type.
 
-## ExecutionResultV1 {#executionresultV1}
+## ExecutionResultV1
 
 The result of executing a single deploy prior to Casper 2.0.
 
@@ -939,39 +997,37 @@ One of:
 
     [`cost`](#u512)
 
-## ExecutionResultV2 {#executionresultv2}
+## ExecutionResultV2
 
-The result of executing a single deploy.
+The result of executing a single transaction.
 
-One of:
+Required Parameters:
 
-* `Failure` The result of a failed execution.
+* [`consumed`](#gas) How much gas was consumed executing this transaction.
 
-    Required Parameters:
+* [`cost`](#u512) How much was paid for this transaction.
 
-    [`effects`](#effects)
+* [`effects`](#effects) The effects of executing this transaction.
 
-    [`transfers`](#transferaddr)
+* [`initiator`](#initiatoraddr) Who initiated this transaction.
 
-    [`cost`](#u512)
+* [`limit`](#gas) The maximum allowed gas limit for this transaction.
 
-    `error_message` The error message associated with executing the deploy.
+* [`payment`](#paymentinfo) Breakdown of payments made to cover the cost.
 
-* `Success` The result of a successful execution.
+* `size_estimate` The size estimate of the transaction
 
-    Required Parameters:
+* [`transfers`](#transfer) A record of transfers performed while executing this transaction.
 
-    [`effects`](#effects)
+Optional Parameters:
 
-    [`transfers`](#transferaddr)
+* `error_message` If there is no error message, this execution was processed successfully. If there is an error message, this execution failed to fully process for the stated reason.
 
-    [`cost`](#u512)
+## Gas
 
-## FinalizedApprovals {#finalizedapprovals}
+The `Gas` struct represents a `U512` amount of gas.
 
-A boolean value that determines whether to return the deploy with the finalized approvals substituted. If `false` or omitted, returns the deploy with the approvals that were originally received by the node.
-
-## GlobalStateIdentifier {#globalstateidentifier}
+## GlobalStateIdentifier
 
 Identifier for possible ways to query global state.
 
@@ -981,21 +1037,13 @@ Identifier for possible ways to query global state.
 
 * [`StateRootHash`](#digest) Query using the state root hash.
 
-## Group {#group}
+## Group
 
 A (labelled) "user group". Each entry point of a versioned contract may be associated with one or more user groups which are allowed to call it.
 
-### Groups {#groups}
+## InitiatorAddr
 
-Required Parameters:
-
-* `group`
-
-* [`keys`](#uref)
-
-## InitiatorAddr {#initiatoraddr}
-
-The address of the initiator of a TransactionV1.
+The address of the initiator of a transaction
 
 Contains one of:
 
@@ -1003,131 +1051,17 @@ Contains one of:
 
 * [`accounthash`](#accounthash) The account hash derived from the public key of the initiator.
 
-* [`entityaddr`](#entityaddr) The hex-encoded entity address of the initiator.
-
-## JsonBid {#jsonbid}
-
-An entry in a founding validator map representing a bid.
-
-Required Parameters:
-
-* [`bonding_purse`](#uref) The purse that was used for bonding.
-
-* `delegation_rate` The delegation rate.
-
-* [`delegators`](#jsondelegator) The delegators.
-
-* `inactive` Is this an inactive validator.
-
-* [`staked_amount`](#u512) The amount of tokens staked by a validator (not including delegators).
-
-## JsonBids {#jsonbids}
-
-A Json representation of a single bid.
-
-Required Parameters:
-
-* [`bid`](#jsonbid)
-
-* [`public_key`](#publickey)
-
-## JsonBlock {#jsonblock}
-
-A JSON-friendly representation of `Block`.
-
-Required Parameters:
-
-* [`body`](#jsonblockbody) JSON-friendly Block body.
-
-* [`hash`](#blockhash) BlockHash.
-
-* [`header`](#jsonblockheader) JSON-friendly Block header.
-
-* [`proofs`](#jsonproof) JSON-friendly list of proofs for this Block.
-
-## JsonBlockBody {#jsonblockbody}
-
-A JSON-friendly representation of `Body`.
-
-Required Parameters:
-
-* [`deploy_hashes`](#deployhash)
-
-* [`proposer`](#publickey)
-
-* [`transfer_hashes`](#deployhash)
-
-## JsonBlockHeader {#jsonblockheader}
-
-JSON representation of a Block header.
-
-* [`accumulated_seed`](#digest) Accumulated seed.
-
-* [`body_hash`](#digest) The body hash.
-
-* [`era_id`](#eraid) The Block era id.
-
-* `height` The Block height.
-
-* [`parent_hash`](#blockhash) The parent hash.
-
-* [`protocol_version`](#protocolversion) The protocol version.
-
-* `random_bit` Randomness bit.
-
-* [`state_root_hash`](#digest) The state root hash.
-
-* [`timestamp`](#timestamp) The Block timestamp.
-
-Additional Parameters:
-
-* [`era_end`](#jsoneraend) The era end.
-
-## JsonBlockWithSignatures {#jsonblockwithsignatures}
+## JsonBlockWithSignatures
 
 A JSON-friendly representation of a block and the signatures for that block.
 
 Required Parameters:
 
-* [`block`](#block)
+* [`block`](#block) The block.
 
-* [`proofs`](#array-of-blockproof)
+* [`proofs`](#array-of-blockproof) The proofs of the block, i.e. a collection of validators' signatures of the block hash.
 
-## JsonDelegator {#jsondelegator}
-
-A delegator associated with the given validator.
-
-Required Parameters:
-
-* [`bonding_purse`](#uref)
-
-* [`delegatee`](#publickey)
-
-* [`public_key`](#publickey)
-
-* [`staked_amount`](#u512)
-
-## JsonEraEnd {#jsoneraend}
-
-Required Parameters:
-
-* [`era_report](#jsonerareport)
-
-* [`next_era_validator_weight`](#validatorweight)
-
-## JsonEraReport {#jsonerareport}
-
-Equivocation and reward information to be included in the terminal Block.
-
-Required Parameters:
-
-* [`equivocators`](#publickey)
-
-* [`inactive_validators`](#publickey)
-
-* [`rewards`](#reward)
-
-## JsonEraValidators {#jsoneravalidators}
+## JsonEraValidators
 
 The validators for the given era.
 
@@ -1137,25 +1071,7 @@ Required Parameters:
 
 * [`validator_weights`](#jsonvalidatorsweights)
 
-## JsonExecutionResult {#jsonexecutionresult}
-
-The execution result of a single Deploy.
-
-* [`block_hash`](#blockhash)
-
-* [`result`](#executionresult)
-
-## JsonProof {#jsonproof}
-
-A JSON-friendly representation of a proof, i.e. a Block's finality signature.
-
-Required Parameters:
-
-* [`public_key`](#publickey)
-
-* [`signature`](#signature)
-
-## JsonValidatorChanges {#jsonvalidatorchanges}
+## JsonValidatorChanges
 
 The changes in a validator's status.
 
@@ -1165,7 +1081,7 @@ Required Parameters:
 
 * [`status_changes`](#jsonvalidatorstatuschange) The set of changes to the validator's status.
 
-## JsonValidatorStatusChange {#jsonvalidatorstatuschange}
+## JsonValidatorStatusChange
 
 A single change to a validator's status in the given era.
 
@@ -1175,7 +1091,7 @@ Required Parameters:
 
 * [`validator_change`](#validatorchange) The change in validator status.
 
-## JsonValidatorsWeights {#jsonvalidatorweights}
+## JsonValidatorsWeights
 
 A validator's weight.
 
@@ -1185,19 +1101,15 @@ Required Parameters:
 
 * [`weight`](#u512)
 
-## Key {#key}
+## Key
 
 The key as a formatted string, under which data can be stored in global state.
 
-## Merkle_Proof {#merkle-proof}
-
-A Merkle proof is a construction created using a Merkle trie that allows verification of the associated hashes.
-
-## MessageChecksum {#messagechecksum}
+## MessageChecksum
 
 Message checksum as a formatted string.
 
-## MessageTopic {#messagetopic}
+## MessageTopic
 
 A topic for contract-level messages.
 
@@ -1205,9 +1117,9 @@ Required Parameters:
 
 * `topic_name` A string used to identify the message topic.
 
-* [`topic_name_hash`](#topicnamehash)
+* [`topic_name_hash`](#topicnamehash) The hash of the name of the message topic.
 
-## MessageTopicSummary {#messagetopicsummary}
+## MessageTopicSummary
 
 Summary of a message topic that will be stored in global state.
 
@@ -1217,7 +1129,7 @@ Required Parameters:
 
 * `message_count` The number of messages in this topic.
 
-## MinimalBlockInfo {#minimalblockinfo}
+## MinimalBlockInfo
 
 Minimal info of a `Block`.
 
@@ -1229,17 +1141,17 @@ Required Parameters:
 
 * [`hash`](#blockhash)
 
-* `height`
+* `height` The block height.
 
 * [`state_root_hash`](#digest)
 
 * [`timestamp`](#timestamp)
 
-## NamedArg {#namedarg}
+## NamedArg
 
 Named arguments to a contract.
 
-## NamedEntryPoint {#namedentrypoint}
+## NamedEntryPoint
 
 A named [entry point](#entrypoint).
 
@@ -1249,7 +1161,7 @@ Required Parameters:
 
 * `name` A string identifying the entry point.
 
-## NamedKey {#namedkey}
+## NamedKey
 
 A named key.
 
@@ -1259,19 +1171,21 @@ Required Parameters:
 
 * `name` The name of the entry.
 
-## NamedKeys {#namedkeys}
+## NamedKeys
 
 A [collection of named keys](#array-of-namedkey).
 
-## NamedKeyValue {#namedkeyvalue}
+## NamedKeyValue
 
 A `NamedKey` value.
+
+Required Parameters:
 
 * `name` The name of the `Key` encoded as a `CLValue`.
 
 * `named_key` The actual `Key` encoded as a `CLValue`.
 
-## NamedUserGroup {#namedusergroup}
+## NamedUserGroup
 
 A named [`group`](#group).
 
@@ -1281,7 +1195,7 @@ Required Parameters:
 
 * [`group_users`](#uref)
 
-## NextUpgrade {#nextupgrade}
+## NextUpgrade
 
 Information about the next protocol upgrade.
 
@@ -1289,13 +1203,9 @@ Required Parameters:
 
 * [`activation_point`](#activationpoint)
 
-* `protocol_version`
+* [`protocol_version`](#protocolversion)
 
-## NewValidator {#newvalidator}
-
-The public key for the new validator in a redelegation using [UnbondingPurse](#unbondingpurse).
-
-## Operation {#operation}
+## Operation
 
 An operation performed while executing a Deploy.
 
@@ -1305,7 +1215,7 @@ Required Parameters:
 
 * [`kind`](#opkind)
 
-## OpKind {#opkind}
+## OpKind
 
 The type of operation performed while executing a Deploy.
 
@@ -1321,25 +1231,21 @@ One of:
 
 * `Prune` A prune operation.
 
-## Package {#package}
+## Package
 
 Entity definition, metadata and security container.
 
 Required Parameters:
 
-* [`access_key`](#uref)
+* [`disabled_versions`](#EntityVersionKey) Collection of disabled entity versions. The runtime will not permit disabled entity versions to be executed.
 
-* [`disabled_versions`](#EntityVersionKey)
+* [`groups`](#array_of_namedusergroup) Mapping maintaining the set of URefs associated with each user group, used to control access to methods in a particular version of the entity. A method is callable by any context which knows any of the URefs associated with the method's user group.
 
-* [`groups`](#array_of_namedusergroup)
+* [`lock_status`](#packagestatus) A flag that determines whether a entity is locked.
 
-* [`lock_status`](#packagestatus)
+* [`versions`](#array-of-entityversionandhash) All versions (enabled & disabled).
 
-* [`package_kind`](#packagekind)
-
-* [`versions`](#array-of-entityversionandhash)
-
-## Parameter {#parameter}
+## Parameter
 
 Parameter to an entry point.
 
@@ -1349,23 +1255,11 @@ Required Parameters:
 
 * `name`
 
-## PackageHash {#packagehash}
+## PackageHash
 
 The hex-encoded address of a package associated with an [`AddressableEntity`](#addressableentity).
 
-## PackageKind {#packagekind}
-
-The type of `Package`.
-
-One of:
-
-* `System` Package associated with a native contract implementation.
-
-* `Account` Package associated with an Account hash.
-
-* `SmartContract` Packages associated with Wasm stored on chain.
-
-## PackageStatus {#packagestatus}
+## PackageStatus
 
 An enum to determine the lock status of the package.
 
@@ -1375,19 +1269,29 @@ One of:
 
 * `Unlocked` The package is unlocked and can be versioned.
 
-## Peer {#peers}
+## PaymentInfo
 
-Map of peer IDs to network addresses.
-
-## PeerEntry {#peerentry}
+Breakdown of payments made to cover the cost.
 
 Required Parameters:
 
-* `address`
+* `source` Source purse used for payment of the transaction.
 
-* `node_id`
+## PeerEntry
 
-## PricingMode {#pricingmode}
+Node peer entry.
+
+Required Parameters:
+
+* `address` Node address.
+
+* `node_id` Node ID.
+
+## Peers
+
+Map of peer IDs to network addresses.
+
+## PricingMode
 
 The pricing mode of a transaction.
 
@@ -1395,19 +1299,19 @@ One of:
 
 * `Classic` The original payment model, where the creator of the transaction specifies how much they will pay, at what gas price.
 
-* `Fixed` The cost of the transaction is determined by the cost table, per the transaction kind.
+* `Fixed` The cost of the transaction is determined by the cost table, per the transaction category.
 
 * `Reserved` The payment for this transaction was previously reserved (Not currently implemented).
 
-## ProtocolVersion {#protocolversion}
+## ProtocolVersion
 
 Casper Platform protocol version.
 
-## PublicKey {#publickey}
+## PublicKey
 
 Hex-encoded cryptographic public key, including the algorithm tag prefix.
 
-## PublicKeyAndBid {#publickeyandbid}
+## PublicKeyAndBid
 
 A bid associated with the given public key.
 
@@ -1417,7 +1321,7 @@ Required Parameters:
 
 * [`public_key`](#publickey)
 
-## PublicKeyAndDelegator {#publickeyanddelegator}
+## PublicKeyAndDelegator
 
 A delegator associated with the given validator.
 
@@ -1427,49 +1331,41 @@ Required Parameters:
 
 * [`delegator`](#delegator)
 
-## PurseIdentifier {#purseidentifier}
+## PurseIdentifier
 
-The identifier to obtain the purse corresponding to a balance query. Valid identifiers include:
+The identifier of a purse.
+
+One of:
 
 * `main_purse_under_public_key` The main purse under a provided [`PublicKey`](./types_chain.md#publickey).
 
 * `main_purse_under_account_hash` The main purse under a provided [`AccountHash`](./types_chain.md#accounthash).
 
+* `main_purse_under_entity_addr` The main purse of the account identified by this [`EntityAddr`](#entityaddr).
+
 * `purse_uref` A specific purse identified by the associated [`URef`](./types_chain.md#uref).
 
-## ReactorState {#reactorstate}
+## ReservationKind
 
-The state of the reactor, which will return one of the following:
-
-* `Initialize` Get all components and reactor state set up on start.
-
-* `CatchUp` Orient to the network and attempt to catch up to tip.
-
-* `Upgrading` Running commit upgrade and creating immediate switch block.
-
-* `KeepUp` Stay caught up with tip.
-
-* `Validate` Node is currently caught up and is an active validator.
-
-* `ShutdownForUpgrade` Node should be shut down for upgrade.
-
-## Reward {#reward}
+Container for bytes recording location, type and data for a gas reservation.
 
 Required Parameters:
 
-* `amount`
+* [`receipt`](#digest)
 
-* [`validator`](#publickey)
+* [`reservation_data`](#bytes) Hex-encoded bytes.
 
-## RewardedSigantures {#rewardedsignatures}
+* `reservation_kind` A `uint8` integer.
+
+## RewardedSignatures
 
 Describes finality signatures that will be rewarded in a block. Consists of a vector of [`SingleBlockRewardedSignatures`](#singleblockrewardedsignatures), each of which describes signatures for a single ancestor block. The first entry represents the signatures for the parent block, the second for the parent of the parent, and so on.
 
-## RuntimeArgs {#runtimeargs}
+## RuntimeArgs
 
 Represents a collection of arguments passed to a smart contract.
 
-## SeigniorageAllocation {#seigniorageallocation}
+## SeigniorageAllocation
 
 Information about a seigniorage allocation.
 
@@ -1493,15 +1389,15 @@ One of:
 
     [`validator_public_key`](#publickey) Validator's public key.
 
-## Signature {#signature}
+## Signature
 
 Hex-encoded cryptographic signature, including the algorithm tag prefix.
 
-## SingleBlockRewardedSignatures {#singleblockrewardedsignatures}
+## SingleBlockRewardedSignatures
 
 List of identifiers for finality signatures for a particular past block. That past block height is equal to `current_height` minus `signature_rewards_max_delay`, the latter being defined in the chainspec.
 
-## StoredValue {#storedvalue}
+## StoredValue
 
 Representation of a value stored in global state.
 
@@ -1515,11 +1411,11 @@ Representation of a value stored in global state.
 
 * [`ContractPackage`](#contractpackage) A contract definition, metadata, and security container.
 
-* [`Transfer`](#transfer) A record of a transfer.
+* [`LegacyTransfer`](#transfer) A version 1 (legacy) transfer.
 
 * [`DeployInfo`](#deployinfo) A record of a Deploy.
 
-* [`EraInfo`](#erainfo) Auction metadata.
+* [`EraInfo`](#erainfo) Information about an era.
 
 * [`Bid`](#bid-bid) A bid.
 
@@ -1541,7 +1437,12 @@ Representation of a value stored in global state.
 
 * [`NamedKey`](#namedkey) A NamedKey record.
 
-## SystemEntityType {#systementitytype}
+* [`Reservation`](#reservationkind) A reservation record.
+
+* [`EntryPoint`](#entrypoint) An entrypoint record.
+
+
+## SystemEntityType
 
 System contract types.
 
@@ -1553,19 +1454,19 @@ System contract types.
 
 * `Auction`
 
-## TimeDiff {#timediff}
+## TimeDiff
 
 Human-readable duration.
 
-## Timestamp {#timestamp}
+## Timestamp
 
 Timestamp formatted as per RFC 3339.
 
-## TopicNameHash {#topicnamehash}
+## TopicNameHash
 
 The hash of the name of the [message topic](#messagetopics).
 
-## Transaction {#transaction}
+## Transaction
 
 A versioned wrapper for a transaction or deploy.
 
@@ -1577,11 +1478,13 @@ or
 
 * [`Version1`](#TransactionV1)
 
-## TransactionEntryPoint {#transactionentrypoint}
+## TransactionEntryPoint
 
 An entry point of a transaction.
 
 One of:
+
+* `Call` The standard `call` entry point used in session code.
 
 * `Custom` A non-native, arbitrary entry point.
 
@@ -1595,9 +1498,13 @@ One of:
 
 * `Undelegate` The `undelegate` native entry point, used to reduce a delegator's stake or remove the delegator if the remaining stake is zero.
 
-* `Redelegate` the `redelegate` native entry point, used to reduce a delegator's stake or remove the delegator if the remaining stake is zero. After the unbonding delay, it will automatically delegate to a new validator.
+* `Redelegate` The `redelegate` native entry point, used to reduce a delegator's stake or remove the delegator if the remaining stake is zero. After the unbonding delay, it will automatically delegate to a new validator.
 
-## TransactionHash {#transactionhash}
+* `ActivateBid` The `activate_bid` native entry point, used to used to reactivate an inactive bid.
+
+* `ChangeBidPublicKey` The `change_bid_public_key` native entry point, used to change a bid's public key.
+
+## TransactionHash
 
 A versioned wrapper for a transaction hash or deploy hash.
 
@@ -1605,21 +1512,21 @@ One of:
 
 * [`Deploy`](#deployhash)
 
-* [`Version`](#transactionv1hash)
+* [`Version1`](#transactionv1hash)
 
-## TransactionInvocationTarget {#transactioninvocationtarget}
+## TransactionInvocationTarget
 
 The identifier of a `stored` transaction target.
 
 One of:
 
-* `InvocableEntity` The hex-encoded entity address identifying the invocable entity.
+* `ByHash` The hex-encoded entity address identifying the invocable entity.
 
-* `InvocableEntityAlias` The alias identifying the invocable entity.
+* `ByName` The alias identifying the invocable entity.
 
-* `Package` The address and optional version identifying the package.
+* `ByPackageHash` The address and optional version identifying the package.
 
-    Required parameters for `package`
+    Required Parameters:
 
     * `addr` The hex-encoded address of the package.
 
@@ -1627,17 +1534,17 @@ One of:
 
     * `version` The package version. If `None`, the latest enabled version is implied.
 
-* `PackageAlias` The alias and optional version identifying the package.
+* `ByPackageName` The alias and optional version identifying the package.
 
-    Required parameters for `packagealias`
+    Required Parameters:
 
-    * `alias` The package alias.
+    * `name` The package name.
 
-    Optional parameters:
+    Optional Parameters:
 
     * `version` The package version. If `None`, the latest enabled version is implied.
 
-## TransactionRuntime {#transactionruntime}
+## TransactionRuntime
 
 Runtime used to execute a transaction.
 
@@ -1645,7 +1552,9 @@ Parameters:
 
 * `VmCasperV1` The Casper Version 1 Virtual Machine.
 
-## TransactionScheduling {#transactionscheduling}
+* `VmCasperV2` The Casper Version 2 Virtual Machine.
+
+## TransactionScheduling
 
 The scheduling mode of a transaction.
 
@@ -1665,21 +1574,7 @@ One of:
 
     * [`FutureTimestamp`](#timestamp)
 
-## TransactionSessionKind {#transactionsessionkind}
-
-Session kind of a transaction.
-
-One of:
-
-* `standard` A standard (non-special-case) session. This kind of session is not allowed to install or upgrade a stored contract, but can call stored contracts.
-
-* `installer` A session which installs a stored contract.
-
-* `upgrader` A session which upgrades a previously-installed stored contract. `Upgrader` sessions must have the `package_id: PackageIdentifier` runtime arg present.
-
-* `isolated` A session which doesn't call any stored contracts. This kind of session is not allowed to install or upgrade a stored contract.
-
-## TransactionTarget {#transactiontarget}
+## TransactionTarget
 
 The execution target of a Transaction.
 
@@ -1699,19 +1594,17 @@ One of:
 
     Required parameters for a `session` target:
 
-    * [`kind`](#transactionsessionkind)
-
     * [`module_bytes`](#bytes)
 
     * [`runtime`](#transactionruntime)
 
-## TransactionV1 {#transactionV1}
+## TransactionV1
 
 A unit of work sent by a client to the network, which when executed can cause global state to be altered.
 
 Required Parameters:
 
-* [`approvals`](#transactionV1approval)
+* [`approvals`](#approval)
 
 * [`body`](#transactionV1body)
 
@@ -1719,17 +1612,7 @@ Required Parameters:
 
 * [`header`](##transactionV1header)
 
-## TransactionV1Approval {#transactionV1Approval}
-
-A struct containing a signature of a transaction hash and the public key of the signer.
-
-Required Parameters:
-
-* [`signer`](#publickey)
-
-* [`signature`](#signature)
-
-## TransactionV1Body {#transactionV1body}
+## TransactionV1Body
 
 The body of a TransactionV1.
 
@@ -1743,11 +1626,11 @@ Required Parameters:
 
 * [`target`](#transactiontarget)
 
-## TransactionV1Hash {#transactionV1hash}
+## TransactionV1Hash
 
 A hex-encoded TransactionV1 hash.
 
-## TransactionV1Header {#transactionV1header}
+## TransactionV1Header
 
 The header portion of a TransactionV1.
 
@@ -1765,7 +1648,21 @@ Required Parameters:
 
 * [`ttl`](#timediff)
 
-## Transfer {#transfer}
+## Transfer
+
+A versioned wrapper for a transfer.
+
+One of:
+
+* [`Version1`](#transferv1) A version 1 transfer.
+
+* [`Version2`](#transferv2) A version 2 transfer.
+
+## TransferAddr
+
+Hex-encoded version 1 transfer address.
+
+## TransferV1
 
 Represents a transfer from one purse to another.
 
@@ -1777,23 +1674,43 @@ Required Parameters:
 
 * [`from`](#accounthash) Account from which transfer was executed.
 
-* [`gas`](#u512)
+* [`gas`](#gas)
 
 * [`source`](#uref) Source purse.
 
 * [`target`](#uref) Target purse.
 
-Additional Parameters:
+Optional Parameters:
 
 * `id` User-defined ID.
 
 * [`to`](#accounthash) Account to which funds are transferred.
 
-## TransferAddr {#transferaddr}
+## TransferV2
 
-Hex-encoded transfer address.
+Represents a version 2 transfer from one purse to another.
 
-## TransformError {#transformerror}
+Required Parameters:
+
+* [`amount`](#u512) Transfer amount.
+
+* [`transaction_hash`](#transactionhash) Transaction that created the transfer.
+
+* [`from`](#initiatoraddr) Entity from which transfer was executed.
+
+* [`gas`](#gas)
+
+* [`source`](#uref) Source purse.
+
+* [`target`](#uref) Target purse.
+
+Optional Parameters:
+
+* `id` User-defined ID.
+
+* [`to`](#accounthash) Account to which funds are transferred.
+
+## TransformError
 
 Error type for applying and combining transforms. A `TypeMismatch` occurs when a transform cannot be applied because the types are not compatible (e.g. trying to add a number to a string).
 
@@ -1805,7 +1722,7 @@ One of:
 
 * `deprecated` Type no longer supported.
 
-## TransformV1 {#transformv1}
+## TransformV1
 
 A transformation performed while executing a Deploy.
 
@@ -1815,7 +1732,7 @@ Required Parameters:
 
 * [`transforms`](#transformkindv1) The transformation.
 
-## Transformv2 {#transformv2}
+## TransformV2
 
 A transformation performed while executing a Deploy.
 
@@ -1825,7 +1742,7 @@ Required Parameters:
 
 * [`kind`](#transformkindv2) The transformation.
 
-## TransformKindV1 {#transformkindv1}
+## TransformKindV1
 
 The actual transformation performed while executing a Deploy in version 1.
 
@@ -1873,9 +1790,9 @@ One of:
 
 * `Prune` Removes the pathing to the global state entry of the specified key. The pruned element remains reachable from previously generated global state root hashes, but will not be included in the next generated global state root hash and subsequent states.
 
-* `Failure` A failed transformation, containing an error message.
+* `Failure` Represents the case where applying a transform would cause an error.
 
-## TransformKindV1 {#transformkindv1}
+## TransformKindV2
 
 The actual transformation performed while executing a Deploy in version 2.
 
@@ -1899,9 +1816,9 @@ One of:
 
 * `Prune` Removes the pathing to the global state entry of the specified key. The pruned element remains reachable from previously generated global state root hashes, but will not be included in the next generated global state root hash and subsequent states.
 
-* `Failure` A failed transformation, containing an error message.
+* `Failure` Represents the case where applying a transform would cause an error.
 
-## TypeMismatch {#typemismatch}
+## TypeMismatch
 
 An error struct representing a type mismatch in [`StoredValue`](#storedvalue) operations.
 
@@ -1909,19 +1826,19 @@ An error struct representing a type mismatch in [`StoredValue`](#storedvalue) op
 
 * `found` The actual type found.
 
-## U128 {#u128}
+## U128
 
 Decimal representation of a 128-bit integer.
 
-## U256 {#u256}
+## U256
 
 Decimal representation of a 256-bit integer.
 
-## U512 {#u512}
+## U512
 
 Decimal representation of a 512-bit integer.
 
-## UnbondingPurse {#unbondingpurse}
+## UnbondingPurse
 
 Unbonding purse.
 
@@ -1937,15 +1854,19 @@ Required Parameters:
 
 * [`validator_public_key`](#publickey) The original validator's public key.
 
+Optional Parameters:
+
 * [`new_validator`](#newvalidator) The redelegated validator's public key.
 
-## URef {#uref}
+## URef
 
 Hex-encoded, formatted URef.
 
-## ValidatorBid {#validatorbid}
+## ValidatorBid
 
 An entry in the validator map.
+
+Required Parameters:
 
 * [`bonding_purse`](#uref) Bonding purse.
 
@@ -1953,27 +1874,49 @@ An entry in the validator map.
 
 * `inactive` `true` if the validator has been "evicted".
 
+* `maximum_delegation_amount` Minimum allowed delegation amount in motes.
+
+* `minimum_delegation_amount` Maximum allowed delegation amount in motes.
+
 * [`staked_amount`](#u512) The amount of tokens staked by a validator.
 
 * [`validator_public_key`](#publickey) The validator's public key.
 
+Optional Parameters:
+
 * [`vesting_schedule`](#vestingschedule) 
 
-## ValidatorChange {#validatorchange}
+## ValidatorChange
 
 A change to a validator's status between two eras.
 
-* `Added`
+One of: 
 
-* `Removed`
+* `Added` The validator was just added to the validator set.
 
-* `Banned`
+* `Removed` The validator was removed from the validator set.
 
-* `CannotPropose`
+* `Banned` The validator was banned from this era.
 
-* `SeenAsFaulty`
+* `CannotPropose` The validator was excluded from proposing new blocks in this era.
 
-## ValidatorWeight {#validatorweight}
+* `SeenAsFaulty` We saw the validator misbehave in this era.
+
+## ValidatorCredit
+
+Validator credit record.
+
+Required Parameters:
+
+* [`amount`](#u512) The credit amount.
+
+* [`era_id`](#eraid) The era id the credit was created.
+
+* [`validator_public_key`](#publickey) The validator's public key.
+
+## ValidatorWeight
+
+A validator's public key paired with its weight, i.e. the total number of motes it staked together with its delegators.
 
 Required Parameters:
 
@@ -1981,19 +1924,19 @@ Required Parameters:
 
 * [`weight`](#u512)
 
-## VestingSchedule {#vestingschedule}
+## VestingSchedule
 
 Vesting schedule for a genesis validator.
 
+Required Parameters:
+
 * `initial_release_timestamp_millies` Timestamp of the initial release.
+
+Optional Parameters:
 
 * [`locked_amounts`](#u512) The amount of locked motes.
 
-## Weight {#weight}
-
-The weight associated with public keys in an account's associated keys.
-
-## WithdrawPurse {#withdrawpurse}
+## WithdrawPurse
 
 Withdraw purse, previously known as unbonding purse prior to 1.5. Withdraw purses remain as historical data.
 
