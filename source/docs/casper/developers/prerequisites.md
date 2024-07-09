@@ -262,7 +262,7 @@ Clients can interact with a node on the blockchain via requests sent to that nod
 
 The node address is the IP address or URL of a peer node.
 
-Casper Labs provides public Casper node JSON RPC endpoints for each network:
+Casper Labs provides public Casper node JSON-RPC endpoints for each network:
 
 * Mainnet: https://rpc.mainnet.casperlabs.io/rpc
 * Testnet: https://rpc.testnet.casperlabs.io/rpc
