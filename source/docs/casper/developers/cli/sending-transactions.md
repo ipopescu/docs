@@ -41,7 +41,7 @@ You can call the Casper client's `put-txn` command to put the compiled contract 
 ```bash
 casper-client put-txn session\
     --node-address <HOST:PORT> \
-    --chain-name casper-test \
+    --chain-name casper-net-1 \
     --transaction-path <transaction-PATH> \
     --session-entry-point <NAME> \
     --category <INSTALL-UPGRADE|LARGE|MEDIUM|SMALL> \
