@@ -49,7 +49,7 @@ casper-client put-txn session\
     --secret-key <PATH> | --initiator-address <HEX STRING>
 ```
 
-1. `node-address` - An IP address of a peer on the network. The default port of nodes' JSON-RPC servers on Mainnet and Testnet is 7777. You can find a list of trusted peers in network's configuration file, `config.toml`. Here is an [example](https://github.com/casper-network/casper-node/blob/dev/resources/production/config-example.toml#L131). You may send transactions to one of the trusted nodes or use them to query other online nodes.
+1. `node-address` - An IP address of a peer on the network. The default port of the sidecar's JSON-RPC server on Mainnet and Testnet is 7777. You can find a list of trusted peers in network's configuration file, `config.toml`. Here is an [example](https://github.com/casper-network/casper-node/blob/dev/resources/production/config-example.toml#L131). You may send transactions to one of the trusted nodes or use them to query other online nodes.
 2. `chain-name` - The chain-name to the network where you wish to send the Transaction. For Mainnet, use *casper*. For Testnet, use *casper-test*. As you can see, this example uses the Testnet
 3. `transaction-path` - The path to the contract Wasm, which should point to wherever you compiled the contract (.wasm file) on your computer
 4. `session-entry-point` - Name of the method that will be used when calling the session contract
