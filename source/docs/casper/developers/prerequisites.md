@@ -258,11 +258,17 @@ On Mainnet, a pre-existing account must transfer CSPR tokens to the newly create
 
 ## Acquiring a Node Address from the Network {#acquire-node-address-from-network-peers}
 
-Clients can interact with a node on the blockchain via requests sent to that node's JSON-RPC endpoint, `http://<node-ip-address>:7777` by default.
+Clients can interact with a node on the blockchain via requests sent to that node's JSON-RPC endpoint, `http://<node-address>:7777` by default.
 
-The node address is the IP of a peer node.
+The node address is the IP address or URL of a peer node.
 
-Both the official Testnet and Mainnet provide block explorers that list the IP addresses of nodes on their respective networks.
+Casper Labs provides public Casper node JSON-RPC endpoints for each network:
+
+* Mainnet: https://rpc.mainnet.casperlabs.io/rpc
+* Testnet: https://rpc.testnet.casperlabs.io/rpc
+* Integration network: https://rpc.integration.casperlabs.io/rpc
+
+Additionally, both the official Testnet and Mainnet provide block explorers that list the IP addresses of nodes on their respective networks.
 
 You can get the `node-ip-address` of a node on the network by visiting the following block explorers:
 
